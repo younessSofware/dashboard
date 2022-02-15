@@ -67,7 +67,7 @@ export class LoginComponent implements OnInit {
         }
         console.log(user);
         window.localStorage.setItem('user', JSON.stringify(user));
-        // this.router.navigateByUrl('/dashboard');
+        this.router.navigateByUrl('/dashboard');
       },
       error: err => {
         console.log(err);
