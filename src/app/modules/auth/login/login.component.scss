@@ -1,4 +1,16 @@
 .login-input{
-  @apply block mt-4 w-full text-black border border-primary px-2 py-3 rounded-xl focus:border-secondary
-  focus:outline-none transition-all duration-500
+  @apply block mt-4 w-full text-black px-2 py-3 rounded-xl
+  focus:outline-none transition-all duration-700 bg-gray-100
+}
+.valid-login-input{
+  @apply border focus:border-primary
+}
+.invalid-login-input{
+  @apply border-2 border-red-600 focus:shadow-md
+}
+.active-button{
+  @apply mt-5 text-white bg-primary rounded-xl w-full px-2 py-3 hover:opacity-90
+}
+.inactive-button{
+  @apply mt-5 text-white bg-primary opacity-80 cursor-not-allowed rounded-xl w-full px-2 py-3
 }

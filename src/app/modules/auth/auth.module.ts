@@ -1,9 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { ShareModule } from './../share/share.module';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LoginComponent } from './login/login.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { ReactiveFormsModule } from '@angular/forms';
 import { AuthRoutingModule } from './auth-routing.module';
 
 
@@ -14,7 +15,9 @@ import { AuthRoutingModule } from './auth-routing.module';
   imports: [
     CommonModule,
     AuthRoutingModule,
-    TranslateModule
+    ReactiveFormsModule,
+    TranslateModule,
+    ShareModule
   ],
 })
 export class AuthModule { }
