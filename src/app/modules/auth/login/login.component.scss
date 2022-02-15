@@ -1,0 +1,4 @@
+.login-input{
+  @apply block mt-4 w-full text-black border border-primary px-2 py-3 rounded-xl focus:border-secondary
+  focus:outline-none transition-all duration-500
+}
