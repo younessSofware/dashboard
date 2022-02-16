@@ -28,6 +28,7 @@ export class TableComponent implements OnInit {
 
   @Input() headers: Header[] = [];
   @Input() icon = "";
+  @Input() primaryKey: string;
 
   data: any[];
   pages: number[];
@@ -37,13 +38,14 @@ export class TableComponent implements OnInit {
   currentPage = 1;
   limit = 20;
   searchQuery = "";
-  sortBy = "_id";
+  sortBy: string;
   sortDir = 1;
 
   constructor(private dataService: DataService, private route: ActivatedRoute,
-              private notification: NotificationService) { }
+              private notification: NotificationService) {}
 
   ngOnInit(): void {
+    this.sortBy = this.primaryKey;
     this.getQueryParams();
     this.getData();
   }
@@ -87,15 +89,15 @@ export class TableComponent implements OnInit {
 
   getData(){
     this.error = undefined;
-    this.dataService.sendRequest('get', this.retrieveURL, {
+    this.dataService.sendGetRequest(this.retrieveURL, {
       sortBy: this.sortBy,
       sortDir: this.sortDir,
-      page: this.currentPage,
-      limit: this.limit,
+      skip:(this.currentPage - 1) * this.limit,
+      take: this.limit,
       searchQuery: this.searchQuery
     })?.subscribe({
       next: (resp: any) => {
-        this.data = resp.data.docs;
+        this.data = resp.data[this.pluralName];
         this.headers?.forEach(header => {
           if(header.type == 'avatar'){
             this.data.forEach(data => {
@@ -103,11 +105,13 @@ export class TableComponent implements OnInit {
             })
           }
         })
-        this.pages = [...new Array(resp.data.totalPages).keys()].map(key => key + 1);
+        const nbPages = Math.floor(resp.data.count / this.limit) + 1
+        console.log(nbPages);
+        this.pages = [...new Array(nbPages).keys()].map(key => key + 1);
       },
       error: err => {
-        console.log(err);
-        this.error = err.error;
+        console.log("err", err);
+        this.error = err.message;
       }
     })
   }
@@ -128,7 +132,7 @@ export class TableComponent implements OnInit {
     .then(
       resp => {
         if(resp.isConfirmed){
-          const deleteUrl = this.deleteURL.replace(/:id/g, row['_id'])
+          const deleteUrl = this.deleteURL.replace(/:id/g, row[this.primaryKey])
           this.dataService.sendDeleteRequest(deleteUrl)
           .subscribe({
             next: (resp: any) => {
@@ -156,7 +160,7 @@ export class TableComponent implements OnInit {
 
   // toggle(header, d){
   //   if(header.link){
-  //     const url = header.link.replace(/:id/g, d['_id'])
+  //     const url = header.link.replace(/:id/g, d[this.primaryKey])
   //     this.dataService.sendPostRequest(url, {})
   //     .subscribe(
   //       (resp: any) => {
@@ -174,4 +178,16 @@ export class TableComponent implements OnInit {
   sortableHeaders(){
     return this.headers?.filter(header => header.sort != false)
   }
+
+  getHeaderValue(data: any, header: Header, type: string | undefined){
+    let element = data[header.name]
+    if(header.parents?.length)
+      element = header.parents.reverse().reduce((acc, curr) => acc[curr], data)[header.name]
+
+    if(!element) return header.default;
+    if(type == 'boolean') return header.values ? header.values[element ? 1 : 0] : 0
+
+    return element
+  }
+
 }

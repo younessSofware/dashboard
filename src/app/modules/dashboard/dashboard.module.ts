@@ -4,12 +4,14 @@ import { CommonModule } from '@angular/common';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
+import { ClientComponent } from './client/client.component';
 
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    MenuComponent
+    MenuComponent,
+    ClientComponent
   ],
   imports: [
     CommonModule,

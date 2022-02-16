@@ -70,10 +70,10 @@ export class LoginComponent implements OnInit {
         this.router.navigateByUrl('/dashboard');
       },
       error: err => {
+        this.loading = false;
         console.log(err);
         const error = err.error;
         this.error = error.message
-        this.loading = false;
       }
     })
   }

@@ -12,5 +12,6 @@ export interface Header{
     link?: string,
     maxLength?: number,
     options?: string[],
+    parents?: string[],
     reverseBooleanColors?: boolean
 }

@@ -1,10 +1,10 @@
 
 .active{
-  @apply border-indigo-300 border-b-2;
+  @apply border-secondary border-b-2;
 }
 .active>i{
-  @apply text-indigo-300;
+  @apply text-secondary;
 }
 .menu-item{
-  @apply text-white py-3 block hover:bg-black
+  @apply text-white py-3 block hover:bg-black cursor-pointer
 }

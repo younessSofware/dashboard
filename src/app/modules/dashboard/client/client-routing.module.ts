@@ -1,14 +1,12 @@
-import { DisplayProductComponent } from './display-product/display-product.component';
-import { ProductFormComponent } from './product-form/product-form.component';
-import { ListComponent } from './list/list.component';
-import { ProductComponent } from './product.component';
+import { ClientListComponent } from './client-list/client-list.component';
+import { ClientComponent } from './client.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
     path: '',
-    component: ProductComponent,
+    component: ClientComponent,
     children: [
       {
         path: '',
@@ -17,15 +15,15 @@ const routes: Routes = [
       },
       {
         path: 'list',
-        component: ListComponent
+        component: ClientListComponent
       },
       {
         path: 'form/:type',
-        component: ProductFormComponent
+        component: ClientListComponent
       },
       {
         path: 'display',
-        component: DisplayProductComponent
+        component: ClientListComponent
       }
     ]
   }
@@ -35,4 +33,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ProductRoutingModule { }
+export class ClientRoutingModule { }

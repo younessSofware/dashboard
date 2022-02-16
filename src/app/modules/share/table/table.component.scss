@@ -10,12 +10,31 @@ td{
   cursor: none;
   @apply text-gray-300 border-gray-300 hover:bg-transparent;
 }
-.active{
-  @apply bg-indigo-50 border-indigo-500 text-indigo-600
-}
+
 select, input{
   @apply border border-gray-500 rounded-lg p-2
 }
 .outline-button{
-  @apply border border-primary py-2 px-4 rounded-lg ml-3 hover:bg-secondary hover:text-white transition-all duration-500
+  @apply border border-primary py-2 px-4 rounded-lg ml-3 hover:bg-secondary hover:text-white
+}
+
+
+.pagination-button{
+  @apply p-2 border rounded-lg bg-white border-primary text-primary hover:border-primary hover:bg-secondary hover:text-white
+}
+
+.pagination-button:disabled{
+  @apply opacity-30 hover:bg-transparent hover:text-primary cursor-not-allowed
+}
+
+.row-btn{
+  @apply border border-primary py-2 px-3 rounded-md mx-1 text-xs text-primary hover:text-white
+}
+
+.pagination-number{
+  @apply bg-white cursor-pointer border-primary text-primary hover:bg-secondary hover:text-white rounded-lg relative inline-flex items-center py-2 px-4 border text-sm font-medium
+}
+
+.pagination-number.active{
+  @apply bg-secondary text-white border-0
 }

@@ -11,9 +11,9 @@ export class MenuComponent implements OnInit {
 
   menuItems = [
     {
-      name: "users",
+      name: "clients",
       icon: "fas fa-users",
-      path: "/dashboard/users/"
+      path: "/dashboard/clients/"
     },
     {
       name: "channels",
@@ -68,6 +68,8 @@ export class MenuComponent implements OnInit {
   }
 
   logout(){
+    localStorage.removeItem('token');
+    this.router.navigateByUrl('/auth/login')
     // this.authService.logout()
     // .subscribe(
     //   resp => {

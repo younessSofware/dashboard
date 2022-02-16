@@ -1,15 +1,14 @@
 <div class="container-fluid">
   <app-table
     [headers]="headers"
-    pluralName="products"
-    singleName="product"
-    deleteURL="product/dash/:id"
-    retrieveURL="product/all"
+    pluralName="clients"
+    singleName="client"
+    primaryKey="id"
+    deleteURL="client/dash/:id"
+    retrieveURL="clients/dashboard"
     displayLink="/dashboard/products/display"
     editLink="/dashboard/products/form/edit"
     createLink="/dashboard/products/form/create"
-    [showCreateButton]="user.role == 'SUPER ADMIN'"
-    [showUpdateButton]="user.role == 'SUPER ADMIN'"
     icon="fas fa-boxes"
   ></app-table>
 </div>

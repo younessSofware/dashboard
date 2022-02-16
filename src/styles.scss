@@ -10,3 +10,7 @@
 input, select{
   @apply focus:outline-none
 }
+
+.color-transition{
+  @apply transition-all duration-300
+}
