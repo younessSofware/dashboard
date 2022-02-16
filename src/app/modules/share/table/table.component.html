@@ -1,11 +1,11 @@
-<div class="mx-4">
-  <div class="my-3">
-    <span class="text-3xl uppercase my-2"><i [class]="icon + ' mx-2'"></i>List of {{ pluralName }}</span>
-    <hr>
-  </div>
-  <div class="flex justify-end items-center">
+<div class="bg-white w-full px-4 py-2">
+  <span class="text-3xl uppercase my-2"><i [class]="icon + ' mx-2'"></i>List of {{ pluralName }}</span>
+  <hr>
+</div>
+<div class="overflow-y-auto">
+  <div class="flex justify-end items-center px-4">
     <span class="nowrap mr-3">Per page</span>
-    <select name="limit" (change)="getData()" [(ngModel)]="limit" placeholder="per page" class="rounded-lg" id="sorter">
+    <select name="limit" (change)="getData()" [(ngModel)]="limit" placeholder="per page" id="sorter">
       <option value="20">20</option>
       <option value="50">50</option>
       <option value="20">100</option>
@@ -13,25 +13,25 @@
     </select>
     <div class="flex items-center mx-2">
       <span class="nowrap mr-3">Sort by</span>
-      <select name="sortBy" [(ngModel)]="sortBy" (change)="getData()" name="" placeholder="sort by" class="rounded-lg flex-1 uppercase" id="sorter">
+      <select name="sortBy" [(ngModel)]="sortBy" (change)="getData()" name="" placeholder="sort by" id="sorter">
         <option class="uppercase" [value]="header.name" *ngFor="let header of sortableHeaders()">{{ header.title }}</option>
       </select>
     </div>
     <div class="ml-1 mr-2">
-      <select name="sortDir" [(ngModel)]="sortDir" (change)="getData()"  class="rounded-lg">
+      <select name="sortDir" [(ngModel)]="sortDir" (change)="getData()">
         <option value="1">ASC</option>
         <option value="-1">DESC</option>
       </select>
     </div>
     <div class="flex ml-1">
-      <input (keyup.enter)="getData()" name="searchQuery" [(ngModel)]="searchQuery" type="text" placeholder="search" class="rounded-lg" >
-      <button (click)="getData()" class="bg-transparent border-2 border-indigo-300 rounded-lg p-2 px-4 mx-2 hover:bg-indigo-400 hover:text-white"><i class="fas fa-search"></i></button>
+      <input (keyup.enter)="getData()" name="searchQuery" [(ngModel)]="searchQuery" type="text" placeholder="search">
+      <button (click)="getData()" class="outline-button"><i class="fas fa-search"></i></button>
     </div>
     <div>
       <button
         [routerLink]="[createLink]"
         *ngIf="showCreateButton"
-        class="bg-transparent border-2 border-indigo-300 p-2 px-3 rounded-lg hover:bg-indigo-400 hover:text-white"
+        class="outline-button"
       >
         <i class="fas fa-plus mx-1"></i> Create {{ singleName }}
       </button>
@@ -39,18 +39,18 @@
     <div>
       <button
         (click)="getData()"
-        class="bg-transparent border-2 ml-2 border-indigo-300 p-2 px-3 rounded-lg hover:bg-indigo-400 hover:text-white"
+        class="outline-button"
       >
         <i class="fas fa-sync-alt mx-1"></i> Refresh
       </button>
     </div>
   </div>
 
-  <div class="my-3" >
+  <div class="my-3 px-4" >
     <app-alert title="Success" [message]="success" type="success" *ngIf="success"></app-alert>
     <app-alert title="Error" [message]="error" type="danger" *ngIf="error" ></app-alert>
   </div>
-  <div class="flex flex-col mt-4 border-t-2 border-gray-200">
+  <div class="flex flex-col mt-4 border-t-2 border-gray-200 px-4">
     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
         <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
@@ -85,7 +85,7 @@
             </div>
           </div>
           <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-black">
+            <thead class="bg-primary">
               <tr>
                 <th
                   *ngFor="let header of headers"
@@ -147,7 +147,7 @@
           <div *ngIf='!data && !error' class="w-full text-center">
             <span class="animate-ping inline-flex h-2 w-full bg-purple-400 opacity-75"></span>
           </div>
-          <app-alert [title]="error" type="danger" *ngIf="!data && error"></app-alert>
+          <app-alert [title]="error" type="danger" class="mt-2 block" *ngIf="!data && error"></app-alert>
           <app-alert title="Empty Result" message="No data found (0)" type="info" *ngIf="data && !data.length"></app-alert>
         </div>
       </div>

@@ -1,3 +1,6 @@
+import { ToastrModule } from 'ngx-toastr';
+import { AuthComponent } from './auth.component';
+import { RouterModule } from '@angular/router';
 import { ShareModule } from './../share/share.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { LoginComponent } from './login/login.component';
@@ -10,7 +13,8 @@ import { AuthRoutingModule } from './auth-routing.module';
 
 @NgModule({
   declarations: [
-    LoginComponent
+    LoginComponent,
+    AuthComponent
   ],
   imports: [
     CommonModule,

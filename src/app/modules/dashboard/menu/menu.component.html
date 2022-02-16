@@ -1,0 +1,30 @@
+<div class="h-screen bg-primary py-3 w-72 fixed md:relative top-0 left-0 border md:border-0 border-gray-600 shadow-2xl md:shadow-none">
+  <div class="w-full">
+    <div class="flex text-white text-3xl font-semibold items-center px-2">
+      <span class="block mt-1 cursor-pointer"><i class="fas fa-chevron-left"></i></span>
+      <span class="ml-3 block">Dashboard</span>
+    </div>
+    <span class="text-left mt-3 bg-white text-primary flex items-center px-2 py-3" *ngIf="user">
+      <img class="w-8 h-8" src="./../../../../assets/admin_avatar.png" alt="">
+      <span class="ml-2 uppercase">
+        <span class="font-bold">{{ user.name }}</span>
+        <span class="text-xs">{{ user.role }}</span>
+      </span>
+    </span>
+  </div>
+  <nav>
+    <a
+      [routerLink]="item.path"
+      routerLinkActive="active"
+      *ngFor="let item of menuItems"
+      class="menu-item"
+    >
+      <i [class]="item.icon + ' mx-3'"></i>
+      <span class="inline-block text-gray-200 capitalize">{{ item.name }}</span>
+    </a>
+    <a (click)="logout()" class="menu-item">
+      <i class="fas fa-sign-out-alt mx-3"></i>
+      <span class="inline-block text-gray-200 capitalize">Logout</span>
+    </a>
+  </nav>
+</div>

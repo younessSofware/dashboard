@@ -1,3 +1,5 @@
+import { RouterModule } from '@angular/router';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { AuthModule } from './modules/auth/auth.module';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -17,10 +19,17 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppComponent,
   ],
   imports: [
-    AuthModule,
     HttpClientModule,
     BrowserModule,
     AppRoutingModule,
+    ToastrModule.forRoot({
+      positionClass :'toast-bottom-right',
+      newestOnTop: true,
+      tapToDismiss: true,
+      autoDismiss: true,
+      maxOpened: 4,
+      timeOut: 1000
+    }),
     TranslateModule.forRoot({
       defaultLanguage: 'en',
       loader: {

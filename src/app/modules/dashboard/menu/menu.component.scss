@@ -1,0 +1,10 @@
+
+.active{
+  @apply border-indigo-300 border-b-2;
+}
+.active>i{
+  @apply text-indigo-300;
+}
+.menu-item{
+  @apply text-white py-3 block hover:bg-black
+}
