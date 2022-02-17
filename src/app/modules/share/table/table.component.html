@@ -5,27 +5,27 @@
   </div>
   <div class="">
     <div class="flex justify-end items-center px-4">
-      <span class="nowrap mr-3">Per page</span>
+      <span class="nowrap mr-1">Per page</span>
       <select name="limit" (change)="getData()" [(ngModel)]="limit" placeholder="per page" id="sorter">
         <option value="20">20</option>
         <option value="50">50</option>
         <option value="20">100</option>
         <option value="20">500</option>
       </select>
-      <div class="flex items-center mx-2" *ngIf="showSortFilter">
+      <div class="flex items-center mx-1" *ngIf="showSortFilter">
         <span class="nowrap mr-3">Sort by</span>
         <select name="sortBy" [(ngModel)]="sortBy" (change)="getData()" name="" placeholder="sort by" id="sorter">
           <option class="uppercase" [value]="header.name" *ngFor="let header of sortableHeaders()">{{ header.title }}</option>
         </select>
       </div>
-      <div class="ml-1 mr-2" *ngIf="showSortFilter">
+      <div class="mx-1" *ngIf="showSortFilter">
         <select name="sortDir" [(ngModel)]="sortDir" (change)="getData()">
           <option value="1">ASC</option>
           <option value="-1">DESC</option>
         </select>
       </div>
-      <div class="flex ml-1">
-        <input (keyup.enter)="getData()" name="searchQuery" [(ngModel)]="searchQuery" type="text" placeholder="search">
+      <div class="flex mx-1">
+        <input class="custom-input mx-1" (keyup.enter)="getData()" name="searchQuery" [(ngModel)]="searchQuery" type="text" placeholder="search">
         <button (click)="getData()" class="outline-button color-transition"><i class="fas fa-search"></i></button>
       </div>
       <div>

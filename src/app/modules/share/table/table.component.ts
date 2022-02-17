@@ -37,7 +37,7 @@ export class TableComponent implements OnInit {
   success: string | null;
 
   currentPage = 1;
-  limit = 1;
+  limit = 20;
   searchQuery = "";
   sortBy: string;
   sortDir = 1;
@@ -115,7 +115,7 @@ export class TableComponent implements OnInit {
         })
         const nbPages = Math.floor(resp.data.count / this.limit) + 1
         console.log(nbPages);
-        this.pages = [...new Array(nbPages).keys()].map(key => key + 1);
+        this.pages = [...new Array(nbPages - 1).keys()].map(key => key + 1);
       },
       error: err => {
         console.log("err", err);
