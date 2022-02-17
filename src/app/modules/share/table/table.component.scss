@@ -28,7 +28,7 @@ select, input{
 }
 
 .row-btn{
-  @apply border border-primary py-2 px-3 rounded-md mx-1 text-xs text-primary hover:text-white
+  @apply border border-primary py-1 px-2 rounded-md mx-1 text-xs text-primary hover:text-white
 }
 
 .pagination-number{
@@ -36,5 +36,5 @@ select, input{
 }
 
 .pagination-number.active{
-  @apply bg-secondary text-white border-0
+  @apply bg-primary text-white border-0
 }

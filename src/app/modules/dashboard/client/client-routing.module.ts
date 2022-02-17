@@ -1,3 +1,5 @@
+import { ClientDisplayComponent } from './client-display/client-display.component';
+import { ClientFormComponent } from './client-form/client-form.component';
 import { ClientListComponent } from './client-list/client-list.component';
 import { ClientComponent } from './client.component';
 import { NgModule } from '@angular/core';
@@ -19,11 +21,11 @@ const routes: Routes = [
       },
       {
         path: 'form/:type',
-        component: ClientListComponent
+        component: ClientFormComponent
       },
       {
         path: 'display',
-        component: ClientListComponent
+        component: ClientDisplayComponent
       }
     ]
   }

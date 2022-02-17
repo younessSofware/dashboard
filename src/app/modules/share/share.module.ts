@@ -6,7 +6,7 @@ import { DisplayComponent } from './display/display.component';
 import { AlertComponent } from './alert/alert.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -18,6 +18,7 @@ import { FormsModule } from '@angular/forms';
   ],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     FormsModule,
     RouterModule
   ],

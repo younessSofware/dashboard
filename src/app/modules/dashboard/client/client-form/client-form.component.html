@@ -1,1 +1,10 @@
-<p>client-form works!</p>
+<app-form
+    [headers]="headers"
+    pluralName="clients"
+    singleName="client"
+    icon="fas fa-user"
+    redirectLink="/dashboard/clients/list"
+    retrieveURL="clients/dash/:id"
+    storeURL="clients"
+    updateURL="client/:id"
+></app-form>

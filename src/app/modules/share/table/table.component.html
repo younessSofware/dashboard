@@ -12,13 +12,13 @@
         <option value="20">100</option>
         <option value="20">500</option>
       </select>
-      <div class="flex items-center mx-2">
+      <div class="flex items-center mx-2" *ngIf="showSortFilter">
         <span class="nowrap mr-3">Sort by</span>
         <select name="sortBy" [(ngModel)]="sortBy" (change)="getData()" name="" placeholder="sort by" id="sorter">
           <option class="uppercase" [value]="header.name" *ngFor="let header of sortableHeaders()">{{ header.title }}</option>
         </select>
       </div>
-      <div class="ml-1 mr-2">
+      <div class="ml-1 mr-2" *ngIf="showSortFilter">
         <select name="sortDir" [(ngModel)]="sortDir" (change)="getData()">
           <option value="1">ASC</option>
           <option value="-1">DESC</option>

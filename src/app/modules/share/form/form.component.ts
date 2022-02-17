@@ -1,3 +1,5 @@
+import { FormHeader } from './../../../common/models/form-header';
+import { FormGroup, FormControl } from '@angular/forms';
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -19,7 +21,7 @@ export class FormComponent implements OnInit, OnChanges {
   @Input() updateURL: string;
   @Input() redirectLink: string;
 
-  @Input() headers: Header[] = [];
+  @Input() headers: FormHeader[] = [];
   @Input() icon = "";
   @Output() headersChanged = new EventEmitter();
   @Output() onChange = new EventEmitter();
@@ -32,11 +34,34 @@ export class FormComponent implements OnInit, OnChanges {
   type: string;
   dataId: string;
   data: any;
+  form: FormGroup
 
   constructor(private sanitizer: DomSanitizer, private dataService: DataService, private router: Router,
               private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.initializeForm()
+  }
+
+  initializeForm(){
+    const formgroup =
+    this.headers.reduce((acc, curr) => ({
+      ...acc,
+      [curr.name]: new FormControl('', curr.validators?.map(v => v.validatorFn))
+    }), {})
+    console.log(formgroup);
+
+    this.form = new FormGroup(formgroup
+    )
+  }
+
+  formFieldErrors(header: FormHeader){
+    const errors = Object.keys(this.formField(header.name)?.errors as {});
+    return header.validators?.filter(v => errors.includes(v.validatorFn.name)).map(v => v.message);
+  }
+
+  formField(fieldName: string){
+    return this.form.get(fieldName)
   }
 
   ngOnChanges(changes: SimpleChanges){
@@ -117,6 +142,10 @@ export class FormComponent implements OnInit, OnChanges {
     header.value = image;
   }
 
+  getJsonData(){
+    return this.headers.reduce((acc, curr) => ({...acc, [curr.name]: this.formField(curr.name)?.value}), {})
+  }
+
   getFormData(){
     const formData = new FormData();
     this.headers.forEach(header => {
@@ -162,12 +191,13 @@ export class FormComponent implements OnInit, OnChanges {
 
   handleError(err: any){
     this.saveLoading = false;
-    err = err.error;
-    if(err.errors){
-      this.errors = err.errors;
+    console.log("error ", err);
+    if(err.message && err.message.length){
+      this.errors = err.message.map((e: any) => ({property: e.property, errors: Object.keys(e.constraints).map(k => e.constraints[k]) }))
+      .reduce((acc: any, curr: any) => ({...acc, [curr.property]: curr.errors}), {})
       this.error = "Invalid data";
     }
-    else this.error = err;
+    else this.error = err.error;
     const timer = setInterval(() => {
       if(document.body.scrollTop) document.body.scrollTop = --document.documentElement.scrollTop;
       else clearInterval(timer)
@@ -178,29 +208,36 @@ export class FormComponent implements OnInit, OnChanges {
     this.beforeRequest();
     const url = this.updateURL.replace(/:id/g, this.dataId);
     this.dataService.sendPutRequest(url, this.getFormData())
-    .subscribe(
-      resp => {
+    .subscribe({
+      next: resp => {
         this.handleResponse(resp);
       },
-      err => {
+      error: err => {
         this.handleError(err)
       }
-    )
+    })
   }
+
   trackByIndex(index: number): any {
     return index;
   }
+
+  getRequestData(){
+    return this.headers.filter(h => h.type == 'file' || h.type == 'photo').length ? this.getFormData() : this.getJsonData()
+  }
+
   storeUser(){
     this.beforeRequest();
-    this.dataService.sendPostRequest(this.storeURL, this.getFormData())
-    .subscribe(
-      resp => {
+    console.log(this.getRequestData());
+    this.dataService.sendPostRequest(this.storeURL, this.getRequestData())
+    .subscribe({
+      next: resp => {
         this.handleResponse(resp);
       },
-      err => {
+      error: err => {
         this.handleError(err)
       }
-    )
+    })
   }
 
   addElemToList(header: Header){

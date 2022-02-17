@@ -22,6 +22,7 @@ export class TableComponent implements OnInit {
   @Input() displayLink: string;
   @Input() editLink: string;
   @Input() createLink: string;
+  @Input() showSortFilter = true;
   @Input() showDeleteButton = true;
   @Input() showUpdateButton = true;
   @Input() showCreateButton = true;
@@ -36,7 +37,7 @@ export class TableComponent implements OnInit {
   success: string | null;
 
   currentPage = 1;
-  limit = 20;
+  limit = 1;
   searchQuery = "";
   sortBy: string;
   sortDir = 1;
@@ -87,15 +88,22 @@ export class TableComponent implements OnInit {
     }
   }
 
-  getData(){
-    this.error = undefined;
-    this.dataService.sendGetRequest(this.retrieveURL, {
-      sortBy: this.sortBy,
-      sortDir: this.sortDir,
+  filterQuery(){
+    const query: any = {
       skip:(this.currentPage - 1) * this.limit,
       take: this.limit,
       searchQuery: this.searchQuery
-    })?.subscribe({
+    }
+    if(this.showSortFilter){
+      query["sortBy"] = this.sortBy
+      query["sortDir"] = this.sortBy
+    }
+    return query;
+  }
+
+  getData(){
+    this.error = undefined;
+    this.dataService.sendGetRequest(this.retrieveURL, this.filterQuery())?.subscribe({
       next: (resp: any) => {
         this.data = resp.data[this.pluralName];
         this.headers?.forEach(header => {
