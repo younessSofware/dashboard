@@ -72,7 +72,7 @@
         </section>
         <section *ngSwitchDefault>
           <span>
-            {{ data[header.name] ? data[header.name] :  header.default }}
+            {{ getHeaderValue(header) }}
           </span>
         </section>
         <button (click)="navigateToLink(header)" class="border-2 py-2 px-3 text-sm rounded-lg border-indigo-200 hover:bg-indigo-200 " *ngIf="header.link">

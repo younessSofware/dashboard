@@ -21,7 +21,6 @@ export class DisplayComponent implements OnInit {
   @Input() headers: Header[] = [];
   @Input() retrieveURL: string;
   @Input() redirectURL: string;
-  @Input() editLink: string;
   @Input() buttons: Button[] = [];
   @Input() list: List | null = null;
 
@@ -143,5 +142,12 @@ export class DisplayComponent implements OnInit {
     }else {
       return true;
     }
+  }
+
+  getHeaderValue(header: Header){
+    let value = this.data[header.name]
+    if(header.parents) value = header.parents.reverse().reduce((acc, curr) => acc[curr], this.data)[header.name]
+    if(!value) value = header.default;
+    return value;
   }
 }
