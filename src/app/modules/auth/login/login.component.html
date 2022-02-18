@@ -14,7 +14,7 @@
       <form [formGroup]="form" (ngSubmit)="submit()" class="mt-5 w-full" action="">
         <div>
           <input
-            class="custom-input"
+            class="custom-input my-2"
             [class.invalid]="email?.dirty && !email?.valid"
             placeholder="E-mail"
             formControlName="email"
@@ -27,7 +27,7 @@
 
         <div>
           <input
-            class="custom-input"
+            class="custom-input my-2"
             [class.invalid]="password?.dirty && !password?.valid"
             type="password"
             placeholder="password"
@@ -39,7 +39,7 @@
         </div>
 
         <button
-          class="custom-button"
+          class="custom-button my-2"
           [disabled]="!form.valid"
         >
           <span *ngIf="loading" ><i class="fas fa-circle-notch fa-spin"></i></span>

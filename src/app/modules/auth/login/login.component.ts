@@ -35,6 +35,11 @@ export class LoginComponent implements OnInit {
       email: new FormControl('', [Validators.required,  Validators.email]),
       password: new FormControl('', [Validators.required])
     })
+
+    this.form.patchValue({
+      email: "admin@wabel.com",
+      password: "12345678"
+    })
   }
 
   ngOnInit(): void {

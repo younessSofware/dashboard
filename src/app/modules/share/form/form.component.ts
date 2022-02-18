@@ -6,6 +6,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Header } from './../../../common/models/header';
 import { DataService } from 'src/app/services/data.service';
 
+import * as _ from "lodash"
+
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
@@ -44,15 +46,10 @@ export class FormComponent implements OnInit, OnChanges {
   }
 
   initializeForm(){
-    const formgroup =
-    this.headers.reduce((acc, curr) => ({
+    this.form = new FormGroup(this.headers.reduce((acc, curr) => ({
       ...acc,
-      [curr.name]: new FormControl('', curr.validators?.map(v => v.validatorFn))
-    }), {})
-    console.log(formgroup);
-
-    this.form = new FormGroup(formgroup
-    )
+      [this.getFullHeaderName(curr)]: new FormControl('', curr.validators?.map(v => v.validatorFn))
+    }), {}))
   }
 
   formFieldErrors(header: FormHeader){
@@ -97,7 +94,7 @@ export class FormComponent implements OnInit, OnChanges {
         this.loading = false;
         this.data = resp.data;
         console.log(resp.data);
-        this.setHeaderValues();
+        this.setFormValues();
       },
       error: err => {
         err = err.error;
@@ -108,19 +105,18 @@ export class FormComponent implements OnInit, OnChanges {
     })
   }
 
-  setHeaderValues(){
-    this.headersChanged.emit(this.headers.map(header => {
-      this.fieldChanged(header.name, this.data[header.name])
-      if(header.type == 'avatar' || header.type == 'image'){
-        this.imagesUrl[header.name] = this.data[header.name];
-        return header;
-      }
-      let value = this.data[header.name];
-      return{
-        ...header,
-        value
-      }
-    }))
+  setFormValues(){
+    const form = {
+      ...this.headers.map(h => {
+        return {
+          name: this.getFullHeaderName(h),
+          value: h.parents ? h.parents.reverse().reduce((acc, curr) => acc[curr], this.data)[h.name] : this.data[h.name]
+        }
+      }).reduce((acc, curr) => ({...acc, [curr.name]: curr.value}), {})
+    }
+    console.log("form", form);
+
+    this.form.patchValue(form);
   }
 
   fieldChanged(name: string, value: any){
@@ -142,8 +138,25 @@ export class FormComponent implements OnInit, OnChanges {
     header.value = image;
   }
 
+  capitalize(text: string){
+    return text.charAt(0).toUpperCase() + text.slice(1)
+  }
+
+  getFullHeaderName(header: Header){
+    return header.parents ? header.parents.reverse()
+                            .reduce((acc, curr) => acc + (acc ? this.capitalize(curr) : curr), '') + this.capitalize(header.name)
+                          : header.name
+  }
   getJsonData(){
-    return this.headers.reduce((acc, curr) => ({...acc, [curr.name]: this.formField(curr.name)?.value}), {})
+    return this.headers.reduce((acc, curr) => {
+      let field = {[curr.name]: this.formField(this.getFullHeaderName(curr))?.value}
+
+      if(curr.parents){
+        field = curr.parents.reduce((acc1, curr1) => ({[curr1]: acc1}), field)
+      }
+
+      return _.merge(field, acc)
+    }, {})
   }
 
   getFormData(){
@@ -193,7 +206,8 @@ export class FormComponent implements OnInit, OnChanges {
     this.saveLoading = false;
     console.log("error ", err);
     if(err.message && err.message.length){
-      this.errors = err.message.map((e: any) => ({property: e.property, errors: Object.keys(e.constraints).map(k => e.constraints[k]) }))
+      this.errors = err.message.reduce((acc: any, curr: any) => [...acc, ...(curr.children ? curr.children : curr)], [])
+      .map((e: any) => ({property: e.property, errors: Object.keys(e.constraints).map(k => e.constraints[k]) }))
       .reduce((acc: any, curr: any) => ({...acc, [curr.property]: curr.errors}), {})
       this.error = "Invalid data";
     }
@@ -206,8 +220,8 @@ export class FormComponent implements OnInit, OnChanges {
 
   updateUser(){
     this.beforeRequest();
-    const url = this.updateURL.replace(/:id/g, this.dataId);
-    this.dataService.sendPutRequest(url, this.getFormData())
+    console.log("request: ", this.getRequestData());
+    this.dataService.sendPutRequest(this.updateURL, this.getRequestData())
     .subscribe({
       next: resp => {
         this.handleResponse(resp);
@@ -228,7 +242,6 @@ export class FormComponent implements OnInit, OnChanges {
 
   storeUser(){
     this.beforeRequest();
-    console.log(this.getRequestData());
     this.dataService.sendPostRequest(this.storeURL, this.getRequestData())
     .subscribe({
       next: resp => {

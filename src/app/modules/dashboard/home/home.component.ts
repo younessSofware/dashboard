@@ -1,0 +1,61 @@
+import { DashboardService } from './../../../services/dashboard.service';
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss']
+})
+export class HomeComponent implements OnInit {
+
+  statisticsLoading = true;
+  items = [
+    {
+      title: 'clients',
+      icon: 'fas fa-users',
+      count: 0
+    },
+    {
+      title: 'stores',
+      icon: 'fas fa-users',
+      count: 0
+    },
+    {
+      title: 'delivery men',
+      name: 'deliveryMen',
+      icon: 'fas fa-users',
+      count: 0
+    },
+    {
+      title: 'products',
+      icon: 'fas fa-users',
+      count: 0
+    },
+    {
+      title: 'orders',
+      icon: 'fas fa-users',
+      count: 0
+    }
+  ]
+
+  constructor(private dashboardService: DashboardService) { }
+
+  ngOnInit(): void {
+    this.getStatistics()
+  }
+
+  getStatistics(){
+    this.dashboardService.statistics().subscribe({
+      next: (resp: any) => {
+        console.log(resp);
+        this.statisticsLoading = false;
+        this.items = this.items.map((item) => ({...item, count: resp[item.name ? item.name : item.title]}))
+      },
+      error: err => {
+        console.log(err);
+        this.statisticsLoading = false;
+      }
+    })
+  }
+
+}

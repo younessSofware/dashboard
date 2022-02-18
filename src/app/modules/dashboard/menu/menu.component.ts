@@ -11,6 +11,11 @@ export class MenuComponent implements OnInit {
 
   menuItems = [
     {
+      name: "home",
+      icon: "fas fa-home",
+      path: "/dashboard/home"
+    },
+    {
       name: "clients",
       icon: "fas fa-users",
       path: "/dashboard/clients/"

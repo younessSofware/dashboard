@@ -5,13 +5,15 @@ import { CommonModule } from '@angular/common';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import { ClientComponent } from './client/client.component';
+import { HomeComponent } from './home/home.component';
 
 
 @NgModule({
   declarations: [
     DashboardComponent,
     MenuComponent,
-    ClientComponent
+    ClientComponent,
+    HomeComponent
   ],
   imports: [
     CommonModule,

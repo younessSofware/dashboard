@@ -18,8 +18,16 @@ export class ClientFormComponent implements OnInit {
       value: ''
     },
     {
+      name: "id",
+      title: "id",
+      parents: ['account'],
+      hidden: true,
+      value: ''
+    },
+    {
       name: "name",
       title: "full name",
+      parents: ['account'],
       type: 'text',
       value: '',
       validators: [
@@ -32,6 +40,7 @@ export class ClientFormComponent implements OnInit {
     {
       name: "email",
       title: "E-mail",
+      parents: ['account'],
       type: 'email',
       value: '',
       validators: [
@@ -49,6 +58,7 @@ export class ClientFormComponent implements OnInit {
       name: "password",
       title: "password",
       type: 'password',
+      parents: ['account'],
       value: '',
       validators: [
         {
@@ -64,6 +74,7 @@ export class ClientFormComponent implements OnInit {
     {
       name: "phoneNumber",
       title: "phone Number",
+      parents: ['account'],
       type: 'string',
       value: '',
       validators: [
@@ -76,18 +87,21 @@ export class ClientFormComponent implements OnInit {
     {
       name: "address",
       title: "address",
+      parents: ['account'],
       type: 'textarea',
       value: ''
     },
     {
       name: "longitude",
       title: "longitude",
+      parents: ['account'],
       type: 'number',
       value: ''
     },
     {
       name: "latitude",
       title: "latitude",
+      parents: ['account'],
       type: 'number',
       value: ''
     }
