@@ -1,12 +1,12 @@
+import { Header } from './../../../../common/models/header';
 import { Component, OnInit } from '@angular/core';
-import { Header } from 'src/app/common/models/header';
 
 @Component({
-  selector: 'app-client-list',
-  templateUrl: './client-list.component.html',
-  styleUrls: ['./client-list.component.scss']
+  selector: 'app-store-list',
+  templateUrl: './store-list.component.html',
+  styleUrls: ['./store-list.component.scss']
 })
-export class ClientListComponent implements OnInit {
+export class StoreListComponent implements OnInit {
 
   headers: Header[] = [
     {
@@ -14,9 +14,13 @@ export class ClientListComponent implements OnInit {
       title: "id"
     },
     {
+      name: 'storeName',
+      title: 'store name'
+    },
+    {
       parents: ['account'],
       name: "name",
-      title: "full name"
+      title: "owner name"
     },
     {
       parents: ['account'],

@@ -21,9 +21,9 @@ export class MenuComponent implements OnInit {
       path: "/dashboard/clients/"
     },
     {
-      name: "channels",
-      icon: "fas fa-project-diagram",
-      path: "/dashboard/channels/"
+      name: "stores",
+      icon: "fas fa-store",
+      path: "/dashboard/stores/"
     },
     {
       name: "posts",

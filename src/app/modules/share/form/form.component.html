@@ -13,7 +13,7 @@
   </div>
   <form [formGroup]="form" (ngSubmit)="type == 'edit' ? updateUser() : storeUser()" class="w-full min-h-0 flex-grow" *ngIf="!loading && (type == 'edit') == !!data && headers && headers.length">
     <div class="flex flex-col min-h-0 w-full h-full">
-      <div class="flex-grow min-h-0 overflow-y-auto">
+      <div class="flex-grow min-h-0 overflow-y-auto pb-5">
         <div *ngFor="let header of headers" class="px-3 my-2" [class]="[header.width ? 'w-' + header.width : 'w-full']">
           <label *ngIf="!header.hidden && header.type != 'checkbox'" class="block uppercase tracking-wide text-gray-700 text-sm font-bold mt-4 mb-2" [for]="header.name">
             {{ header.title }}

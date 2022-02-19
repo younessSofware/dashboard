@@ -145,6 +145,8 @@ export class DisplayComponent implements OnInit {
   }
 
   getHeaderValue(header: Header){
+    console.log(this.data);
+
     let value = this.data[header.name]
     if(header.parents) value = header.parents.reverse().reduce((acc, curr) => acc[curr], this.data)[header.name]
     if(!value) value = header.default;

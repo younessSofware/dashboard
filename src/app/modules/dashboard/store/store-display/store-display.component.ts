@@ -1,13 +1,13 @@
 import { Button } from './../../../../common/models/button';
+import { Header } from './../../../../common/models/header';
 import { Component, OnInit } from '@angular/core';
-import { Header } from 'src/app/common/models/header';
 
 @Component({
-  selector: 'app-client-display',
-  templateUrl: './client-display.component.html',
-  styleUrls: ['./client-display.component.scss']
+  selector: 'app-store-display',
+  templateUrl: './store-display.component.html',
+  styleUrls: ['./store-display.component.scss']
 })
-export class ClientDisplayComponent implements OnInit {
+export class StoreDisplayComponent implements OnInit {
 
   headers: Header[] = [
     {
@@ -18,6 +18,10 @@ export class ClientDisplayComponent implements OnInit {
       name: "name",
       title: "full name",
       parents: ['account']
+    },
+    {
+      name: "storeName",
+      title: "store name",
     },
     {
       name: "email",
@@ -32,7 +36,8 @@ export class ClientDisplayComponent implements OnInit {
     {
       name: "address",
       title: "address",
-      parents: ['account']
+      parents: ['account'],
+      default: 'none'
     },
     {
       name: "longitude",
@@ -52,7 +57,7 @@ export class ClientDisplayComponent implements OnInit {
     {
       name: 'Edit',
       icon: 'fas fa-edit',
-      link: '/dashboard/clients/form/edit?id=:id',
+      link: '/dashboard/stores/form/edit?id=:id',
       color: 'gray',
     },
     {
@@ -60,13 +65,13 @@ export class ClientDisplayComponent implements OnInit {
       icon: 'fas fa-trash-alt',
       color: 'red',
       request: {
-        url: 'clients/:id',
+        url: 'stores/:id',
         method: 'delete',
-        redirectURL: '/dashboard/clients/list'
+        redirectURL: '/dashboard/stores/list'
       },
       confirmation: {
-        title: 'Delete Client',
-        text: 'Are you sure you want to delete this client',
+        title: 'Delete Store',
+        text: 'Are you sure you want to delete this store',
         confirmButtonText: 'Yes',
         confirmButtonColor: 'red',
         showCancelButton: true,
@@ -75,7 +80,6 @@ export class ClientDisplayComponent implements OnInit {
       }
     },
   ]
-
 
   constructor() { }
 

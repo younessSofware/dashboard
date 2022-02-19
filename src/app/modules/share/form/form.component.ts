@@ -206,9 +206,11 @@ export class FormComponent implements OnInit, OnChanges {
     this.saveLoading = false;
     console.log("error ", err);
     if(err.message && err.message.length){
-      this.errors = err.message.reduce((acc: any, curr: any) => [...acc, ...(curr.children ? curr.children : curr)], [])
+
+      this.errors = err.message.reduce((acc: any, curr: any) => [...acc, ...(curr.children.length ? curr.children : [curr])], [])
       .map((e: any) => ({property: e.property, errors: Object.keys(e.constraints).map(k => e.constraints[k]) }))
       .reduce((acc: any, curr: any) => ({...acc, [curr.property]: curr.errors}), {})
+
       this.error = "Invalid data";
     }
     else this.error = err.error;
@@ -242,6 +244,7 @@ export class FormComponent implements OnInit, OnChanges {
 
   storeUser(){
     this.beforeRequest();
+    console.log("request: ", this.getRequestData());
     this.dataService.sendPostRequest(this.storeURL, this.getRequestData())
     .subscribe({
       next: resp => {
