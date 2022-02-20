@@ -26,6 +26,7 @@ export class TableComponent implements OnInit {
   @Input() showDeleteButton = true;
   @Input() showUpdateButton = true;
   @Input() showCreateButton = true;
+  @Input() showDisplayButton = true;
 
   @Input() headers: Header[] = [];
   @Input() icon = "";

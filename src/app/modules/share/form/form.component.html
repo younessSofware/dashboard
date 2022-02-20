@@ -169,7 +169,7 @@
           </span>
         </div>
       </div>
-      <button type="submit" class="custom-button" [disabled]="saveLoading">
+      <button type="submit" class="custom-button" [disabled]="saveLoading || !form.valid">
         <span *ngIf="saveLoading"><i class="fas fa-circle-notch fa-spin"></i></span>
         <span *ngIf="!saveLoading">Save</span>
       </button>

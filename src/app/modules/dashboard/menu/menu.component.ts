@@ -21,14 +21,14 @@ export class MenuComponent implements OnInit {
       path: "/dashboard/clients/"
     },
     {
+      name: "categories",
+      icon: "fas fa-tags",
+      path: "/dashboard/categories/"
+    },
+    {
       name: "stores",
       icon: "fas fa-store",
       path: "/dashboard/stores/"
-    },
-    {
-      name: "posts",
-      icon: "fas fa-clone",
-      path: "/dashboard/posts/"
     },
     {
       name: "comments",

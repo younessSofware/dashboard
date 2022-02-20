@@ -118,6 +118,7 @@
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap text-right">
                     <button
+                      *ngIf="showDisplayButton"
                       [routerLink]="[displayLink]"
                       [queryParams]="{
                         id: d[primaryKey]
@@ -148,8 +149,8 @@
             <div *ngIf='!data && !error' class="w-full text-center">
               <span class="animate-ping inline-flex h-2 w-full bg-purple-400 opacity-75"></span>
             </div>
-            <app-alert [message]="error" type="danger" *ngIf="!data && error" class="mt-2" ></app-alert>
-            <app-alert title="Empty Result" message="No data found (0)" type="info" class="mt-2" *ngIf="data && !data.length"></app-alert>
+            <app-alert [message]="error" type="danger" *ngIf="!data && error" class="block mt-2" ></app-alert>
+            <app-alert title="Empty Result" message="No data found (0)" type="info" class="block mt-2" *ngIf="data && !data.length"></app-alert>
           </div>
         </div>
       </div>

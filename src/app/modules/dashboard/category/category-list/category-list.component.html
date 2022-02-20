@@ -1,0 +1,16 @@
+<div class="container-fluid">
+  <app-table
+    [headers]="headers"
+    pluralName="categories"
+    singleName="category"
+    primaryKey="id"
+    deleteURL="categories/:id"
+    retrieveURL="categories/dashboard"
+    displayLink="/dashboard/categories/display"
+    editLink="/dashboard/categories/form/edit"
+    createLink="/dashboard/categories/form/create"
+    [showSortFilter]="false"
+    [showDisplayButton]="false"
+    icon="fas fa-tags"
+  ></app-table>
+</div>
