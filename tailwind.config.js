@@ -1,5 +1,6 @@
 module.exports = {
-  purge: [],
+  mode: 'jit',
+  purge: ["./src/app/**/*.{ts,html}"],
   darkMode: false, // or 'media' or 'class'
   content: [
     "./src/**/*.{html,ts}",

@@ -12,4 +12,18 @@ export class DashboardService {
   statistics(){
     return this.http.get(API_URL + 'statistics');
   }
+
+  getStore(id: number){
+    return this.http.get(API_URL + "stores/" + id)
+  }
+
+  getStoreProducts(storeId: number, params: any){
+    return this.http.get(`${API_URL}stores/${storeId}/products`, {
+      params
+    })
+  }
+
+  orderStatistics(storeId: number){
+    return this.http.get(`${API_URL}stores/${storeId}/orders-statistics`)
+  }
 }

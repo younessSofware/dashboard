@@ -32,7 +32,7 @@ export class AlertComponent implements OnInit {
         this.icon = 'fas fa-check';
         break;
       case 'info':
-        this.color = 'blue';
+        this.color = 'indigo';
         this.icon = 'fas fa-info';
         break;
       case 'danger':

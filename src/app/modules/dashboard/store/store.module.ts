@@ -7,6 +7,7 @@ import { StoreComponent } from './store.component';
 import { StoreListComponent } from './store-list/store-list.component';
 import { StoreFormComponent } from './store-form/store-form.component';
 import { StoreDisplayComponent } from './store-display/store-display.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { StoreDisplayComponent } from './store-display/store-display.component';
   imports: [
     CommonModule,
     StoreRoutingModule,
-    ShareModule
+    ShareModule,
+    NgApexchartsModule
   ]
 })
 export class StoreModule { }

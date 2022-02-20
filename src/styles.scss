@@ -35,3 +35,7 @@ input, select{
 .custom-button:disabled{
   @apply opacity-60 cursor-not-allowed
 }
+
+.spinner{
+  @apply w-20 h-20 bg-primary rounded-full animate-ping
+}
