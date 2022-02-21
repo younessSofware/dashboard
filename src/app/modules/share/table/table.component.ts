@@ -1,4 +1,4 @@
-import { API_URL } from './../../../common/constants';
+import { API_URL, DOMAIN_URL } from './../../../common/constants';
 import { NotificationService } from './../../../services/notification.service';
 // import { NotificationService } from './../../services/notification.service';
 import { Component, Input, OnInit } from '@angular/core';
@@ -108,14 +108,13 @@ export class TableComponent implements OnInit {
       next: (resp: any) => {
         this.data = resp.data[this.pluralName];
         this.headers?.forEach(header => {
-          if(header.type == 'avatar'){
+          if(header.type == 'image'){
             this.data.forEach(data => {
-              data[header.name] = API_URL + data[header.name];
+              data[header.name] = DOMAIN_URL + "/" + data[header.name];
             })
           }
         })
         const nbPages = Math.floor(resp.data.count / this.limit) + 1
-        console.log(nbPages);
         this.pages = [...new Array(nbPages - 1).keys()].map(key => key + 1);
       },
       error: err => {
@@ -191,7 +190,9 @@ export class TableComponent implements OnInit {
   getHeaderValue(data: any, header: Header, type: string | undefined){
     let element = data[header.name]
     if(header.parents?.length)
-      element = header.parents.reverse().reduce((acc, curr) => acc[curr], data)[header.name]
+      element = header.parents.reduce((acc, curr) => {
+        return acc[curr]
+      }, data)[header.name]
 
     if(!element) return header.default;
     if(type == 'boolean') return header.values ? header.values[element ? 1 : 0] : 0

@@ -32,10 +32,10 @@
       </span>
       <section
         class="text-md py-3 px-1"
-        [ngClass]="[header.type != 'image' && header.type != 'avatar' ? 'border-t-2 border-b-2 border-gray-300 bg-gray-50 flex justify-between items-center' : '']"
+        [ngClass]="[header.type != 'image' ? 'border-t-2 border-b-2 border-gray-300 bg-gray-50 flex justify-between items-center' : '']"
         [ngSwitch]="header.type"
       >
-        <section *ngSwitchCase="header.type == 'image' || header.type == 'avatar' ? header.type : ''">
+        <section *ngSwitchCase="header.type == 'image' ? header.type : ''">
           <div class="flex items-center justify-center">
             <div
               class="w-32 h-32 flex items-center rounded-full ring-2 ring-gray-300 overflow-hidden"

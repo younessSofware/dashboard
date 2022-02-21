@@ -31,13 +31,8 @@ export class MenuComponent implements OnInit {
       path: "/dashboard/stores/"
     },
     {
-      name: "comments",
-      icon: "fas fa-comments",
-      path: "/dashboard/comments/"
-    },
-    {
       name: "products",
-      icon: "fas fa-box",
+      icon: "fas fa-boxes",
       path: "/dashboard/products/"
     },
     {

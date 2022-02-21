@@ -4,5 +4,10 @@ export interface FormHeader extends Header{
   validators?: {
     validatorFn: ValidatorFn,
     message: string
-  }[]
+  }[],
+  selectOptions?: {
+    options: any[],
+    valueProperty: string,
+    nameProperty: string
+  }
 }

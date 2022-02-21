@@ -1,5 +1,5 @@
 <div class="w-full h-full flex justify-center items-center"  *ngIf='loading'>
-    <div class="animate-spin rounded-full h-32 w-32 border-t-4 border-b-4 border-gray-900">
+    <div class="animate-ping rounded-full h-24 w-24 bg-primary">
     </div>
 </div>
 <div  class="mx-3 h-screen flex flex-col pb-4" *ngIf='!loading'>
@@ -11,7 +11,7 @@
   <div class="px-2 mb-1">
     <app-alert [message]="error" type="danger" *ngIf="error"></app-alert>
   </div>
-  <form [formGroup]="form" (ngSubmit)="type == 'edit' ? updateUser() : storeUser()" class="w-full min-h-0 flex-grow" *ngIf="!loading && (type == 'edit') == !!data && headers && headers.length">
+  <form [formGroup]="form" (ngSubmit)="type == 'edit' ? updateData() : storeData()" class="w-full min-h-0 flex-grow" *ngIf="!loading && (type == 'edit') == !!data && headers && headers.length">
     <div class="flex flex-col min-h-0 w-full h-full">
       <div class="flex-grow min-h-0 overflow-y-auto pb-5">
         <div *ngFor="let header of headers" class="px-3 my-2" [class]="[header.width ? 'w-' + header.width : 'w-full']">
@@ -19,35 +19,35 @@
             {{ header.title }}
           </label>
           <section [ngSwitch]="header.type">
-            <section *ngSwitchCase="header.type == 'image' || header.type == 'avatar' ? header.type : ''">
-              <div class="mt-1 flex items-center justify-center">
+            <section *ngSwitchCase="header.type == 'image' ? header.type : ''">
+              <div class="mt-1 flex flex-col items-center">
                 <div class="flex items-center justify-center">
                   <div
                     class="w-32 h-32 flex items-center rounded-full ring-2 ring-gray-300 overflow-hidden"
+                    [class]="!errors || !errors[header.name] ? 'bg-gray-300' : 'bg-red-300'"
                   >
                     <img
                       class="w-full min-h-full rounded-full"
-                      [src]="imagesUrl[header.name] ? imagesUrl[header.name] :
-                        (header.type == 'avatar' ? './../../../assets/user.jpeg' : './../../../assets/default-img.png')"
+                      [src]="getImage(header)"
                       alt=""
                     >
                   </div>
                 </div>
-                <label [for]="header.name" class="ml-5 cursor-pointer bg-white block py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                  Change
+                <label [for]="header.name" class="custom-file-button color-transition mt-3 mb-1">
+                  <i class="fas fa-upload"></i> Upload
                 </label>
                 <input
                   (change)="setImage(header, $event)"
                   type="file"
                   [name]="header.name"
-                  ngModel
+                  [formControlName]="header.name"
                   [id]="header.name"
                   hidden
                 >
               </div>
             </section>
             <section *ngSwitchCase="'boolean'">
-              <select
+              <!-- <select
                 [formControlName]="header.name"
                 [id]="header.name"
                 [name]="header.name"
@@ -57,7 +57,7 @@
               >
                 <option [value]="false">{{ header.options[0] }}</option>
                 <option [value]="true">{{ header.options[1] }}</option>
-              </select>
+              </select> -->
             </section>
             <section *ngSwitchCase="'checkbox'">
               <label class="flex items-center">
@@ -79,29 +79,32 @@
                 [name]="header.name"
                 [class.error]="errors && errors[header.name]"
                 class="custom-input"
+                *ngIf="header.selectOptions"
               >
                 <option
-                  [value]="option"
-                  *ngFor="let option of header.options"
+                  [value]="option[header.selectOptions.valueProperty]"
+                  *ngFor="let option of header.selectOptions.options"
                 >
-                  {{ option }}
+                  {{ option[header.selectOptions.nameProperty] }}
                 </option>
               </select>
             </section>
             <section *ngSwitchCase="'select'">
               <select
                 (change)="fieldChanged(header.name, header.value)"
-                [(ngModel)]="header.value"
+                [formControlName]="header.name"
                 [id]="header.name"
                 [name]="header.name"
+                (change)="errors[header.name] = undefined"
                 [class.error]="errors && errors[header.name]"
                 class="custom-input"
+                *ngIf="header.selectOptions"
               >
                 <option
-                  [value]="option"
-                  *ngFor="let option of header.options"
+                  [value]="option[header.selectOptions.valueProperty]"
+                  *ngFor="let option of header.selectOptions.options"
                 >
-                  {{ option }}
+                  {{ option[header.selectOptions.nameProperty] }}
                 </option>
               </select>
             </section>
@@ -114,7 +117,7 @@
                 (change)="errors[header.name] = undefined"
                 [placeholder]="header.title"
                 rows="8"
-                [class.invalid]="errors && errors[header.name]"
+                [class.invalid]="(errors && errors[header.name]) || (formField(header.name)?.dirty && !formField(header.name)?.valid)"
                 class="custom-input"
               ></textarea>
             </section>
@@ -161,15 +164,15 @@
               >
             </section>
           </section>
-          <span *ngIf="errors && errors[header.name]" class="pl-1">
+          <span [class.text-center]="header.type == 'image'" *ngIf="errors && errors[header.name]" class="pl-1">
             <span class="text-red-500 text-sm italic" *ngFor="let err of errors[header.name]">{{ err }}</span>
           </span>
-          <span *ngIf="formField(header.name)?.dirty && !formField(header.name)?.valid" class="pl-1">
+          <div [class.text-center]="header.type == 'image'" *ngIf="(header.type == 'image' || formField(header.name)?.dirty) && !formField(header.name)?.valid" class="pl-1 w-full">
             <span class="text-red-500 text-sm italic" *ngFor="let err of formFieldErrors(header)">{{ err }}</span>
-          </span>
+          </div>
         </div>
       </div>
-      <button type="submit" class="custom-button" [disabled]="saveLoading || !form.valid">
+      <button type="submit" class="custom-button" [disabled]="saveLoading ">
         <span *ngIf="saveLoading"><i class="fas fa-circle-notch fa-spin"></i></span>
         <span *ngIf="!saveLoading">Save</span>
       </button>

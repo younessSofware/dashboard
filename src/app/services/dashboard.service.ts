@@ -26,4 +26,12 @@ export class DashboardService {
   orderStatistics(storeId: number){
     return this.http.get(`${API_URL}stores/${storeId}/orders-statistics`)
   }
+
+  getCategories(){
+    return this.http.get(`${API_URL}categories`)
+  }
+
+  getStores(){
+    return this.http.get(`${API_URL}stores`)
+  }
 }

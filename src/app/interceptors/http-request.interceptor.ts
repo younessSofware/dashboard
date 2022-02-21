@@ -15,12 +15,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
   constructor(private router: Router) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    console.log("interceptor !!!");
-
     const token = localStorage.getItem('token')
-    console.log(token);
-
-
     request = request.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`
@@ -34,28 +29,16 @@ export class HttpRequestInterceptor implements HttpInterceptor {
         if (error instanceof ErrorEvent) {
             errorMsg = error.message;
         } else {
-            console.log('Internal server error');
             if(err.status == 401){
               localStorage.removeItem('token')
               this.router.navigateByUrl('/auth/login')
             }
             if(err.status == 400) return throwError(() => error)
-            errorMsg = `Internal server error`;
+            if(err.status == 500) errorMsg = `Internal server error`;
+            else errorMsg = err.error.message;
         }
         return throwError(() => errorMsg)
       })
-    //   catchError((error: HttpErrorResponse) => {
-    //     let errorMsg = '';
-    //     if (error.error instanceof ErrorEvent) {
-    //         console.log('This is client side error');
-    //         errorMsg = `Error: ${error.error.message}`;
-    //     } else {
-    //         console.log('This is server side error');
-    //         errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
-    //     }
-    //     console.log(errorMsg);
-    //     return throwError(errorMsg);
-    // })
     )
   }
 }

@@ -1,3 +1,4 @@
+import { DOMAIN_URL } from './../../../common/constants';
 import { FormHeader } from './../../../common/models/form-header';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
@@ -42,14 +43,26 @@ export class FormComponent implements OnInit, OnChanges {
               private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.initializeForm()
+    this.createForm()
   }
 
-  initializeForm(){
-    this.form = new FormGroup(this.headers.reduce((acc, curr) => ({
+
+  ngOnChanges(changes: SimpleChanges){
+    if(changes['headers']){
+      this.createForm();
+    }
+    if(!this.type && this.headers && this.headers.length){
+      this.getFormType();
+    }
+  }
+
+
+  createForm(){
+    const formGroup = this.headers.reduce((acc, curr) => ({
       ...acc,
       [this.getFullHeaderName(curr)]: new FormControl('', curr.validators?.map(v => v.validatorFn))
-    }), {}))
+    }), {})
+    this.form = new FormGroup(formGroup)
   }
 
   formFieldErrors(header: FormHeader){
@@ -59,10 +72,6 @@ export class FormComponent implements OnInit, OnChanges {
 
   formField(fieldName: string){
     return this.form.get(fieldName)
-  }
-
-  ngOnChanges(changes: SimpleChanges){
-    if(!this.type && this.headers && this.headers.length) this.getFormType();
   }
 
   getFormType(){
@@ -108,14 +117,14 @@ export class FormComponent implements OnInit, OnChanges {
   setFormValues(){
     const form = {
       ...this.headers.map(h => {
+        let value = h.parents ? h.parents.reverse().reduce((acc, curr) => acc[curr], this.data)[h.name] : this.data[h.name]
+        if(h.selectOptions && h.type == 'select') value = value[h.selectOptions?.valueProperty]
         return {
           name: this.getFullHeaderName(h),
-          value: h.parents ? h.parents.reverse().reduce((acc, curr) => acc[curr], this.data)[h.name] : this.data[h.name]
+          value
         }
       }).reduce((acc, curr) => ({...acc, [curr.name]: curr.value}), {})
     }
-    console.log("form", form);
-
     this.form.patchValue(form);
   }
 
@@ -138,6 +147,15 @@ export class FormComponent implements OnInit, OnChanges {
     header.value = image;
   }
 
+  getImage(header: FormHeader){
+    if(this.imagesUrl[header.name]) return this.imagesUrl[header.name];
+
+    const formValue =this.formField(header.name)?.value
+    if(formValue) return  DOMAIN_URL + formValue;
+
+    return './../../../assets/default-img.png'
+  }
+
   capitalize(text: string){
     return text.charAt(0).toUpperCase() + text.slice(1)
   }
@@ -148,6 +166,8 @@ export class FormComponent implements OnInit, OnChanges {
                           : header.name
   }
   getJsonData(){
+    console.log("json data");
+
     return this.headers.reduce((acc, curr) => {
       let field = {[curr.name]: this.formField(this.getFullHeaderName(curr))?.value}
 
@@ -162,25 +182,25 @@ export class FormComponent implements OnInit, OnChanges {
   getFormData(){
     const formData = new FormData();
     this.headers.forEach(header => {
+      const value = this.formField(header.name)?.value;
       switch (header.type) {
-        case 'image':
-        case 'avatar':{
+        case 'image':{
           if(header.value){
             formData.append(header.name, header.value, 'image')
           }
           break;
         }
         case 'select-tags':
-          formData.append(header.name, header.value);
+          formData.append(header.name, value);
           break;
         case 'input-list': {
-          const list = header.value.filter((val: string) => val.length)
+          const list = value.filter((val: string) => val.length)
           formData.append(header.name, JSON.stringify(list));
           break;
         }
 
         default:
-          formData.append(header.name, header.value)
+          formData.append(header.name, value)
           break;
       }
     })
@@ -204,23 +224,22 @@ export class FormComponent implements OnInit, OnChanges {
 
   handleError(err: any){
     this.saveLoading = false;
-    console.log("error ", err);
-    if(err.message && err.message.length){
 
+    if(err.message && err.message.length){
       this.errors = err.message.reduce((acc: any, curr: any) => [...acc, ...(curr.children.length ? curr.children : [curr])], [])
       .map((e: any) => ({property: e.property, errors: Object.keys(e.constraints).map(k => e.constraints[k]) }))
       .reduce((acc: any, curr: any) => ({...acc, [curr.property]: curr.errors}), {})
-
       this.error = "Invalid data";
     }
-    else this.error = err.error;
+    else this.error = err;
+
     const timer = setInterval(() => {
       if(document.body.scrollTop) document.body.scrollTop = --document.documentElement.scrollTop;
       else clearInterval(timer)
     }, 10)
   }
 
-  updateUser(){
+  updateData(){
     this.beforeRequest();
     console.log("request: ", this.getRequestData());
     this.dataService.sendPutRequest(this.updateURL, this.getRequestData())
@@ -239,10 +258,10 @@ export class FormComponent implements OnInit, OnChanges {
   }
 
   getRequestData(){
-    return this.headers.filter(h => h.type == 'file' || h.type == 'photo').length ? this.getFormData() : this.getJsonData()
+    return this.headers.filter(h => h.type == 'image').length ? this.getFormData() : this.getJsonData()
   }
 
-  storeUser(){
+  storeData(){
     this.beforeRequest();
     console.log("request: ", this.getRequestData());
     this.dataService.sendPostRequest(this.storeURL, this.getRequestData())
