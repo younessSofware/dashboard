@@ -1,0 +1,7 @@
+.message-tab{
+  @apply py-2 px-10 active:bg-indigo-100 cursor-pointer transition-all duration-500 whitespace-nowrap
+}
+
+.message-tab.active{
+  @apply border-b-4 border-primary
+}

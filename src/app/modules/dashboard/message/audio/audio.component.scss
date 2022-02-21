@@ -1,0 +1,6 @@
+.range-slider{
+  @apply h-[2px] bg-white appearance-none focus:outline-none w-full
+}
+.range-slider::-webkit-slider-thumb{
+  @apply bg-secondary appearance-none h-4 w-4 rounded-full transition-all duration-100
+}

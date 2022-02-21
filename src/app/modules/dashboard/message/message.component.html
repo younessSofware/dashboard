@@ -1,0 +1,41 @@
+<div class="py-4 h-screen flex flex-col">
+  <div class="bg-white w-full px-4">
+    <span class="text-3xl uppercase my-2"><i class="fas fa-comments mx-2'"></i> Messages</span>
+    <hr class="mt-4">
+  </div>
+  <div class="flex flex-grow min-h-0">
+    <div class="h-full flex flex-col min-h-0 border-r-2 border-primary">
+      <div class="flex">
+        <div class="message-tab active">Stores</div>
+        <div class="message-tab">Clients</div>
+        <div class="message-tab">Delivery men</div>
+      </div>
+      <div class="flex-grow overflow-y-auto min-h-0">
+        <div class="p-4 flex items-center hover:bg-indigo-100 cursor-pointer">
+          <img class="w-14 h-14 bg-gray-400 rounded-full" src="" alt="">
+          <span class="ml-3 text-lg">User full name</span>
+        </div>
+      </div>
+    </div>
+    <div class="p-4 w-full overflow-y-auto min-h-0">
+      <div class="flex justify-end">
+        <!-- <div class="flex my-2">
+          <img class="w-16 h-16 rounded-xl bg-gray-400" src="" alt="">
+          <div class="mx-2">
+            <div class="p-4 bg-gray-200 rounded-xl break-all">
+              <span>Lorem ipsum dolor sit amet.</span>
+            </div>
+            <span class="text-xs">15:25</span>
+          </div>
+        </div> -->
+        <div>
+          <div class="p-4 bg-primary text-white rounded-xl break-all">
+            <!-- <span>Lorem ipsum dolor sit amet.</span> -->
+            <app-audio></app-audio>
+          </div>
+          <span class="text-xs float-right px-2 mt-1">15:25</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

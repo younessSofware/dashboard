@@ -119,7 +119,7 @@ export class TableComponent implements OnInit {
       },
       error: err => {
         console.log("err", err);
-        this.error = err.message;
+        this.error = err;
       }
     })
   }

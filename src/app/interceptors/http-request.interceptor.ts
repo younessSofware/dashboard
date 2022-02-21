@@ -26,15 +26,18 @@ export class HttpRequestInterceptor implements HttpInterceptor {
       catchError((err) => {
         let errorMsg = '';
         const error = err.error
+        console.log("error ", err);
+
         if (error instanceof ErrorEvent) {
             errorMsg = error.message;
         } else {
+            console.log("Internal server error");
             if(err.status == 401){
               localStorage.removeItem('token')
               this.router.navigateByUrl('/auth/login')
             }
             if(err.status == 400) return throwError(() => error)
-            if(err.status == 500) errorMsg = `Internal server error`;
+            if(err.status == 500 || err.status == 0) errorMsg = `Internal server error`;
             else errorMsg = err.error.message;
         }
         return throwError(() => errorMsg)
