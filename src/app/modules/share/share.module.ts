@@ -1,3 +1,4 @@
+import { MsTimePipe } from './../../pipes/ms-time.pipe';
 import { ResumeTextPipe } from './../../pipes/resume-text.pipe';
 import { RouterModule } from '@angular/router';
 import { TableComponent } from './table/table.component';
@@ -14,7 +15,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ResumeTextPipe,
     DisplayComponent,
     FormComponent,
-    TableComponent
+    TableComponent,
+    MsTimePipe
   ],
   imports: [
     CommonModule,
@@ -26,7 +28,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     AlertComponent,
     DisplayComponent,
     FormComponent,
-    TableComponent
+    TableComponent,
+    MsTimePipe
   ]
 })
 export class ShareModule { }

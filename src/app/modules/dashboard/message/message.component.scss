@@ -15,11 +15,11 @@
 }
 
 .icon-button.recording{
-  @apply bg-primary text-white
+  @apply bg-primary text-white flex-grow flex justify-between
 }
 
 .search-input{
-  @apply bg-gray-100 w-full p-2 rounded-xl border border-gray-200
+  @apply bg-gray-100 w-full p-2 rounded-xl border border-gray-200 transition-all duration-500
 }
 
 .message-input{
@@ -39,12 +39,20 @@ img{
 }
 
 .message-box{
-  @apply p-3 rounded-xl break-all
+  @apply rounded-xl break-all
 }
 
-.message-box.mine{
-  @apply bg-gray-200
-}
 .message-box.his{
+  @apply bg-gray-300
+}
+.message-box.mine{
   @apply bg-primary text-white
+}
+
+.spinner-border{
+  @apply border-b-4 border-l-4 border-t-4
+}
+
+.icon-button.disabled{
+  @apply bg-gray-300 hover:bg-gray-300 cursor-not-allowed hover:text-black
 }

@@ -1,3 +1,4 @@
+import { DomSanitizer } from '@angular/platform-browser';
 import { MessageType } from './../../../common/models/enums/message-type';
 import { ChatService } from './../../../services/chat.service';
 import { Message } from './../../../common/models/Message';
@@ -19,6 +20,8 @@ export class MessageComponent implements OnInit {
 
   section: Section = 'stores';
   recording = false;
+  recordedAudio: any[] = [];
+  mediaRecorder: any;
   time = 0;
   timer: any;
   usersLoading = false;
@@ -31,23 +34,26 @@ export class MessageComponent implements OnInit {
   messagesError: string | null;
   textMessage: string;
   messages: Message[] = [];
+  willSendAudio = false;
 
-  constructor(private route: ActivatedRoute, private dashboardService: DashboardService, private chatService: ChatService) { }
+  constructor(private route: ActivatedRoute, private dashboardService: DashboardService, private chatService: ChatService,
+              private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
     this.getQueryParams();
     this.getCorrespondents();
     this.chatService.onNewMessage().subscribe({
       next: message => {
-        console.log("new message", message);
+        // console.log("new message", message);
         message.receiver = 15
+        message.id = 150
         this.messages.push(message);
         // console.log("new message", message);
       }
     })
     this.chatService.onMessageSent().subscribe({
       next: message => {
-        console.log("message sent", message);
+        // console.log("message sent", message);
 
         this.messages = this.messages.map(msg => {
           if(msg.uuid == message.uuid) return message
@@ -62,12 +68,47 @@ export class MessageComponent implements OnInit {
   startRecoding(){
     if(this.recording) return;
     this.recording = true;
-    this.timer = setInterval(() => {
-      this.time++
-    }, 1000)
+    this.time = 0;
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices.getUserMedia ({audio: true})
+      .then((stream) => {
+        this.mediaRecorder = new MediaRecorder(stream);
+        this.willSendAudio = false;
+        this.mediaRecorder.start();
+
+        this.mediaRecorder.ondataavailable = (e: any) => {
+          this.recordedAudio.push(e.data);
+        }
+        this.timer = setInterval(() => {
+          this.time++
+        }, 1000);
+        this.mediaRecorder.onstop = () => {
+          if(this.willSendAudio){
+            // console.log("recOrded auDio ", this.recordedAudio);
+
+            const blob = new Blob(this.recordedAudio, { 'type' : 'audio/ogg; codecs=opus' });
+
+            const reader = new FileReader();
+            // console.log("blob", blob);
+            reader.addEventListener('load', (event: any) => {
+              console.log("hi it's loaded");
+              console.log(event.target.result);
+              this.sendMessage(event.target.result, MessageType.AUDIO)
+            });
+            reader.readAsDataURL(blob);
+          }
+          this.recordedAudio = [];
+        }
+        console.log(this.mediaRecorder.state);
+      })
+      .catch(function(err) {
+      });
+    } else {
+    }
   }
 
   stopRecording(){
+    this.mediaRecorder.stop();
     this.recording = false;
     clearInterval(this.timer);
   }
@@ -148,21 +189,47 @@ export class MessageComponent implements OnInit {
     return './../../../../assets/store.png'
   }
 
-  sendMessage(){
+  isMyMessage(message: Message){
+    return message.receiver == this.selectedAccount
+  }
+
+  sendMessage(content: string, type: MessageType){
     const message: Message = {
       uuid: uuid.v4(),
-      content: this.textMessage,
+      text: type == MessageType.TEXT ? content : '',
+      media: type != MessageType.TEXT ? content : '',
       state: MessageState.CREATED,
       createdAt: new Date(),
       receiver: this.selectedAccount,
-      type: MessageType.TEXT
+      type
     }
     this.messages.push(message)
     this.chatService.sendMessage(message)
+  }
+
+  sendTextMessage(){
+    this.sendMessage(this.textMessage, MessageType.TEXT)
     this.textMessage = "";
   }
 
-  isMyMessage(message: Message){
-    return message.receiver == this.selectedAccount
+  sendImage(event: any) {
+    this.sendMessage(event.target.result, MessageType.IMAGE)
+  }
+
+  uploadPhoto(event: any){
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.addEventListener('load', (event) => this.sendImage(event));
+  }
+
+  readImage(blob: any){
+    return blob;
+  }
+
+
+  sendAudio(){
+    this.willSendAudio = true;
+    this.stopRecording();
   }
 }

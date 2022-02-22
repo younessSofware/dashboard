@@ -1,32 +1,45 @@
 import { NgxHowlerService } from 'ngx-howler';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { Howl  } from 'howler';
 @Component({
   selector: 'app-audio',
   templateUrl: './audio.component.html',
   styleUrls: ['./audio.component.scss']
 })
-export class AudioComponent implements OnInit {
+export class AudioComponent implements OnInit, OnChanges {
 
   play = false;
   audio: Howl;
   time = 0
   duration = 0;
   timer: any;
+  @Input() src: string;
+  @Input() id: number | undefined;
 
   constructor(private howler: NgxHowlerService) { }
 
   ngOnInit(): void {
-    this.howler.register('audio', {
-      src: ['./../../../../../assets/test-audio.mp3'],
+    if(this.src && this.id) this.registerHowler();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+      if((changes['src'] && this.id) || (this.id && this.src)){
+        this.registerHowler();
+      }
+  }
+
+  registerHowler(){
+    this.howler.register("audio-" + this.id, {
+      src: [this.src],
     }).subscribe(status => {
-      this.audio = this.howler.get('audio');
-      this.duration = this.audio.duration()
+      this.audio = this.howler.get("audio-" + this.id);
+      this.duration = this.audio.duration();
+      console.log(this.duration);
+      this.audio.on('end', ()=> {
+        this.toggleAudio()
+        this.time = 0;
+      })
     });
-    this.audio.on('end', ()=> {
-      this.toggleAudio()
-      this.time = 0;
-    })
   }
 
   toggleAudio(){
@@ -36,7 +49,7 @@ export class AudioComponent implements OnInit {
       clearInterval(this.timer);
     }else{
       this.play = true;
-      this.howler.get('audio').play()
+      this.audio.play()
       this.duration = this.audio.duration()
       this.timer = setInterval(() => {
         this.time = this.audio.seek();
@@ -45,23 +58,5 @@ export class AudioComponent implements OnInit {
   }
   updateAudioPos(){
     this.audio.seek(this.time);
-  }
-  getTime(){
-    let time = Math.floor(this.time);
-
-    let s: any = time % 60;
-    time = Math.floor(time / 60);
-
-    let m: any = time % 60
-    time = Math.floor(time / 60);
-
-    let h: any = time;
-
-    h = (h < 10 ? '0' : '') + h
-    m = (m < 10 ? '0' : '') + m
-    s = (s < 10 ? '0' : '') + s
-
-
-    return (this.duration > 3600 ? h + ' : ' : '') + m + ' : ' + s
   }
 }
