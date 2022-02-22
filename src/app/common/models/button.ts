@@ -9,7 +9,10 @@ export interface Button{
     method: RequestMethod,
     redirectURL?: string
   },
-  link?: string,
+  routerLink?: {
+    link: string,
+    query?: any
+  },
   confirmation?: SweetAlertOptions<any, any>,
   condition?: string
 }

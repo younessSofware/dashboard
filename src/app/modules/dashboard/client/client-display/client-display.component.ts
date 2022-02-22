@@ -52,8 +52,10 @@ export class ClientDisplayComponent implements OnInit {
     {
       name: 'Edit',
       icon: 'fas fa-edit',
-      link: '/dashboard/clients/form/edit?id=:id',
       color: 'gray',
+      routerLink: {
+        link: '/dashboard/clients/form/edit?id=:id',
+      }
     },
     {
       name: 'Delete',

@@ -34,4 +34,11 @@ export class DashboardService {
   getStores(){
     return this.http.get(`${API_URL}stores`)
   }
+
+  getMessages(userId: number){
+    return this.http.get(`${API_URL}messages/${userId}`)
+  }
+  getCorrespondents(){
+    return this.http.get(`${API_URL}messages/correspondents`)
+  }
 }

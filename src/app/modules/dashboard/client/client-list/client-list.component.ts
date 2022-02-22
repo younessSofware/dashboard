@@ -1,3 +1,5 @@
+import { AccountRole } from './../../../../common/models/enums/account-role';
+import { Button } from 'src/app/common/models/button';
 import { Component, OnInit } from '@angular/core';
 import { Header } from 'src/app/common/models/header';
 
@@ -51,6 +53,22 @@ export class ClientListComponent implements OnInit {
       type: "date"
     }
   ];
+
+  buttons: Button[] = [
+    {
+      name: 'messages',
+      icon: 'fas fa-comments',
+      color: 'blue',
+      routerLink: {
+        link: '/dashboard/messages',
+        query: {
+          id: ':account.id',
+          name: ':account.name',
+          role: AccountRole.CLIENT
+        }
+      }
+    }
+  ]
 
   constructor() { }
 

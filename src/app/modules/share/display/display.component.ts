@@ -102,7 +102,7 @@ export class DisplayComponent implements OnInit {
   }
 
   navigateBtn(button: Button){
-    const link = button.link?.replace(/:id/g, this.dataId) as string
+    const link = button.routerLink?.link.replace(/:id/g, this.dataId) as string
     this.router.navigateByUrl(link)
   }
 
@@ -130,7 +130,7 @@ export class DisplayComponent implements OnInit {
   }
 
   listNavigateToLink(button: Button, data: any){
-    const link = button?.link?.split(':');
+    const link = button?.routerLink?.link.split(':');
     if(link) this.router.navigateByUrl(link.map((el, ind) => ind % 2 ? data[el] : el).join(''))
   }
 

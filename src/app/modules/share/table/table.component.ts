@@ -1,9 +1,10 @@
+import { Button } from './../../../common/models/button';
 import { API_URL, DOMAIN_URL } from './../../../common/constants';
 import { NotificationService } from './../../../services/notification.service';
 // import { NotificationService } from './../../services/notification.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import Swal from 'sweetalert2';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 import { Header } from './../../../common/models/header';
 
@@ -12,7 +13,7 @@ import { Header } from './../../../common/models/header';
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss']
 })
-export class TableComponent implements OnInit {
+export class TableComponent implements OnInit, OnChanges {
 
   @Input() singleName: string;
   @Input() pluralName: string;
@@ -29,6 +30,7 @@ export class TableComponent implements OnInit {
   @Input() showDisplayButton = true;
 
   @Input() headers: Header[] = [];
+  @Input() buttons: Button[] = [];
   @Input() icon = "";
   @Input() primaryKey: string;
 
@@ -36,6 +38,8 @@ export class TableComponent implements OnInit {
   pages: number[];
   error: string | undefined;
   success: string | null;
+  displayedButtons: Button[];
+  defaultButtons: any = {};
 
   currentPage = 1;
   limit = 20;
@@ -44,12 +48,67 @@ export class TableComponent implements OnInit {
   sortDir = 1;
 
   constructor(private dataService: DataService, private route: ActivatedRoute,
-              private notification: NotificationService) {}
+              private notification: NotificationService, private router: Router) {}
 
   ngOnInit(): void {
     this.sortBy = this.primaryKey;
     this.getQueryParams();
     this.getData();
+    this.defaultButtons = {
+      display: {
+        name: 'display',
+        icon: 'fas fa-eye',
+        color: 'blue',
+        routerLink: {
+          link: this.displayLink,
+          query: {id: ':id'}
+        }
+      },
+      edit: {
+        name: 'edit',
+        icon: 'fas fa-edit',
+        color: 'blue',
+        routerLink: {
+          link: this.editLink,
+          query: {id: ':id'}
+        }
+      },
+      delete: {
+        name: 'delete',
+        icon: 'fas fa-trash-alt',
+        color: 'blue',
+        request: {
+          url: this.deleteURL,
+          method: 'delete'
+        },
+        confirmation: {
+          title: 'Delete ' + this.singleName,
+          text: 'Are you sure you want to delete this ' + this.singleName,
+          confirmButtonText: 'Yes',
+          confirmButtonColor: 'red',
+          showCancelButton: true,
+          cancelButtonText: 'No',
+          icon: 'warning'
+        }
+      }
+    }
+    this.initButtons();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+      if(Object.keys(this.defaultButtons).length){
+        if(changes['editLink']) this.defaultButtons['edit'].routerLink.link = this.editLink
+        if(changes['displayLink']) this.defaultButtons['display'].routerLink.link = this.displayLink
+        if(changes['deleteURL']) this.defaultButtons['delete'].request.url = this.deleteURL
+      }
+      if(changes['buttons']) this.initButtons();
+  }
+
+  initButtons(){
+    this.displayedButtons = [
+      ...this.buttons,
+      ...Object.keys(this.defaultButtons).map(k => this.defaultButtons[k])
+    ]
   }
 
   getQueryParams(){
@@ -198,6 +257,77 @@ export class TableComponent implements OnInit {
     if(type == 'boolean') return header.values ? header.values[element ? 1 : 0] : 0
 
     return element
+  }
+
+
+  showConf(button: Button){
+    if(!button.confirmation) return;
+    return Swal.fire(button.confirmation)
+  }
+
+  handleButtonEvent(button: Button, data: any){
+    console.log(button);
+    if(button.confirmation){
+      this.showConf(button)
+      ?.then(
+        (res: any) => {
+          if(res.isConfirmed){
+            if(typeof res.value == 'string'){
+              this.redirectBtnEvent(button, data, {});
+            }
+            else this.redirectBtnEvent(button, data);
+          }
+        }
+      )
+    }else this.redirectBtnEvent(button, data);
+  }
+
+  redirectBtnEvent(button: Button, data: any, requestData = {}){
+    button.request ? this.doRequest(button, data, requestData) : this.navigateBtn(button, data);
+  }
+
+  parsePath(path: string, data: any){
+    return path.split(':').map((e: string, ind: number) => {
+      if(!ind) return e;
+      const arr = e.split('/');
+      return this.parseStrDataAttr(arr[0], data) + '/' + arr.slice(1).join('/')
+    }).join('')
+  }
+
+  parseStrDataAttr(attr: string, data: any){
+    return attr.split('.').reduce((acc, curr) => acc[curr], data);
+  }
+
+  navigateBtn(button: Button, data: any){
+    let link: any = button.routerLink?.link;
+    link = this.parsePath(link, data);
+
+    const query = button.routerLink?.query;
+
+    if(query) Object.keys(query).forEach(k => {if(query[k].charAt(0) == ':') query[k] = this.parseStrDataAttr(query[k].slice(1), data)})
+
+    this.router.navigate([link], {
+      queryParams: query
+    })
+  }
+
+  doRequest(button: Button, data: any, requestData = {}){
+    if(!button.request) return;
+    const url = button.request.url
+
+    this.dataService.sendRequest(button.request.method, this.parsePath(url, data), requestData)
+    ?.subscribe({
+      next: (resp: any) => {
+        if(button.request && button.request.redirectURL)
+          this.router.navigateByUrl(button.request.redirectURL)
+
+        this.getData();
+        this.showSuccessMessage(resp.message);
+      },
+      error: err => {
+        this.showErrorMessage(err.error);
+      }
+    })
   }
 
 }

@@ -1,39 +1,100 @@
-<div class="py-4 h-screen flex flex-col">
+<div class="pt-4 h-screen flex flex-col">
   <div class="bg-white w-full px-4">
     <span class="text-3xl uppercase my-2"><i class="fas fa-comments mx-2'"></i> Messages</span>
     <hr class="mt-4">
   </div>
   <div class="flex flex-grow min-h-0">
-    <div class="h-full flex flex-col min-h-0 border-r-2 border-primary">
+    <div class="h-full flex flex-col min-h-0 ">
       <div class="flex">
-        <div class="message-tab active">Stores</div>
-        <div class="message-tab">Clients</div>
-        <div class="message-tab">Delivery men</div>
+        <div class="message-tab active" [class.active]="section == 'stores'" (click)="changeSection('stores')">Stores</div>
+        <div class="message-tab" [class.active]="section == 'clients'" (click)="changeSection('clients')">Clients</div>
+        <div class="message-tab" [class.active]="section == 'delivery men'" (click)="changeSection('delivery men')">Delivery men</div>
       </div>
-      <div class="flex-grow overflow-y-auto min-h-0">
-        <div class="p-4 flex items-center hover:bg-indigo-100 cursor-pointer">
-          <img class="w-14 h-14 bg-gray-400 rounded-full" src="" alt="">
-          <span class="ml-3 text-lg">User full name</span>
+      <div class="p-3">
+        <div class="search-input flex">
+          <input class="flex-grow h-full bg-transparent" type="text" [placeholder]="'search for ' + section">
+          <button class="px-1 text-gray-400">
+            <i class="fas fa-search"></i>
+          </button>
         </div>
       </div>
+      <div class="flex justify-center" *ngIf="usersLoading">
+        <div class="h-1 bg-primary animate-ping w-1/2"></div>
+      </div>
+      <div class="flex-grow overflow-y-auto min-h-0">
+        <div *ngFor="let account of accounts()" class="user-list-item justify-between" [class.selected]="selectedAccount == account.id">
+          <div class="flex items-center">
+            <img class="w-12 h-12 bg-gray-400 rounded-full" [src]="accountAvatar()" alt="">
+            <span class="ml-3 text-lg">{{ account.name }}</span>
+          </div>
+          <div class="bg-primary text-white flex justify-center items-center w-6 h-6 text-sm rounded-full ">
+            <span>1</span>
+          </div>
+        </div>
+        <div class="p-1">
+          <app-alert *ngIf="!accounts().length && !usersLoading && !correspondentsError" type="info" [message]="'there is no message with ' + section + ' yet'"></app-alert>
+          <app-alert type="danger" [message]="correspondentsError" *ngIf="correspondentsError"></app-alert>
+        </div>
+      </div>
+
     </div>
-    <div class="p-4 w-full overflow-y-auto min-h-0">
-      <div class="flex justify-end">
-        <!-- <div class="flex my-2">
-          <img class="w-16 h-16 rounded-xl bg-gray-400" src="" alt="">
-          <div class="mx-2">
-            <div class="p-4 bg-gray-200 rounded-xl break-all">
-              <span>Lorem ipsum dolor sit amet.</span>
+    <div class="w-full min-h-0 h-full flex flex-col pb-2 bg-gray-100">
+      <div class="flex justify-center" *ngIf="messagesLoading">
+        <div class="h-1 bg-primary animate-ping w-1/2"></div>
+      </div>
+      <div class="text-center" *ngIf="messagesLoading">Loading Messages ...</div>
+      <div class="p-1" *ngIf="messagesError">
+        <app-alert type="danger" [message]="messagesError"></app-alert>
+      </div>
+      <div class="h-full flex items-center justify-center" *ngIf="!selectedAccount">
+        <img src="./../../../../assets/chat.svg" class="w-1/2 h-1/2" alt="">
+      </div>
+      <div class="flex-grow flex flex-col min-h-0" *ngIf="selectedAccount">
+        <div class="flex-grow overflow-y-auto min-h-0 p-4">
+          <div class="flex my-2" [class.justify-end]="!isMyMessage(message)" *ngFor="let message of messages">
+            <!-- <div class="flex my-2">
+              <img class="w-16 h-16 rounded-xl bg-gray-400" src="" alt="">
+              <div class="mx-2">
+                <div class="p-4 bg-gray-200 rounded-xl break-all">
+                  <span>Lorem ipsum dolor sit amet.</span>
+                </div>
+                <span class="text-xs">15:25</span>
+              </div>
+            </div> -->
+
+            <div>
+              <div class="message-box" [class]="isMyMessage(message) ? 'mine' : 'his'">
+                <span>{{ message.content }}</span>
+                <!-- <app-audio></app-audio> -->
+              </div>
+              <span [class.float-right]="!isMyMessage(message)" class="text-xs px-2 mt-1">
+                <span>
+                  <span *ngIf="message.state == 'seen' "><i class="fas fa-check-double"></i></span>
+                  <span *ngIf="message.state == 'sent' "><i class="fas fa-check"></i></span>
+                  <span *ngIf="message.state == 'created'"><i class="far fa-clock"></i></span>
+                </span>
+                {{ message.createdAt | date: 'hh:mm'}}
+              </span>
             </div>
-            <span class="text-xs">15:25</span>
           </div>
-        </div> -->
-        <div>
-          <div class="p-4 bg-primary text-white rounded-xl break-all">
-            <!-- <span>Lorem ipsum dolor sit amet.</span> -->
-            <app-audio></app-audio>
+        </div>
+        <div class="flex items-center px-3 bg-white">
+          <button class="icon-button mx-[3px] px-5">
+            <i class="fas fa-image"></i>
+          </button>
+          <div class="icon-button mx-[3px] flex justify-betwee transition-all duration-500" [class.recording]="recording">
+            <button [class.mx-4]="recording" (click)="startRecoding()">
+              <span [class.animate-ping]="recording"><i class="fas fa-microphone"></i> </span>
+            </button>
+            <span *ngIf="recording">{{ '00:00' }}</span>
+            <button (click)="stopRecording()" class="mx-4" *ngIf="recording">
+              <span><i class="fas fa-times"></i></span>
+            </button>
           </div>
-          <span class="text-xs float-right px-2 mt-1">15:25</span>
+          <input (keyup.enter)="sendMessage()" [(ngModel)]="textMessage" class="message-input w-full flex-grow mx-[3px]" placeholder="type your message here" type="text">
+          <button (click)="sendMessage()" class="send-button mx-[3px]">
+            <i class="fas fa-paper-plane"></i> Send
+        </button>
         </div>
       </div>
     </div>

@@ -1,3 +1,5 @@
+import { AccountRole } from './../../../../common/models/enums/account-role';
+import { Button } from 'src/app/common/models/button';
 import { Header } from './../../../../common/models/header';
 import { Component, OnInit } from '@angular/core';
 
@@ -55,6 +57,22 @@ export class StoreListComponent implements OnInit {
       type: "date"
     }
   ];
+
+  buttons: Button[] = [
+    {
+      name: 'messages',
+      icon: 'fas fa-comments',
+      color: 'blue',
+      routerLink: {
+        link: '/dashboard/messages',
+        query: {
+          id: ':account.id',
+          name: ':storeName',
+          role: AccountRole.STORE
+        }
+      }
+    }
+  ]
 
   constructor() { }
 

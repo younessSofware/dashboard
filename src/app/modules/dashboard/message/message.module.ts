@@ -1,3 +1,4 @@
+import { ShareModule } from './../../share/share.module';
 import { FormsModule } from '@angular/forms';
 import { NgxHowlerService } from 'ngx-howler';
 import { NgModule } from '@angular/core';
@@ -16,7 +17,8 @@ import { AudioComponent } from './audio/audio.component';
   imports: [
     CommonModule,
     MessageRoutingModule,
-    FormsModule
+    FormsModule,
+    ShareModule
   ],
 })
 export class MessageModule { }
