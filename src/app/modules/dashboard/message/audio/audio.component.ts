@@ -53,10 +53,10 @@ export class AudioComponent implements OnInit, OnChanges {
       this.duration = this.audio.duration()
       this.timer = setInterval(() => {
         this.time = this.audio.seek();
-      }, 1000)
+      }, 100)
     }
   }
-  updateAudioPos(){
-    this.audio.seek(this.time);
+  updateAudioPos(pos: number){
+    this.audio.seek(pos);
   }
 }

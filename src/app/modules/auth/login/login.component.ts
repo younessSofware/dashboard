@@ -45,16 +45,6 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  parseJwt(token: string){
-    var base64Url = token.split('.')[1];
-    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
-
-    return JSON.parse(jsonPayload)
-  }
-
   submit(): void{
     this.loading = true;
     this.error = '';
@@ -64,8 +54,10 @@ export class LoginComponent implements OnInit {
       next: (resp: any) => {
         this.loading = false;
         const token = resp.data.accessToken;
-        window.localStorage.setItem('token', token);
-        const parsedToken = this.parseJwt(token);
+        this.authService.setToken(token)
+
+        const parsedToken = AuthService.parsedToken();
+
         const user = {
           id: parsedToken.sub,
           name: parsedToken.username

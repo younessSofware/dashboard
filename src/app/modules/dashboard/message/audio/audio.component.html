@@ -3,16 +3,14 @@
     <span class="text-lg" *ngIf="!play"><i class="fas fa-play"></i></span>
     <span class="text-lg mx-[1.5px]" *ngIf="play"><i class="fas fa-pause"></i></span>
   </div>
-  <div class="mx-4 pb-3 w-40">
-    <input
-      min="0"
+  <div class="mx-4 w-40">
+
+    <app-slider
+      [min]="0"
       [max]="duration"
-      [(ngModel)]="time"
-      type="range"
-      class="range-slider"
-      (change)="updateAudioPos()"
-      (click)="updateAudioPos()"
-    />
+      [value]="time"
+      (onValueChange)="updateAudioPos($event)"
+    ></app-slider>
   </div>
   <span class="text-sm"> {{ duration - time | msTime }}</span>
 </div>
