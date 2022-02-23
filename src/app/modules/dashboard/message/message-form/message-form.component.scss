@@ -1,0 +1,19 @@
+.send-button{
+  @apply px-3 hover:bg-primary transition-all duration-500 hover:text-white py-2 h-full whitespace-nowrap rounded-xl
+}
+
+.icon-button{
+  @apply p-3 hover:bg-primary hover:text-white rounded-xl transition-all duration-500
+}
+
+.icon-button.recording{
+  @apply bg-primary text-white flex-grow flex justify-between
+}
+
+.message-input{
+  @apply bg-gray-100 w-full p-3 border-b border-l border-r focus:border-primary rounded-xl
+}
+
+.icon-button.disabled{
+  @apply bg-gray-300 hover:bg-gray-300 cursor-not-allowed hover:text-black
+}

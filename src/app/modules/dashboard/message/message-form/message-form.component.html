@@ -1,0 +1,24 @@
+<div class="flex items-center px-3 bg-white">
+  <label for="image-upload" class="icon-button mx-[3px] px-5 cursor-pointer" [class.disabled]="recording">
+    <i class="fas fa-image"></i>
+  </label>
+  <input (change)="sendImage($event)" id="image-upload" hidden type="file" accept="image/*" [disabled]="recording">
+  <div class="icon-button mx-[3px] flex justify-betwee transition-all duration-500" [class.recording]="recording">
+    <button (click)="stopRecording()" class="mx-4" *ngIf="recording">
+      <span><i class="fas fa-times"></i></span>
+    </button>
+    <div>
+      <button [class.mx-4]="recording" (click)="startRecoding()">
+        <span [class.animate-ping]="recording"><i class="fas fa-microphone"></i> </span>
+      </button>
+      <span class="whitespace-nowrap" *ngIf="recording">{{ time | msTime }}</span>
+    </div>
+    <button (click)="sendAudio()" class="mx-4" *ngIf="recording">
+      <span><i class="fas fa-paper-plane"></i></span>
+    </button>
+  </div>
+  <input *ngIf="!recording" (keyup.enter)="sendTextMessage()" [(ngModel)]="textMessage" class="message-input w-full flex-grow mx-[3px]" placeholder="type your message here" type="text">
+  <button *ngIf="!recording" (click)="sendTextMessage()" class="send-button mx-[3px]">
+    <i class="fas fa-paper-plane"></i> Send
+  </button>
+</div>

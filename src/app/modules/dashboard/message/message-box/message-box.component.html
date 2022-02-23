@@ -1,0 +1,26 @@
+<div class="flex my-2" [class.justify-end]="isMyMessage(message)">
+  <div class="flex">
+    <img *ngIf="!isMyMessage(message)" class="w-16 mx-1 h-16 rounded-xl bg-gray-400" src="./../../../../assets/store.png" alt="">
+    <div>
+      <div class="message-box" [class]="(isMyMessage(message) ? 'mine ' : 'his ') + (message.type == 'image' ? ' p-1' : (message.type == 'audio' ? ' p-4' : 'p-2')) ">
+        <span *ngIf="message.type == 'text'">{{ message.text }}</span>
+        <div class="relative" *ngIf="message.type == 'image'">
+          <img class="rounded-xl" [src]="message.media" alt="" srcset="">
+          <div class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center" *ngIf="!message.id">
+            <div class="spinner-border relative animate-spin inline-block w-8 h-8 rounded-full border-secondary" role="status">
+            </div>
+          </div>
+        </div>
+        <app-audio *ngIf="message.type == 'audio'" [id]="message.id" [src]="message.media"></app-audio>
+      </div>
+      <div [class.flex-row-reverse]="isMyMessage(message)" class="text-xs px-2 mt-1 flex w-full ">
+        <span class="block">
+          <span *ngIf="message.state == 'seen' "><i class="fas fa-check-double"></i></span>
+          <span *ngIf="message.state == 'sent' "><i class="fas fa-check"></i></span>
+          <span *ngIf="message.state == 'created'"><i class="far fa-clock"></i></span>
+        </span>
+        <span class="block mx-1">{{ message.createdAt | date: 'hh:mm'}}</span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -5,12 +5,12 @@
   </div>
   <div class="mx-4 w-40">
 
-    <app-slider
+    <app-audio-slider
       [min]="0"
       [max]="duration"
       [value]="time"
       (onValueChange)="updateAudioPos($event)"
-    ></app-slider>
+    ></app-audio-slider>
   </div>
   <span class="text-sm"> {{ duration - time | msTime }}</span>
 </div>

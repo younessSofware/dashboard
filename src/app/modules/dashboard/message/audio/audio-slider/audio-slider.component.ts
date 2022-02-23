@@ -1,11 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-slider',
-  templateUrl: './slider.component.html',
-  styleUrls: ['./slider.component.scss']
+  selector: 'app-audio-slider',
+  templateUrl: './audio-slider.component.html',
+  styleUrls: ['./audio-slider.component.scss']
 })
-export class SliderComponent implements OnInit {
+export class AudioSliderComponent implements OnInit {
 
   @Input() max: number = 0;
   @Input() min: number = 0;
@@ -30,5 +30,4 @@ export class SliderComponent implements OnInit {
     // console.log(event.offsetX);
     this.onValueChange.emit(event.offsetX * this.max / event.target.clientWidth)
   }
-
 }
