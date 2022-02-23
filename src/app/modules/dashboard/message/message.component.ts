@@ -17,8 +17,8 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 })
 export class MessageComponent implements OnInit {
 
-  defaultAccount: any;
-  partnerId: any;
+  defaultAccount: any = null;
+  partnerId: any = null;
 
   constructor(private route: ActivatedRoute) { }
 
@@ -33,13 +33,13 @@ export class MessageComponent implements OnInit {
         const name = params.get('name');
         const role = params.get('role');
 
-        this.defaultAccount = {id, name, role};
+        if(id && name && role) this.defaultAccount = {id, name, role};
       }
     })
   }
 
-  setPartnerId(account: Account){
-    this.partnerId = account.id;
+  setPartnerId(account: Account | undefined){
+    this.partnerId = account ? account.id : null;
   }
 
 }

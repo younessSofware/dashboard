@@ -23,6 +23,7 @@ export class MessagesAreaComponent implements OnInit, OnChanges {
     take: 20
   }
   messages: Message[] = [];
+  messagesCount = 0;
 
   constructor(private dashboardService: DashboardService, private chatService: ChatService) { }
 
@@ -31,7 +32,13 @@ export class MessagesAreaComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-      if(changes['partnerId'] && this.partnerId) this.getMessages();
+    if(changes['partnerId'] && this.partnerId){
+      console.log("partnerId changed");
+      this.messages = [];
+      this.messagesPagination.skip = 0;
+      this.messagesCount = 0;
+      this.getMessages();
+    }
   }
 
   setChatSubscription(){
@@ -55,12 +62,14 @@ export class MessagesAreaComponent implements OnInit, OnChanges {
     this.error = null;
     this.dashboardService.getMessages(this.partnerId, this.messagesPagination).subscribe({
       next: (resp: any) => {
-        this.messages.unshift(...resp.data)
+        console.log("messages: ", resp);
+        this.messages.unshift(...resp.data.messages.reverse())
+        this.messagesCount = resp.data.count;
         if(this.messagesPagination.skip == 0){
           setTimeout(() => {
             this.scrollToBottom()
             this.loading = false;
-          }, 500);
+          }, 100);
         }else this.loading = false;
         this.scrollToBottom(100)
         this.messagesPagination.skip += this.messagesPagination.take
@@ -73,6 +82,7 @@ export class MessagesAreaComponent implements OnInit, OnChanges {
   }
 
   onScroll(){
+    if(this.messages.length >= this.messagesCount) return;
     if(!this.loading && this.messagesArea.nativeElement.scrollTop <= 50){
       this.getMessages();
     }
@@ -88,5 +98,17 @@ export class MessagesAreaComponent implements OnInit, OnChanges {
       this.scrollToBottom();
     }, 100);
   }
+
+  allowToShowDate(ind: number){
+    if(ind == 0) return true;
+
+    const messageDate = new Date(this.messages[ind].createdAt as any as string);
+    const lastMessageDate = new Date(this.messages[ind - 1].createdAt as any as string);
+
+    return messageDate.getFullYear() != lastMessageDate.getFullYear() ||
+           messageDate.getMonth() != lastMessageDate.getMonth() ||
+           messageDate.getDate() != lastMessageDate.getDate();
+  }
+
 
 }

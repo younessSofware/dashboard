@@ -11,7 +11,13 @@
   </div>
   <div class="flex-grow flex flex-col min-h-0" *ngIf="partnerId">
     <div #messagesArea (scroll)="onScroll()" class="flex-grow overflow-y-auto min-h-0 p-4">
-      <app-message-box [partnerId]="partnerId" [message]="message" *ngFor="let message of messages"></app-message-box>
+      <div *ngFor="let message of messages; let ind = index">
+        <div class="flex items-center justify-center relative" *ngIf="allowToShowDate(ind)">
+          <span class="bg-gray-100 px-1 z-10 text-xs">{{ message.createdAt | date: 'mediumDate' }}</span>
+          <div class="bg-gray-400 w-1/5 h-[1px] absolute"></div>
+        </div>
+        <app-message-box [partnerId]="partnerId" [message]="message" ></app-message-box>
+      </div>
     </div>
     <app-message-form [partnerId]="partnerId" (onMessage)="addMessage($event)"></app-message-form>
   </div>

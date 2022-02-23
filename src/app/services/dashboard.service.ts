@@ -1,3 +1,4 @@
+import { AccountRole } from './../common/models/enums/account-role';
 import { API_URL } from './../common/constants';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -40,7 +41,11 @@ export class DashboardService {
       params
     })
   }
-  getCorrespondents(){
-    return this.http.get(`${API_URL}messages/correspondents`)
+  getCorrespondents(role: AccountRole){
+    return this.http.get(`${API_URL}messages/correspondents`, {
+      params: {
+        role
+      }
+    })
   }
 }

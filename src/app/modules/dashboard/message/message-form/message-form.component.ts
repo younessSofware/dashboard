@@ -102,6 +102,7 @@ export class MessageFormComponent implements OnInit {
   }
 
   sendTextMessage(){
+    if(!this.textMessage) return;
     this.sendMessage(this.textMessage, MessageType.TEXT)
     this.textMessage = "";
   }
