@@ -34,7 +34,6 @@ export class AudioComponent implements OnInit, OnChanges {
     }).subscribe(status => {
       this.audio = this.howler.get("audio-" + this.id);
       this.duration = this.audio.duration();
-      console.log(this.duration);
       this.audio.on('end', ()=> {
         this.toggleAudio()
         this.time = 0;

@@ -6,7 +6,7 @@ import { MessageState } from './../../../common/models/enums/message-state';
 import { DashboardService } from './../../../services/dashboard.service';
 import { AccountRole } from './../../../common/models/enums/account-role';
 import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import * as uuid from 'uuid';
 
 type Section = 'clients' | 'delivery men' | 'stores'
@@ -17,6 +17,8 @@ type Section = 'clients' | 'delivery men' | 'stores'
   styleUrls: ['./message.component.scss']
 })
 export class MessageComponent implements OnInit {
+
+  @ViewChild('messagesArea') messagesArea: ElementRef
 
   section: Section = 'stores';
   recording = false;
@@ -35,9 +37,12 @@ export class MessageComponent implements OnInit {
   textMessage: string;
   messages: Message[] = [];
   willSendAudio = false;
+  messagesPagination = {
+    skip: 0,
+    take: 20
+  }
 
-  constructor(private route: ActivatedRoute, private dashboardService: DashboardService, private chatService: ChatService,
-              private sanitizer: DomSanitizer) { }
+  constructor(private route: ActivatedRoute, private dashboardService: DashboardService, private chatService: ChatService) { }
 
   ngOnInit(): void {
     this.getQueryParams();
@@ -174,15 +179,33 @@ export class MessageComponent implements OnInit {
   getMessages(){
     this.messagesLoading = true;
     this.messagesError = null;
-    this.dashboardService.getMessages(this.selectedAccount).subscribe({
-      next: resp => {
-        this.messagesLoading = false;
+    this.dashboardService.getMessages(this.selectedAccount, this.messagesPagination).subscribe({
+      next: (resp: any) => {
+        this.messages.unshift(...resp.data)
+        if(this.messagesPagination.skip == 0){
+          setTimeout(() => {
+            this.scrollToBottom()
+            this.messagesLoading = false;
+          }, 500);
+        }else this.messagesLoading = false;
+        this.scrollToBottom(100)
+        this.messagesPagination.skip += this.messagesPagination.take
       },
       error: err => {
         this.messagesError = err;
         this.messagesLoading = false;
       }
     })
+  }
+
+  onScroll(){
+    if(!this.messagesLoading && this.messagesArea.nativeElement.scrollTop <= 50){
+      this.getMessages();
+    }
+  }
+
+  scrollToBottom(y = this.messagesArea.nativeElement.scrollHeight){
+    this.messagesArea.nativeElement.scrollTop = y
   }
 
   accountAvatar(){

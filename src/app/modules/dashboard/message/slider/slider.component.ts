@@ -13,7 +13,7 @@ export class SliderComponent implements OnInit {
   @Output() onValueChange = new EventEmitter();
 
   get percentValue(){
-    console.log(this.value);
+    // console.log(this.value);
 
     if(this.max - this.min == 0) return 0;
     return this.value * 100 / (this.max - this.min)
@@ -25,9 +25,9 @@ export class SliderComponent implements OnInit {
   }
 
   test(event: any){
-    console.log(event.target.clientWidth);
-    console.log(event.target.offsetWidth);
-    console.log(event.offsetX);
+    // console.log(event.target.clientWidth);
+    // console.log(event.target.offsetWidth);
+    // console.log(event.offsetX);
     this.onValueChange.emit(event.offsetX * this.max / event.target.clientWidth)
   }
 

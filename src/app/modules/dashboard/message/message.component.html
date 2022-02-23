@@ -50,7 +50,7 @@
         <img src="./../../../../assets/chat.svg" class="w-1/2 h-1/2" alt="">
       </div>
       <div class="flex-grow flex flex-col min-h-0" *ngIf="selectedAccount">
-        <div class="flex-grow overflow-y-auto min-h-0 p-4">
+        <div #messagesArea (scroll)="onScroll()" class="flex-grow overflow-y-auto min-h-0 p-4">
           <div class="flex my-2" [class.justify-end]="isMyMessage(message)" *ngFor="let message of messages">
             <div class="flex">
               <img *ngIf="!isMyMessage(message)" class="w-16 mx-1 h-16 rounded-xl bg-gray-400" src="./../../../../assets/store.png" alt="">

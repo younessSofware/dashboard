@@ -35,8 +35,10 @@ export class DashboardService {
     return this.http.get(`${API_URL}stores`)
   }
 
-  getMessages(userId: number){
-    return this.http.get(`${API_URL}messages/${userId}`)
+  getMessages(userId: number, params: {skip: number, take: number}){
+    return this.http.get(`${API_URL}messages/${userId}`, {
+      params
+    })
   }
   getCorrespondents(){
     return this.http.get(`${API_URL}messages/correspondents`)
