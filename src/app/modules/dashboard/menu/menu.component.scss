@@ -1,6 +1,6 @@
 
 .menu-item{
-  @apply m-2 rounded-3xl bg-primary text-white py-3 px-4 cursor-pointer flex justify-between hover:bg-secondary hover:rounded-xl transition-all duration-300 ease-linear
+  @apply m-2 rounded-3xl bg-primary text-white cursor-pointer flex justify-between hover:bg-secondary hover:rounded-xl transition-all duration-300 ease-linear
 }
 
 .menu-item.active{
@@ -10,4 +10,7 @@
 .menu-tooltip{
   @apply absolute py-2 px-5 left-[75px] shadow-2xl bg-primary text-white
   mx-auto rounded-xl transition-all duration-100 origin-left scale-0
+}
+.notification{
+  @apply absolute left-12 bg-secondary w-6 h-6 rounded-full flex justify-center items-center text-black transition-all duration-300
 }
