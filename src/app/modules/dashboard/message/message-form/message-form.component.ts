@@ -49,9 +49,10 @@ export class MessageFormComponent implements OnInit {
     const reader = new FileReader();
     reader.readAsDataURL(image);
     reader.addEventListener('load', (event: any) => {
-      this.sendMessage(event.target.result, MessageType.IMAGE)
+      this.sendMessage(encodeURIComponent(event.target.result), MessageType.IMAGE)
     });
   }
+
   startRecoding(){
     if(this.recording) return;
     this.recording = true;

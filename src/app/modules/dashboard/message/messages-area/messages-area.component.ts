@@ -57,6 +57,11 @@ export class MessagesAreaComponent implements OnInit, OnChanges {
     this.socketService.onMessageSent().subscribe({
       next: message => {
         this.messages = this.messages.map(msg => {
+          console.log("----------------------");
+          console.log("message seen");
+          console.log(decodeURI(msg.media));
+          console.log(decodeURI(msg.media));
+
           if(msg.uuid == message.uuid) return message
           return msg;
         })
@@ -123,6 +128,5 @@ export class MessagesAreaComponent implements OnInit, OnChanges {
            messageDate.getMonth() != lastMessageDate.getMonth() ||
            messageDate.getDate() != lastMessageDate.getDate();
   }
-
 
 }

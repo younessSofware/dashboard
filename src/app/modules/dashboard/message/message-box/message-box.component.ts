@@ -19,4 +19,8 @@ export class MessageBoxComponent implements OnInit {
   isMyMessage(message: Message){
     return message.receiver == this.partnerId
   }
+
+  media(message: Message){
+    return decodeURIComponent(message.media);
+  }
 }

@@ -15,8 +15,12 @@ export class SocketService {
   connect(){
     const token = localStorage.getItem('token');
     this.socket.ioSocket['auth'] = { token }
-    this.socket.disconnect()
+    this.socket.disconnect();
     this.socket.connect();
+  }
+
+  disconnect(){
+    this.socket.disconnect()
   }
 
   sendMessage(message: Message){

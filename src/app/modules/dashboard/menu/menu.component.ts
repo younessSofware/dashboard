@@ -1,3 +1,4 @@
+import { SocketService } from 'src/app/services/socket.service';
 import { ModulesMessengerService } from './../../../services/modules-messenger.service';
 import { AuthService } from './../../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
@@ -55,7 +56,7 @@ export class MenuComponent implements OnInit {
   ];
   user: any;
 
-  constructor(private authService: AuthService, private router: Router, messengerService: ModulesMessengerService) {
+  constructor(private authService: AuthService, private router: Router, messengerService: ModulesMessengerService, private socketService: SocketService) {
     messengerService.getMessage().subscribe({
       next: message => {
         if(message.type == 'new-message'){
@@ -88,6 +89,7 @@ export class MenuComponent implements OnInit {
   logout(){
     localStorage.removeItem('token');
     this.router.navigateByUrl('/auth/login')
+    this.socketService.disconnect()
     // this.authService.logout()
     // .subscribe(
     //   resp => {
