@@ -1,3 +1,4 @@
+import { ModulesMessengerService } from './../../../services/modules-messenger.service';
 import { AuthService } from './../../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -38,7 +39,8 @@ export class MenuComponent implements OnInit {
     {
       name: "messages",
       icon: "fas fa-comments",
-      path: "/dashboard/messages/"
+      path: "/dashboard/messages/",
+      notifications: 0
     },
     {
       name: "jobs",
@@ -53,7 +55,23 @@ export class MenuComponent implements OnInit {
   ];
   user: any;
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router, messengerService: ModulesMessengerService) {
+    messengerService.getMessage().subscribe({
+      next: message => {
+        if(message.type == 'new-message'){
+          console.log("-----------------------");
+          console.log("new message-not from menu", message.data);
+          const item = this.menuItems.find(item => item.name == "messages");
+          console.log(item);
+
+          if(item && item.notifications != undefined) item.notifications += 1;
+          console.log(item);
+          console.log(this.menuItems);
+
+        }
+      }
+    })
+  }
 
   ngOnInit(): void {
     this.getUser();

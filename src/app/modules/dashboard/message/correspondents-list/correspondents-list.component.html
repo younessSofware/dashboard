@@ -1,9 +1,17 @@
 
 <div class="h-full flex flex-col min-h-0 ">
   <div class="flex">
-    <div class="message-tab active" [class.active]="usersRole == 'store'" (click)="changeUsersRole('store')">Stores</div>
-    <div class="message-tab" [class.active]="usersRole == 'client'" (click)="changeUsersRole('client')">Clients</div>
-    <div class="message-tab" [class.active]="usersRole == 'delivery man'" (click)="changeUsersRole('delivery man')">Delivery men</div>
+    <div
+      class="message-tab active flex"
+      *ngFor="let tab of tabs"
+      [class.active]="usersRole == tab.role"
+      (click)="changeUsersRole(tab.role)"
+    >
+      <span class="block">{{ tab.title }}</span>
+      <div *ngIf="tab.notifications > 0" class="w-6 h-6 rounded-full ml-2 text-xs bg-primary text-white flex justify-center items-center">
+        {{ tab.notifications }}
+      </div>
+    </div>
   </div>
   <div class="p-3">
     <div class="search-input flex">

@@ -1,3 +1,4 @@
+import { SocketService } from './../../../services/socket.service';
 import { AuthService } from './../../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -30,7 +31,7 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(private authService: AuthService, private router: Router, private socketService: SocketService) {
     this.form = new FormGroup({
       email: new FormControl('', [Validators.required,  Validators.email]),
       password: new FormControl('', [Validators.required])
@@ -55,6 +56,8 @@ export class LoginComponent implements OnInit {
         this.loading = false;
         const token = resp.data.accessToken;
         this.authService.setToken(token)
+
+        this.socketService.connect();
 
         const parsedToken = AuthService.parsedToken();
 

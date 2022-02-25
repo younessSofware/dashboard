@@ -1,9 +1,9 @@
-import { ChatService } from './../../../../services/chat.service';
 import { MessageType } from './../../../../common/models/enums/message-type';
 import { Message } from './../../../../common/models/Message';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import * as uuid from 'uuid';
 import { MessageState } from 'src/app/common/models/enums/message-state';
+import { SocketService } from 'src/app/services/socket.service';
 
 @Component({
   selector: 'app-message-form',
@@ -25,7 +25,7 @@ export class MessageFormComponent implements OnInit {
   time = 0;
   timer: any;
 
-  constructor(private chatService: ChatService) { }
+  constructor(private socketService: SocketService) { }
 
   ngOnInit(): void {
   }
@@ -41,7 +41,7 @@ export class MessageFormComponent implements OnInit {
       type
     }
     this.onMessage.emit(message);
-    this.chatService.sendMessage(message)
+    this.socketService.sendMessage(message)
   }
 
   sendImage(event: any){

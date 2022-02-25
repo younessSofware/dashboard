@@ -1,13 +1,6 @@
 import { Account } from './../../../common/models/account';
-import { DomSanitizer } from '@angular/platform-browser';
-import { MessageType } from './../../../common/models/enums/message-type';
-import { ChatService } from './../../../services/chat.service';
-import { Message } from './../../../common/models/Message';
-import { MessageState } from './../../../common/models/enums/message-state';
-import { DashboardService } from './../../../services/dashboard.service';
-import { AccountRole } from './../../../common/models/enums/account-role';
 import { ActivatedRoute } from '@angular/router';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 
 @Component({
@@ -19,11 +12,16 @@ export class MessageComponent implements OnInit {
 
   defaultAccount: any = null;
   partnerId: any = null;
+  user: any;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute) {
+
+  }
 
   ngOnInit(): void {
     this.getQueryParams();
+    this.user = localStorage.getItem('user');
+    // console.log("user: ", this.user);
   }
 
   getQueryParams(){

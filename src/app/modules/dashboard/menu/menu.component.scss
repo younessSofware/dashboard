@@ -6,5 +6,5 @@
   @apply text-secondary;
 }
 .menu-item{
-  @apply text-white py-3 block hover:bg-black cursor-pointer
+  @apply text-white py-3 hover:bg-black cursor-pointer flex justify-between w-full px-5
 }

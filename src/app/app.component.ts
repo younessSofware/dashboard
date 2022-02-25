@@ -1,3 +1,5 @@
+import { SocketService } from './services/socket.service';
+import { ModulesMessengerService } from './services/modules-messenger.service';
 import { AuthService } from './services/auth.service';
 import { Component } from '@angular/core';
 
@@ -8,7 +10,15 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'wabel-dashboard';
-  constructor(){
+  constructor(private socketService: SocketService, private modulesMessengerService: ModulesMessengerService){
+    socketService.connect();
     AuthService.logoutOnTokenExpired();
+    this.socketService.onNewMessageNotification().subscribe({
+      next: sender => {
+        console.log("-----------------------");
+        console.log("new message-not from app", sender);
+        modulesMessengerService.sendMessage({type: 'new-message', data: sender})
+      }
+    })
   }
 }

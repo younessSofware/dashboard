@@ -16,15 +16,23 @@
     <a
       [routerLink]="item.path"
       routerLinkActive="active"
+      (click)="item.notifications = 0"
       *ngFor="let item of menuItems"
       class="menu-item"
     >
-      <i [class]="item.icon + ' mx-3'"></i>
-      <span class="inline-block text-gray-200 capitalize">{{ item.name }}</span>
+      <div>
+        <i [class]="item.icon"></i>
+        <span class="inline-block text-gray-200 capitalize mx-3">{{ item.name }}</span>
+      </div>
+      <span *ngIf="item.notifications" class="w-6 h-6 bg-secondary rounded-full text-primary flex justify-center items-center">
+        {{ item.notifications }}
+      </span>
     </a>
     <a (click)="logout()" class="menu-item">
-      <i class="fas fa-sign-out-alt mx-3"></i>
-      <span class="inline-block text-gray-200 capitalize">Logout</span>
+      <div>
+        <i class="fas fa-sign-out-alt"></i>
+        <span class="inline-block text-gray-200 capitalize mx-3">Logout</span>
+      </div>
     </a>
   </nav>
 </div>

@@ -1,9 +1,8 @@
-import { ChatService } from './../../../../services/chat.service';
-import { MessageType } from './../../../../common/models/enums/message-type';
 import { Message } from './../../../../common/models/Message';
 import { DashboardService } from './../../../../services/dashboard.service';
 import { Component, OnInit, ViewChild, ElementRef, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { MessageState } from 'src/app/common/models/enums/message-state';
+import { SocketService } from 'src/app/services/socket.service';
 
 @Component({
   selector: 'app-messages-area',
@@ -25,7 +24,7 @@ export class MessagesAreaComponent implements OnInit, OnChanges {
   messages: Message[] = [];
   messagesCount = 0;
 
-  constructor(private dashboardService: DashboardService, private chatService: ChatService) { }
+  constructor(private dashboardService: DashboardService, private socketService: SocketService) { }
 
   ngOnInit(): void {
     this.setChatSubscription();
@@ -33,7 +32,7 @@ export class MessagesAreaComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if(changes['partnerId'] && this.partnerId){
-      console.log("partnerId changed");
+      // console.log("partnerId changed");
       this.messages = [];
       this.messagesPagination.skip = 0;
       this.messagesCount = 0;
@@ -42,17 +41,31 @@ export class MessagesAreaComponent implements OnInit, OnChanges {
   }
 
   setChatSubscription(){
-    this.chatService.onNewMessage().subscribe({
+    this.socketService.onNewMessage().subscribe({
       next: message => {
-        this.addMessage(message)
+        // console.log("-----------------------");
+        // console.log("new message", message);
+
+        if(this.partnerId){
+          message.state = MessageState.SEEN
+          this.socketService.messagesSeen(this.partnerId)
+
+          this.addMessage(message)
+        }
       }
     })
-    this.chatService.onMessageSent().subscribe({
+    this.socketService.onMessageSent().subscribe({
       next: message => {
         this.messages = this.messages.map(msg => {
           if(msg.uuid == message.uuid) return message
           return msg;
         })
+      }
+    })
+    this.socketService.onMessagesSeen().subscribe({
+      next: (partnerId) => {
+        // console.log("all message seen ", partnerId);
+        if(this.partnerId == partnerId) this.messages.forEach(msg => msg.state = MessageState.SEEN)
       }
     })
   }
@@ -62,7 +75,8 @@ export class MessagesAreaComponent implements OnInit, OnChanges {
     this.error = null;
     this.dashboardService.getMessages(this.partnerId, this.messagesPagination).subscribe({
       next: (resp: any) => {
-        console.log("messages: ", resp);
+        // console.log("messages: ", resp);
+        if(!this.messages.length) this.socketService.messagesSeen(this.partnerId)
         this.messages.unshift(...resp.data.messages.reverse())
         this.messagesCount = resp.data.count;
         if(this.messagesPagination.skip == 0){

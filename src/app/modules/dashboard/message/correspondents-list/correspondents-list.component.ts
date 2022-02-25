@@ -4,6 +4,7 @@ import { AccountRole } from './../../../../common/models/enums/account-role';
 import { Account } from './../../../../common/models/account';
 import { DashboardService } from './../../../../services/dashboard.service';
 import { Component, OnInit, OnChanges, SimpleChanges, Input, Output, EventEmitter } from '@angular/core';
+import { not } from '@angular/compiler/src/output/output_ast';
 
 type usersRole = 'clients' | 'delivery men' | 'stores'
 
@@ -25,6 +26,28 @@ export class CorrespondentsListComponent implements OnInit, OnChanges {
   deliverMen: any[] = [];
   stores: any[] = [];
   selectedAccount: Account | null = null;
+  tabs = [
+    {
+      title: 'Stores',
+      role: 'store',
+      notifications: 0
+    },
+    {
+      title: 'Clients',
+      role: 'client',
+      notifications: 0
+    },
+    {
+      title: 'Delivery men',
+      role: 'delivery man',
+      notifications: 0
+    },
+    {
+      title: 'Admins',
+      role: 'admin',
+      notifications: 0
+    }
+  ]
 
   get targetedMessageAccount(): MessageAccount{
     return {
