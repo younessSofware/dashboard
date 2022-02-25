@@ -112,7 +112,9 @@ export class CorrespondentsListComponent implements OnInit, OnChanges {
   }
 
   accountAvatar(){
-    return './../../../../assets/store.png'
+    if(this.usersRole == 'store') return './../../../../assets/store.png';
+    else if(this.usersRole == 'delivery man') return './../../../../assets/delivery-man.png'
+    else return './../../../../assets/client.png'
   }
 
   isSelected(msgAccount: MessageAccount){

@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
+  error: string | null;
   statisticsLoading = true;
   items = [
     {
@@ -45,6 +46,8 @@ export class HomeComponent implements OnInit {
   }
 
   getStatistics(){
+    this.statisticsLoading = true;
+    this.error = null;
     this.dashboardService.statistics().subscribe({
       next: (resp: any) => {
         console.log(resp);
@@ -53,6 +56,7 @@ export class HomeComponent implements OnInit {
       },
       error: err => {
         console.log(err);
+        this.error = err;
         this.statisticsLoading = false;
       }
     })
