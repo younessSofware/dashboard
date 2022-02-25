@@ -1,20 +1,29 @@
-<div class="grid grid-cols-2 h-screen">
-  <div class="flex flex-col items-center justify-center bg-primary px-10">
-    <span class="block text-6xl font-extrabold text-secondary text-center">
-      <span class="block"><i class="fa-solid fa-chart-line"></i></span>
-      <span class="block mt-3">Wabel Dashboard</span>
-    </span>
-    <div class="mt-6 bg-secondary h-1 w-full"></div>
+<!-- <div class="grid h-screen flex-col">
+  <div class="flex flex-col items-center justify-center bg-primary px-10 py-4">
   </div>
-  <div class="h-screen flex flex-col items-center justify-center px-56">
-    <img class="w-28" src="./../../../../assets/logo.png" alt="">
-    <div class="text-center w-full">
+  <div class="flex-grow flex flex-col items-center justify-center px-8 xl:px-56">
+    <div class="bg-red-500 h-10 w-10"></div>
+
+</div> -->
+<div class="h-screen flex flex-col sm:flex-row sm:grid sm:grid-cols-3 md:grid-cols-2">
+  <div class="bg-primary py-4 px-2 sm:flex sm:items-center sm:justify-center">
+    <div class="px-3">
+      <span class="block text-3xl md:text-4xl lg:text-5xl font-extrabold text-secondary text-center">
+        <span class="block"><i class="fa-solid fa-chart-line"></i></span>
+        <span class="block mt-1 md:mt-3">Wabel Dashboard</span>
+      </span>
+      <div class="mt-6 bg-secondary h-1 w-full hidden sm:block"></div>
+    </div>
+  </div>
+  <div class="flex-grow col-span-2 md:col-span-1 flex flex-col items-center justify-center">
+    <img class="w-16 sm:w-20" src="./../../../../assets/logo.png" alt="">
+    <div class="text-center w-full px-5 sm:px-16">
       <span class="block text-4xl mt-4 font-bold text-primary">Login</span>
       <app-alert [message]="error" *ngIf="error" [type]="'danger'" class="block my-4"></app-alert>
       <form [formGroup]="form" (ngSubmit)="submit()" class="mt-5 w-full" action="">
         <div>
           <input
-            class="custom-input my-2"
+            class="custom-input my-4"
             [class.invalid]="email?.dirty && !email?.valid"
             placeholder="E-mail"
             formControlName="email"
@@ -27,7 +36,7 @@
 
         <div>
           <input
-            class="custom-input my-2"
+            class="custom-input my-4"
             [class.invalid]="password?.dirty && !password?.valid"
             type="password"
             placeholder="password"
@@ -39,7 +48,7 @@
         </div>
 
         <button
-          class="custom-button my-2"
+          class="custom-button my-3"
           [disabled]="!form.valid"
         >
           <span *ngIf="loading" ><i class="fas fa-circle-notch fa-spin"></i></span>
