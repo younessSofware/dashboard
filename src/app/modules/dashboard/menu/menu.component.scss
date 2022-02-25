@@ -1,10 +1,13 @@
 
-.active{
-  @apply border-secondary border-b-2;
-}
-.active>i{
-  @apply text-secondary;
-}
 .menu-item{
-  @apply text-white py-3 hover:bg-black cursor-pointer flex justify-between w-full px-5
+  @apply m-2 rounded-3xl bg-primary text-white py-3 px-4 cursor-pointer flex justify-between hover:bg-secondary hover:rounded-xl transition-all duration-300 ease-linear
+}
+
+.menu-item.active{
+  @apply text-secondary hover:text-white
+}
+
+.menu-tooltip{
+  @apply absolute py-2 px-5 left-[75px] shadow-2xl bg-primary text-white
+  mx-auto rounded-xl transition-all duration-100 origin-left scale-0
 }
