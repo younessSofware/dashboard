@@ -20,6 +20,7 @@ export class CategoryListComponent implements OnInit {
     {
       name: "createdAt",
       title: "creation date",
+      type: 'date',
       default: "none"
     }
   ];

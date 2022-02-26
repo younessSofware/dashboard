@@ -24,6 +24,12 @@ export class DashboardService {
     })
   }
 
+  getStoreDeliveryMen(storeId: number, params: any){
+    return this.http.get(`${API_URL}stores/${storeId}/delivery-men`, {
+      params
+    })
+  }
+
   orderStatistics(storeId: number){
     return this.http.get(`${API_URL}stores/${storeId}/orders-statistics`)
   }
@@ -41,11 +47,16 @@ export class DashboardService {
       params
     })
   }
+
   getCorrespondents(role: AccountRole){
     return this.http.get(`${API_URL}messages/correspondents`, {
       params: {
         role
       }
     })
+  }
+
+  grtStoreSells(storeId: number){
+    return this.http.get(`${API_URL}stores/${storeId}/store-sells`)
   }
 }
