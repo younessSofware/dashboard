@@ -36,6 +36,10 @@ const routes: Routes = [
       {
         path: 'messages',
         loadChildren: () => import('./message/message.module').then(m => m.MessageModule),
+      },
+      {
+        path: 'delivery-men',
+        loadChildren: () => import('./delivery-man/delivery-man.module').then(m => m.DeliveryManModule),
       }
     ]
   }

@@ -23,14 +23,19 @@ export class MenuComponent implements OnInit {
       path: "/dashboard/clients/"
     },
     {
-      name: "categories",
-      icon: "fas fa-tags",
-      path: "/dashboard/categories/"
+      name: "delivery men",
+      icon: "fas fa-truck",
+      path: "/dashboard/delivery-men/"
     },
     {
       name: "stores",
       icon: "fas fa-store",
       path: "/dashboard/stores/"
+    },
+    {
+      name: "categories",
+      icon: "fas fa-tags",
+      path: "/dashboard/categories/"
     },
     {
       name: "products",
@@ -42,11 +47,6 @@ export class MenuComponent implements OnInit {
       icon: "fas fa-comments",
       path: "/dashboard/messages/",
       notifications: 0
-    },
-    {
-      name: "jobs",
-      icon: "fas fa-business-time",
-      path: "/dashboard/jobs/"
     },
     {
       name: "reports",
