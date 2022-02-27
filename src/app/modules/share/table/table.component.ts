@@ -225,23 +225,6 @@ export class TableComponent implements OnInit, OnChanges {
     this.notification.showSuccess(message, 'Success');
   }
 
-  // toggle(header, d){
-  //   if(header.link){
-  //     const url = header.link.replace(/:id/g, d[this.primaryKey])
-  //     this.dataService.sendPostRequest(url, {})
-  //     .subscribe(
-  //       (resp: any) => {
-  //        d[header.name] = resp.data;
-  //         this.showSuccessMessage(resp.message);
-  //       },
-  //       err => {
-  //         err = err.error;
-  //         this.showErrorMessage(err);
-  //       }
-  //     )
-  //   }
-  // }
-
   sortableHeaders(){
     return this.headers?.filter(header => header.sort != false)
   }

@@ -1,3 +1,4 @@
+import { NgApexchartsModule } from 'ng-apexcharts';
 import { ShareModule } from './../../share/share.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -17,7 +18,8 @@ import { ClientFormComponent } from './client-form/client-form.component';
   imports: [
     CommonModule,
     ClientRoutingModule,
-    ShareModule
+    ShareModule,
+    NgApexchartsModule
   ]
 })
 export class ClientModule { }

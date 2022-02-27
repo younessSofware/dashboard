@@ -18,6 +18,10 @@ export class DashboardService {
     return this.http.get(API_URL + "stores/" + id)
   }
 
+  getClient(id: number){
+    return this.http.get(API_URL + "clients/" + id)
+  }
+
   getStoreProducts(storeId: number, params: any){
     return this.http.get(`${API_URL}stores/${storeId}/products`, {
       params
@@ -58,5 +62,11 @@ export class DashboardService {
 
   grtStoreSells(storeId: number){
     return this.http.get(`${API_URL}stores/${storeId}/store-sells`)
+  }
+
+  grtStoreOrders(storeId: number, params: any){
+    return this.http.get(`${API_URL}stores/${storeId}/orders`, {
+      params
+    })
   }
 }

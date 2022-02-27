@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { ChartOptions } from 'src/app/common/models/chart-options';
 import { ActivatedRoute, Route } from '@angular/router';
+import { timeStamp } from 'console';
 
 @Component({
   selector: 'app-store-display',
@@ -16,6 +17,9 @@ export class StoreDisplayComponent implements OnInit {
   maxOrders = 0;
   ordersLoading = true;
   storeSellsLoading = true;
+  storeOrdersLoading = true;
+  storeOrdersCount = 0;
+  showOrder = 0;
 
   ordersChartOptions: Partial<ChartOptions> | any = {
     series: [],
@@ -100,12 +104,6 @@ export class StoreDisplayComponent implements OnInit {
       text: "Store Sells in last month",
       align: "left"
     },
-    grid: {
-      row: {
-        colors: ["transparent"], // takes an array which will be repeated on columns
-        opacity: 0.5
-      }
-    },
     xaxis: {
       categories: this.monthBefore()
     }
@@ -115,6 +113,7 @@ export class StoreDisplayComponent implements OnInit {
   store: any;
   products: any[];
   deliveryMen: any[];
+  orders: any[];
 
   constructor(private route: ActivatedRoute, private dashboardService: DashboardService) { }
 
@@ -127,7 +126,7 @@ export class StoreDisplayComponent implements OnInit {
     return [...new Array(31).keys()].map((e, ind) => {
       if(ind) date.setDate(date.getDate() - 1)
       return date.getDate() + ' ' + date.toString().slice(4, 7)
-    })
+    }).reverse()
   }
 
   getDataId(){
@@ -140,7 +139,8 @@ export class StoreDisplayComponent implements OnInit {
         this.getProducts();
         this.getDeliveryMen();
         this.getOrdersStatistics();
-        this.grtStoreSells()
+        this.grtStoreSells();
+        this.getStoreOrders();
       }
     )
   }
@@ -221,17 +221,32 @@ export class StoreDisplayComponent implements OnInit {
 
         resp.data.map((s: any) => {
           const ind = new Date().getDate() - new Date(s.createdAt).getDate()
-          this.storeSellsChartOptions.series[0].data[31 - ind] += s.amount
+          this.storeSellsChartOptions.series[0].data[30 - ind]++
         })
 
         console.log(this.storeSellsChartOptions.series[0].data );
-        setTimeout(() => {
-          this.storeSellsLoading = false
-        }, 100);
+
+        this.storeSellsLoading = false
       },
       error: err => {
         this.ordersLoading = false
         console.log("store sells err", err);
+      }
+    })
+  }
+
+  getStoreOrders(){
+    this.storeOrdersLoading = true
+    this.dashboardService.grtStoreOrders(this.storeId, {skip: 0, take: 3})
+    .subscribe({
+      next: (resp: any) => {
+        console.log("store orders resp", resp);
+        this.storeOrdersCount = resp.data.count;
+        this.orders = resp.data.orders
+      },
+      error: err => {
+        this.storeOrdersLoading = false
+        console.log("store orders err", err);
       }
     })
   }
