@@ -1,19 +1,4 @@
-.user-info{
-  @apply block my-3 py-2 truncate
-}
-.user-info>i{
-  @apply font-bold mx-1
-}
-.card{
-  @apply bg-white border-2 border-gray-100 rounded-xl shadow-xl
-}
-.card-title{
-  @apply py-2 px-2
-}
 
-.card-title>span{
-  @apply text-2xl font-bold
-}
 th{
   @apply border-b border-gray-400 uppercase text-center
 }

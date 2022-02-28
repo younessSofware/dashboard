@@ -1,58 +1,9 @@
 <div class="p-4 bg-gray-100 h-full overflow-auto">
-  <div>
-    <span class="text-3xl"><i class="fas fa-store"></i> Client Details</span>
-  </div>
-  <div class="grid grid-cols-7 mt-5 gap-5">
-    <div class="card col-span-1">
-      <div class="h-1 w-1/2 mx-auto bg-primary" [ngClass]="{'w-1/2 animate-ping': !client, 'w-full': client}"></div>
-      <div class="card-title">
-        <span>Client</span>
-      </div>
-      <div class="flex justify-center my-8">
-        <img src="./../../../../../assets/admin_avatar.png" class="w-20 h-20 rounded-full ring-1 ring-gray-200" alt="">
-      </div>
-      <div class="pl-2 my-8">
-        <span class="user-info "><i class="fas fa-user"></i> {{ client ? client.account.name : '...' }} </span>
-        <span class="user-info"><i class="fas fa-at"></i> {{ client ?client.account.email : '...' }}</span>
-        <span class="user-info"><i class="fas fa-location-dot"></i> {{ client ? client.account.address : '...' }}</span>
-        <span class="user-info"><i class="fas fa-phone"></i> {{ client ? client.account.phoneNumber : '...' }}</span>
-      </div>
-    </div>
 
-    <div class="card col-span-3">
-      <app-loading-line [loading]="purchasesLoading"></app-loading-line>
-      <div class="card-title">
-        <span>Purchases</span>
-      </div>
-      <div *ngIf="!purchasesLoading" class="px-2  flex flex-col justify-end">
-        <app-line-chart
-          [categories]="purchasesChart.categories"
-          [title]="purchasesChart.title"
-          [dataName]="purchasesChart.dataName"
-          [values]="purchasesChart.values"
-        >
-        </app-line-chart>
-      </div>
-    </div>
-    <div class="card col-span-3">
-      <app-loading-line [loading]="ordersLoading"></app-loading-line>
-      <div class="card-title">
-        <span>Orders</span>
-      </div>
-      <div *ngIf="!ordersLoading">
-        <app-radial-bar
-          [labels]="ordersChart.labels"
-          [colors]="ordersChart.colors"
-          [max]="ordersChart.max"
-          [values]="ordersChart.values"
-        >
-        </app-radial-bar>
-      </div>
-    </div>
-  </div>
+  <app-display [title]="'Client details / ' + (client ? client.account.name : '')" [charts]="charts" [profile]="(client ? client.account : null)"></app-display>
 
   <div>
-    <app-orders-list [orders]="orders"></app-orders-list>
+    <app-orders-list [count]="ordersCount" [orders]="orders"></app-orders-list>
   </div>
 
 </div>

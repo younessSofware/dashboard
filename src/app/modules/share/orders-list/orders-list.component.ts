@@ -8,6 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class OrdersListComponent implements OnInit {
 
   @Input() orders: any[];
+  @Input() count = 0;
   showOrder = 0;
 
   constructor() { }

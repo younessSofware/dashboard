@@ -1,12 +1,10 @@
+import { Chart } from './../../../../common/models/Chart';
 import { StoreService } from './../../../../services/store.service';
 import { DOMAIN_URL } from './../../../../common/constants';
-import { DashboardService } from './../../../../services/dashboard.service';
 import { OrderState } from './../../../../common/models/enums/order-state';
 import { Component, OnInit } from '@angular/core';
 
-import { ChartOptions } from 'src/app/common/models/chart-options';
-import { ActivatedRoute, Route } from '@angular/router';
-import { timeStamp } from 'console';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-store-display',
@@ -15,26 +13,29 @@ import { timeStamp } from 'console';
 })
 export class StoreDisplayComponent implements OnInit {
 
-  ordersLoading = true;
-  storeSellsLoading = true;
-  storeOrdersLoading = true;
-  storeOrdersCount = 0;
+  charts: Chart[] = [
+    {
+      name: 'Sells',
+      title: 'Store Sells in last month',
+      type: 'line',
+      categories: this.monthBefore(),
+      colors: ["#ED0F0F", "#0F59ED", "#855E14", "#287F1C"],
+      max: 0,
+      values: []
+    },
+    {
+      name: 'Orders',
+      type: 'radial',
+      title: 'Store Orders in',
+      categories: [OrderState.IN_PROGRESS, OrderState.IN_DELIVERY, OrderState.RECEIVED, OrderState.CANCELED],
+      colors: ["#ED0F0F", "#0F59ED", "#855E14", "#287F1C"],
+      max: 0,
+      values: []
+    }
+  ]
+
   showOrder = 0;
-
-  ordersChart: {colors: string[], labels: string[], max: number, values: number[]} = {
-    colors: ["#ED0F0F", "#0F59ED", "#855E14", "#287F1C"],
-    labels: [OrderState.IN_PROGRESS, OrderState.IN_DELIVERY, OrderState.RECEIVED, OrderState.CANCELED],
-    max: 0,
-    values: []
-  }
-
-  sellsChart: {title: string, dataName: string, categories: string[], values: number[]} = {
-    title: 'Store Sells in last month',
-    dataName: "sells",
-    categories: this.monthBefore(),
-    values: []
-  }
-
+  ordersCount = 0;
   storeId: number;
   store: any;
   products: any[];
@@ -111,7 +112,6 @@ export class StoreDisplayComponent implements OnInit {
   }
 
   getOrdersStatistics(){
-    this.ordersLoading = true
     this.storeService.orderStatistics(this.storeId)
     .subscribe({
       next: (resp: any) => {
@@ -123,51 +123,44 @@ export class StoreDisplayComponent implements OnInit {
           (resp.data['canceled'])
         ]
 
-        this.ordersChart.max = Math.max(...statistics)
-        this.ordersChart.values = statistics.map(v => v ? v * 100 / this.ordersChart.max : 0)
-        this.ordersLoading = false
+        const max = Math.max(...statistics)
+        this.charts[1].max = max
+        this.charts[1].values = statistics.map(v => v ? v * 100 / max : 0)
       },
       error: err => {
-        this.ordersLoading = false
         console.log(err);
       }
     })
   }
 
   grtStoreSells(){
-    this.storeSellsLoading = true
     this.storeService.sells(this.storeId)
     .subscribe({
       next: (resp: any) => {
-        this.sellsChart.values = this.monthBefore().map(e => 0)
+        this.charts[0].values = this.monthBefore().map(e => 0)
         resp.data.map((s: any) => {
           const ind = new Date().getDate() - new Date(s.createdAt).getDate()
-          this.sellsChart.values[30 - ind]++
+          this.charts[0].values[30 - ind]++
         })
-        this.storeSellsLoading = false
       },
       error: err => {
-        this.ordersLoading = false
       }
     })
   }
 
   getStoreOrders(){
-    this.storeOrdersLoading = true
     this.storeService.orders(this.storeId, {skip: 0, take: 3})
     .subscribe({
       next: (resp: any) => {
-        this.storeOrdersCount = resp.data.count;
+        this.ordersCount = resp.data.count;
         this.orders = resp.data.orders
-        this.storeOrdersLoading = false
       },
       error: err => {
-        this.storeOrdersLoading = false
       }
     })
   }
 
-  productPhoto(product: any){
+  photo(product: any){
     return DOMAIN_URL + "" + product.photo
   }
 }
