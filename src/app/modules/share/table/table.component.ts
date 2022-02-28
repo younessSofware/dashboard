@@ -54,54 +54,57 @@ export class TableComponent implements OnInit, OnChanges {
     this.sortBy = this.primaryKey;
     this.getQueryParams();
     this.getData();
-    this.defaultButtons = {
-      display: {
-        name: 'display',
-        icon: 'fas fa-eye',
-        color: 'blue',
-        routerLink: {
-          link: this.displayLink,
-          query: {id: ':id'}
-        }
-      },
-      edit: {
-        name: 'edit',
-        icon: 'fas fa-edit',
-        color: 'blue',
-        routerLink: {
-          link: this.editLink,
-          query: {id: ':id'}
-        }
-      },
-      delete: {
-        name: 'delete',
-        icon: 'fas fa-trash-alt',
-        color: 'blue',
-        request: {
-          url: this.deleteURL,
-          method: 'delete'
-        },
-        confirmation: {
-          title: 'Delete ' + this.singleName,
-          text: 'Are you sure you want to delete this ' + this.singleName,
-          confirmButtonText: 'Yes',
-          confirmButtonColor: 'red',
-          showCancelButton: true,
-          cancelButtonText: 'No',
-          icon: 'warning'
-        }
-      }
-    }
+
+    this.initDefaultButtons();
     this.initButtons();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
       if(Object.keys(this.defaultButtons).length){
         if(changes['editLink']) this.defaultButtons['edit'].routerLink.link = this.editLink
-        if(changes['displayLink']) this.defaultButtons['display'].routerLink.link = this.displayLink
+        if(changes['displayLink'] && this.defaultButtons['display']) this.defaultButtons['display'].routerLink.link = this.displayLink
         if(changes['deleteURL']) this.defaultButtons['delete'].request.url = this.deleteURL
       }
-      if(changes['buttons']) this.initButtons();
+      if(changes['showDisplayButton'] && !this.showDisplayButton) this.initDefaultButtons()
+  }
+
+  initDefaultButtons(){
+    if(this.showDisplayButton) this.defaultButtons['display'] = {
+      name: 'display',
+      icon: 'fas fa-eye',
+      color: 'blue',
+      routerLink: {
+        link: this.displayLink,
+        query: {id: ':id'}
+      }
+    }
+    this.defaultButtons['edit'] = {
+      name: 'edit',
+      icon: 'fas fa-edit',
+      color: 'blue',
+      routerLink: {
+        link: this.editLink,
+        query: {id: ':id'}
+      }
+    }
+    this.defaultButtons['delete'] = {
+      name: 'delete',
+      icon: 'fas fa-trash-alt',
+      color: 'blue',
+      request: {
+        url: this.deleteURL,
+        method: 'delete'
+      },
+      confirmation: {
+        title: 'Delete ' + this.singleName,
+        text: 'Are you sure you want to delete this ' + this.singleName,
+        confirmButtonText: 'Yes',
+        confirmButtonColor: 'red',
+        showCancelButton: true,
+        cancelButtonText: 'No',
+        icon: 'warning'
+      }
+    }
   }
 
   initButtons(){
