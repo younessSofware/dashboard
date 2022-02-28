@@ -10,6 +10,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class DisplayComponent implements OnInit {
 
   @Input() title: string
+  @Input() profileError: string
   @Input() profile: {
     name: string,
     email: string,

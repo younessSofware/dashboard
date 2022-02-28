@@ -4,12 +4,15 @@
   </div>
   <div class="grid grid-cols-7 mt-5 gap-5">
     <div class="card col-span-1">
-      <app-loading-line [loading]="!profile"></app-loading-line>
+      <app-loading-line [loading]="!profile && profileError"></app-loading-line>
       <div class="card-title">
         <span>Owner</span>
       </div>
       <div class="flex justify-center my-8">
         <img src="./../../../../../assets/admin_avatar.png" class="w-20 h-20 rounded-full ring-1 ring-gray-200" alt="">
+      </div>
+      <div class="px-2">
+        <app-alert type="danger" [message]="profileError" *ngIf="profileError"></app-alert>
       </div>
       <div class="pl-2 my-8" *ngIf="profile">
         <span class="user-info "><i class="fas fa-user"></i> {{ profile.name }} </span>
@@ -20,9 +23,12 @@
     </div>
 
   <div class="card col-span-3" *ngFor="let chart of charts">
-    <app-loading-line [loading]="!chart.values || !chart.values.length"></app-loading-line>
+    <app-loading-line [loading]="(!chart.values || !chart.values.length) && !chart.error"></app-loading-line>
     <div class="card-title">
       <span>{{ chart.name }}</span>
+    </div>
+    <div class="px-2">
+      <app-alert type="danger" [message]="chart.error" *ngIf="chart.error"></app-alert>
     </div>
     <div *ngIf="chart.values && chart.values.length" class="px-2 flex flex-col justify-end">
       <app-line-chart

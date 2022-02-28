@@ -1,1 +1,18 @@
-<p>delivery-man-display works!</p>
+<div class="p-4 bg-gray-100 h-full overflow-auto">
+
+  <app-display
+    [title]="'Delivery man details / ' + (deliveryMan ? deliveryMan.account.name : '')"
+    [charts]="charts"
+    [profile]="(deliveryMan ? deliveryMan.account : null)"
+    [profileError]="profileError"
+  ></app-display>
+
+  <div>
+    <app-orders-list
+      [count]="ordersCount"
+      [orders]="orders"
+      [error]="ordersError"
+    ></app-orders-list>
+  </div>
+
+</div>

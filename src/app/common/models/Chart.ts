@@ -6,4 +6,5 @@ export interface Chart{
   title: string,
   colors?: string[],
   max?: number,
+  error?: string,
 }

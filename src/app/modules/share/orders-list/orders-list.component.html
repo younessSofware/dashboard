@@ -4,9 +4,12 @@
       <span class="text-2xl text-primary font-bold block mb-4"><i class="fas fa-boxs"></i> Orders {{ count + ' of ' + (orders ? orders.length : 0 )}}</span>
       <span class="text-primary underline cursor-pointer" *ngIf="orders && orders.length != count">show more</span>
     </div>
-    <app-loading-line [loading]="!orders"></app-loading-line>
+    <app-loading-line [loading]="!orders && !error"></app-loading-line>
   </div>
-  <app-alert message="No product in this store yet" type="info" class="my-3 block" *ngIf="!orders || !orders.length" ></app-alert>
+
+  <app-alert [message]="error" type="danger" *ngIf="error"></app-alert>
+  <app-alert message="No product in this store yet" type="info" class="my-3 block" *ngIf="!error && (!orders || !orders.length)" ></app-alert>
+
   <div class="" *ngIf="orders && orders.length">
     <div class="my-3 bg-white border border-gray-500 shadow-lg p-3 rounded-xl" *ngFor="let order of orders">
       <div class="flex justify-between">

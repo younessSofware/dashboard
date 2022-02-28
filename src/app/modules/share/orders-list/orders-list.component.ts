@@ -9,6 +9,7 @@ export class OrdersListComponent implements OnInit {
 
   @Input() orders: any[];
   @Input() count = 0;
+  @Input() error: string;
   showOrder = 0;
 
   constructor() { }
