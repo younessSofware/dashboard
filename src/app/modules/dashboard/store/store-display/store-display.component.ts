@@ -1,3 +1,4 @@
+import { StoreService } from './../../../../services/store.service';
 import { DOMAIN_URL } from './../../../../common/constants';
 import { DashboardService } from './../../../../services/dashboard.service';
 import { OrderState } from './../../../../common/models/enums/order-state';
@@ -14,100 +15,25 @@ import { timeStamp } from 'console';
 })
 export class StoreDisplayComponent implements OnInit {
 
-  maxOrders = 0;
   ordersLoading = true;
   storeSellsLoading = true;
   storeOrdersLoading = true;
   storeOrdersCount = 0;
   showOrder = 0;
 
-  ordersChartOptions: Partial<ChartOptions> | any = {
-    series: [],
-    chart: {
-      height: 390,
-      type: "radialBar"
-    },
-    plotOptions: {
-      radialBar: {
-        offsetY: 0,
-        startAngle: 0,
-        endAngle: 270,
-        hollow: {
-          margin: 5,
-          size: "30%",
-          background: "transparent",
-          image: undefined
-        },
-        dataLabels: {
-          name: {
-            show: false
-          },
-          value: {
-            show: false
-          }
-        }
-      }
-    },
+  ordersChart: {colors: string[], labels: string[], max: number, values: number[]} = {
     colors: ["#ED0F0F", "#0F59ED", "#855E14", "#287F1C"],
     labels: [OrderState.IN_PROGRESS, OrderState.IN_DELIVERY, OrderState.RECEIVED, OrderState.CANCELED],
-    legend: {
-      show: true,
-      floating: true,
-      fontSize: "16px",
-      position: "left",
-      offsetX: 10,
-      offsetY: 10,
-      labels: {
-        useSeriesColors: true
-      },
-      formatter: (seriesName: string, opts: any) => {
-        return seriesName + ":  " + opts.w.globals.series[opts.seriesIndex] * this.maxOrders / 100;
-      },
-      itemMargin: {
-        horizontal: 3
-      }
-    },
-    responsive: [
-      {
-        breakpoint: 48,
-        options: {
-          legend: {
-            show: false
-          }
-        }
-      }
-    ]
-  };
+    max: 0,
+    values: []
+  }
 
-  storeSellsChartOptions: Partial<ChartOptions> | any = {
-    series: [
-      {
-        name: 'sells',
-        data: []
-      }
-    ],
-    chart: {
-      height: 380,
-      type: "line",
-      zoom: {
-        enabled: false
-      }
-    },
-    dataLabels: {
-      enabled: false
-    },
-    stroke: {
-      curve: "smooth",
-      lineCap: "round"
-    },
-    title: {
-      text: "Store Sells in last month",
-      align: "left"
-    },
-    xaxis: {
-      categories: this.monthBefore()
-    }
-  };
+  sellsChart: {title: string, dataName: string, categories: string[], values: number[]} = {
+    title: 'Store Sells in last month',
+    dataName: "sells",
+    categories: this.monthBefore(),
+    values: []
+  }
 
   storeId: number;
   store: any;
@@ -115,7 +41,7 @@ export class StoreDisplayComponent implements OnInit {
   deliveryMen: any[];
   orders: any[];
 
-  constructor(private route: ActivatedRoute, private dashboardService: DashboardService) { }
+  constructor(private route: ActivatedRoute, private storeService: StoreService) { }
 
   ngOnInit(): void {
     this.getDataId();
@@ -146,7 +72,7 @@ export class StoreDisplayComponent implements OnInit {
   }
 
   getStore(){
-    this.dashboardService.getStore(this.storeId)
+    this.storeService.store(this.storeId)
     .subscribe({
       next: (resp: any) => {
         this.store = resp.data;
@@ -159,7 +85,7 @@ export class StoreDisplayComponent implements OnInit {
   }
 
   getProducts(){
-    this.dashboardService.getStoreProducts(this.storeId, {limit: 8})
+    this.storeService.products(this.storeId, {limit: 8})
     .subscribe({
       next: (resp: any) => {
         this.products = resp.data.products
@@ -172,7 +98,7 @@ export class StoreDisplayComponent implements OnInit {
   }
 
   getDeliveryMen(){
-    this.dashboardService.getStoreDeliveryMen(this.storeId, {limit: 8})
+    this.storeService.deliveryMen(this.storeId, {limit: 8})
     .subscribe({
       next: (resp: any) => {
         this.deliveryMen = resp.data.deliveryMen
@@ -186,7 +112,7 @@ export class StoreDisplayComponent implements OnInit {
 
   getOrdersStatistics(){
     this.ordersLoading = true
-    this.dashboardService.orderStatistics(this.storeId)
+    this.storeService.orderStatistics(this.storeId)
     .subscribe({
       next: (resp: any) => {
 
@@ -196,10 +122,9 @@ export class StoreDisplayComponent implements OnInit {
           (resp.data['received']),
           (resp.data['canceled'])
         ]
-        this.maxOrders = Math.max(...statistics)
 
-        this.ordersChartOptions.series = statistics.map(v => v ? v * 100 / this.maxOrders : 0)
-
+        this.ordersChart.max = Math.max(...statistics)
+        this.ordersChart.values = statistics.map(v => v ? v * 100 / this.ordersChart.max : 0)
         this.ordersLoading = false
       },
       error: err => {
@@ -211,42 +136,33 @@ export class StoreDisplayComponent implements OnInit {
 
   grtStoreSells(){
     this.storeSellsLoading = true
-    this.dashboardService.grtStoreSells(this.storeId)
+    this.storeService.sells(this.storeId)
     .subscribe({
       next: (resp: any) => {
-        console.log("store sells resp", resp);
-
-        this.storeSellsChartOptions.series[0].data = this.monthBefore().map(e => 0)
-
-
+        this.sellsChart.values = this.monthBefore().map(e => 0)
         resp.data.map((s: any) => {
           const ind = new Date().getDate() - new Date(s.createdAt).getDate()
-          this.storeSellsChartOptions.series[0].data[30 - ind]++
+          this.sellsChart.values[30 - ind]++
         })
-
-        console.log(this.storeSellsChartOptions.series[0].data );
-
         this.storeSellsLoading = false
       },
       error: err => {
         this.ordersLoading = false
-        console.log("store sells err", err);
       }
     })
   }
 
   getStoreOrders(){
     this.storeOrdersLoading = true
-    this.dashboardService.grtStoreOrders(this.storeId, {skip: 0, take: 3})
+    this.storeService.orders(this.storeId, {skip: 0, take: 3})
     .subscribe({
       next: (resp: any) => {
-        console.log("store orders resp", resp);
         this.storeOrdersCount = resp.data.count;
         this.orders = resp.data.orders
+        this.storeOrdersLoading = false
       },
       error: err => {
         this.storeOrdersLoading = false
-        console.log("store orders err", err);
       }
     })
   }

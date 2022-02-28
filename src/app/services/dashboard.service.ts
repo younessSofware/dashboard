@@ -14,37 +14,10 @@ export class DashboardService {
     return this.http.get(API_URL + 'statistics');
   }
 
-  getStore(id: number){
-    return this.http.get(API_URL + "stores/" + id)
-  }
-
-  getClient(id: number){
-    return this.http.get(API_URL + "clients/" + id)
-  }
-
-  getStoreProducts(storeId: number, params: any){
-    return this.http.get(`${API_URL}stores/${storeId}/products`, {
-      params
-    })
-  }
-
-  getStoreDeliveryMen(storeId: number, params: any){
-    return this.http.get(`${API_URL}stores/${storeId}/delivery-men`, {
-      params
-    })
-  }
-
-  orderStatistics(storeId: number){
-    return this.http.get(`${API_URL}stores/${storeId}/orders-statistics`)
-  }
-
   getCategories(){
     return this.http.get(`${API_URL}categories`)
   }
 
-  getStores(){
-    return this.http.get(`${API_URL}stores`)
-  }
 
   getMessages(userId: number, params: {skip: number, take: number}){
     return this.http.get(`${API_URL}messages/${userId}`, {
@@ -60,13 +33,4 @@ export class DashboardService {
     })
   }
 
-  grtStoreSells(storeId: number){
-    return this.http.get(`${API_URL}stores/${storeId}/store-sells`)
-  }
-
-  grtStoreOrders(storeId: number, params: any){
-    return this.http.get(`${API_URL}stores/${storeId}/orders`, {
-      params
-    })
-  }
 }

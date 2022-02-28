@@ -20,81 +20,39 @@
     </div>
 
     <div class="card col-span-3">
-      <div class="h-1 mx-auto bg-primary " [ngClass]="{'w-1/2 animate-ping': storeSellsLoading, 'w-full': !storeSellsLoading}"></div>
+      <app-loading-line [loading]="purchasesLoading"></app-loading-line>
       <div class="card-title">
-        <span>Sells</span>
+        <span>Purchases</span>
       </div>
-      <div *ngIf="!storeSellsLoading" class="px-2  flex flex-col justify-end">
-        <apx-chart
-          [series]="storeSellsChartOptions.series"
-          [chart]="storeSellsChartOptions.chart"
-          [xaxis]="storeSellsChartOptions.xaxis"
-          [dataLabels]="storeSellsChartOptions.dataLabels"
-          [grid]="storeSellsChartOptions.grid"
-          [stroke]="storeSellsChartOptions.stroke"
-          [title]="storeSellsChartOptions.title"
-        ></apx-chart>
+      <div *ngIf="!purchasesLoading" class="px-2  flex flex-col justify-end">
+        <app-line-chart
+          [categories]="purchasesChart.categories"
+          [title]="purchasesChart.title"
+          [dataName]="purchasesChart.dataName"
+          [values]="purchasesChart.values"
+        >
+        </app-line-chart>
       </div>
     </div>
     <div class="card col-span-3">
-      <div class="h-1 mx-auto bg-primary " [ngClass]="{'w-1/2 animate-ping': ordersLoading, 'w-full': !ordersLoading}"></div>
+      <app-loading-line [loading]="ordersLoading"></app-loading-line>
       <div class="card-title">
         <span>Orders</span>
       </div>
       <div *ngIf="!ordersLoading">
-        <apx-chart
-          [series]="ordersChartOptions.series"
-          [chart]="ordersChartOptions.chart"
-          [plotOptions]="ordersChartOptions.plotOptions"
-          [labels]="ordersChartOptions.labels"
-          [legend]="ordersChartOptions.legend"
-          [colors]="ordersChartOptions.colors"
-          [responsive]="ordersChartOptions.responsive"
-        ></apx-chart>
+        <app-radial-bar
+          [labels]="ordersChart.labels"
+          [colors]="ordersChart.colors"
+          [max]="ordersChart.max"
+          [values]="ordersChart.values"
+        >
+        </app-radial-bar>
       </div>
     </div>
   </div>
 
-  <!-- <div class="my-6">
-    <div class="flex justify-between items-center">
-      <span class="text-2xl text-primary font-bold block mb-4"><i class="fas fa-boxs"></i> Products</span>
-      <span class="text-primary underline cursor-pointer">show more</span>
-    </div>
-    <div class="h-[2px] mx-auto bg-primary " [ngClass]="{'w-1/2 animate-pint': !products, 'w-full': products}"></div>
+  <div>
+    <app-orders-list [orders]="orders"></app-orders-list>
   </div>
-  <app-alert message="No product in this store yet" type="info" class="my-3 block" *ngIf="!products || !products.length" ></app-alert>
-  <div class="py-4 grid grid-cols-8 gap-4" *ngIf="products && products.length">
-    <div class="card pb-[100%] relative" *ngFor="let product of products">
-      <div class="h-full w-full absolute flex flex-col min-h-0">
-        <div class="bg-black flex-grow min-h-0 overflow-hidden flex items-center justify-center rounded-tl-lg rounded-tr-lg">
-          <img class="" [src]="productPhoto(product)" alt="">
-        </div>
-        <div class="p-2">
-          <span class="block text-lg">{{ product.name }}</span>
-          <div class="text-right text-sm">
-            <span>{{ product.price }} SAR</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> -->
-
-  <!-- <div class="my-6">
-    <div class="flex justify-between items-center">
-      <span class="text-2xl text-primary font-bold block mb-4"><i class="fas fa-boxs"></i> Delivery men</span>
-      <span class="text-primary underline cursor-pointer">show more</span>
-    </div>
-    <div class="h-[2px] mx-auto bg-primary " [ngClass]="{'w-1/2 animate-pint': !products, 'w-full': products}"></div>
-  </div>
-  <app-alert message="No product in this store yet" type="info" class="my-3 block" *ngIf="!deliveryMen || !deliveryMen.length" ></app-alert>
-  <div class="py-4 grid grid-cols-8 gap-4" *ngIf="deliveryMen && deliveryMen.length">
-
-    <div class="flex flex-col items-center" *ngFor="let deliveryMan of deliveryMen">
-      <img class="w-36 h-36 rounded-full border-2 border-gray-300 shadow-xl" src="./../../../../../assets/delivery-man.png" alt="">
-      <div class="text-center pt-5">
-        <span class="block text-xl">{{ deliveryMan.account.name }}</span>
-      </div>
-    </div>
-  </div> -->
 
 </div>

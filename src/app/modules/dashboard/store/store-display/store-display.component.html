@@ -4,7 +4,7 @@
   </div>
   <div class="grid grid-cols-7 mt-5 gap-5">
     <div class="card col-span-1">
-      <div class="h-1 w-1/2 mx-auto bg-primary" [ngClass]="{'w-1/2 animate-ping': !store, 'w-full': store}"></div>
+      <app-loading-line [loading]="!store"></app-loading-line>
       <div class="card-title">
         <span>Owner</span>
       </div>
@@ -20,36 +20,34 @@
     </div>
 
     <div class="card col-span-3">
-      <div class="h-1 mx-auto bg-primary " [ngClass]="{'w-1/2 animate-ping': storeSellsLoading, 'w-full': !storeSellsLoading}"></div><div class="card-title">
+      <app-loading-line [loading]="storeSellsLoading"></app-loading-line>
+      <div class="card-title">
         <span>Sells</span>
       </div>
       <div *ngIf="!storeSellsLoading" class="px-2  flex flex-col justify-end">
-        <apx-chart
-          [series]="storeSellsChartOptions.series"
-          [chart]="storeSellsChartOptions.chart"
-          [xaxis]="storeSellsChartOptions.xaxis"
-          [dataLabels]="storeSellsChartOptions.dataLabels"
-          [grid]="storeSellsChartOptions.grid"
-          [stroke]="storeSellsChartOptions.stroke"
-          [title]="storeSellsChartOptions.title"
-        ></apx-chart>
+        <app-line-chart
+          [categories]="sellsChart.categories"
+          [title]="sellsChart.title"
+          [dataName]="sellsChart.dataName"
+          [values]="sellsChart.values"
+        >
+        </app-line-chart>
       </div>
     </div>
+
     <div class="card col-span-3">
-      <div class="h-1 mx-auto bg-primary " [ngClass]="{'w-1/2 animate-ping': ordersLoading, 'w-full': !ordersLoading}"></div>
+      <app-loading-line [loading]="ordersLoading"></app-loading-line>
       <div class="card-title">
         <span>Orders</span>
       </div>
       <div *ngIf="!ordersLoading">
-        <apx-chart
-          [series]="ordersChartOptions.series"
-          [chart]="ordersChartOptions.chart"
-          [plotOptions]="ordersChartOptions.plotOptions"
-          [labels]="ordersChartOptions.labels"
-          [legend]="ordersChartOptions.legend"
-          [colors]="ordersChartOptions.colors"
-          [responsive]="ordersChartOptions.responsive"
-        ></apx-chart>
+        <app-radial-bar
+          [labels]="ordersChart.labels"
+          [colors]="ordersChart.colors"
+          [max]="ordersChart.max"
+          [values]="ordersChart.values"
+        >
+        </app-radial-bar>
       </div>
     </div>
   </div>
@@ -60,7 +58,7 @@
         <span class="text-2xl text-primary font-bold block mb-4"><i class="fas fa-boxs"></i> Products</span>
         <span class="text-primary underline cursor-pointer">show more</span>
       </div>
-      <div class="h-[2px] mx-auto bg-primary " [ngClass]="{'w-1/2 animate-pint': !products, 'w-full': products}"></div>
+      <app-loading-line [loading]="!products"></app-loading-line>
     </div>
     <app-alert message="No product in this store yet" type="info" class="my-3 block" *ngIf="!products || !products.length" ></app-alert>
     <div class="py-4 grid grid-cols-8 gap-4" *ngIf="products && products.length">
@@ -86,7 +84,7 @@
         <span class="text-2xl text-primary font-bold block mb-4"><i class="fas fa-boxs"></i> Delivery men</span>
         <span class="text-primary underline cursor-pointer">show more</span>
       </div>
-      <div class="h-[2px] mx-auto bg-primary " [ngClass]="{'w-1/2 animate-pint': !products, 'w-full': products}"></div>
+      <app-loading-line [loading]="!deliveryMen"></app-loading-line>
     </div>
     <app-alert message="No product in this store yet" type="info" class="my-3 block" *ngIf="!deliveryMen || !deliveryMen.length" ></app-alert>
     <div class="py-4 grid grid-cols-8 gap-4" *ngIf="deliveryMen && deliveryMen.length">
@@ -102,57 +100,7 @@
 
 
   <div>
-    <div class="my-6">
-      <div class="flex justify-between items-center">
-        <span class="text-2xl text-primary font-bold block mb-4"><i class="fas fa-boxs"></i> Orders</span>
-        <span class="text-primary underline cursor-pointer">show more</span>
-      </div>
-      <div class="h-[2px] mx-auto bg-primary " [ngClass]="{'w-1/2 animate-pint': !products, 'w-full': products}"></div>
-    </div>
-    <app-alert message="No product in this store yet" type="info" class="my-3 block" *ngIf="!deliveryMen || !deliveryMen.length" ></app-alert>
-    <div class="" *ngIf="deliveryMen && deliveryMen.length">
-      <div class="my-3 bg-white border border-gray-500 shadow-lg p-3 rounded-xl" *ngFor="let order of orders">
-        <div class="flex justify-between">
-          <span class="block text-lg font-bold">Order #{{ order.id }} <span class="uppercase font-normal">( {{ order.state }} )</span></span>
-          <div class="flex items-center">
-            <span class="block mx-3">{{ order.createdAt | date: 'medium' }}</span>
-            <button
-              (click)="showOrder != order.id ? showOrder = order.id : showOrder = 0"
-              class="bg-white hover:bg-gray-500 active:bg-gray-500 p-2 rounded-full"
-            >
-              <span *ngIf="showOrder != order.id"><i class="fas fa-chevron-down"></i></span>
-              <span *ngIf="showOrder == order.id"><i class="fas fa-chevron-up"></i></span>
-            </button>
-          </div>
-        </div>
-        <div class="order-details overflow-hidden" [style]="{height: showOrder == order.id ? 'auto' : '0px'}">
-          <table class="w-full mt-2 border-b border-gray-400 text-center">
-            <thead class="text-left">
-              <tr>
-                <th>product</th>
-                <th>price</th>
-                <th>quantity</th>
-                <th>unit price</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let productOrder of order.productOrders">
-                <td>{{ productOrder.product.name }}</td>
-                <td>{{ productOrder.product.price }}</td>
-                <td>{{ productOrder.quantity }}</td>
-                <td>{{ productOrder.product.price * productOrder.quantity }}</td>
-              </tr>
-              <tr>
-                <td></td>
-                <td></td>
-                <td class="text-right font-bold">Total</td>
-                <td class="font-bold">{{ order.amount }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+    <app-orders-list [orders]="orders"></app-orders-list>
   </div>
 
 

@@ -1,3 +1,4 @@
+import { StoreService } from './../../../../services/store.service';
 import { Validators } from '@angular/forms';
 import { FormHeader } from './../../../../common/models/form-header';
 import { DashboardService } from './../../../../services/dashboard.service';
@@ -13,14 +14,14 @@ export class DeliveryManFormComponent implements OnInit {
   headers: FormHeader[] = [];
   stores: any[];
 
-  constructor(private dashboardService: DashboardService) { }
+  constructor(private storeService: StoreService) { }
 
   ngOnInit(): void {
     this.getStores();
   }
 
   getStores(){
-    this.dashboardService.getStores()
+    this.storeService.stores()
     .subscribe({
       next: (resp: any) => {
         console.log("stores: ", resp);

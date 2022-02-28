@@ -1,3 +1,4 @@
+import { StoreService } from './../../../../services/store.service';
 import { DashboardService } from './../../../../services/dashboard.service';
 import { Validators } from '@angular/forms';
 import { FormHeader } from './../../../../common/models/form-header';
@@ -14,7 +15,7 @@ export class ProductFormComponent implements OnInit {
   categories: any[];
   stores: any[];
 
-  constructor(private dashboardService: DashboardService) { }
+  constructor(private storeService: StoreService, private dashboardService: DashboardService) { }
 
   ngOnInit(): void {
     this.getCategories();
@@ -37,7 +38,7 @@ export class ProductFormComponent implements OnInit {
 
 
   getStores(){
-    this.dashboardService.getStores()
+    this.storeService.stores()
     .subscribe({
       next: (resp: any) => {
         console.log("stores: ", resp);

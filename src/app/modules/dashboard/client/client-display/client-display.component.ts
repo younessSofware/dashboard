@@ -1,3 +1,4 @@
+import { ClientService } from './../../../../services/client.service';
 import { OrderState } from './../../../../common/models/enums/order-state';
 import { ActivatedRoute } from '@angular/router';
 import { DashboardService } from './../../../../services/dashboard.service';
@@ -12,110 +13,30 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ClientDisplayComponent implements OnInit {
 
-  maxOrders = 0;
   ordersLoading = true;
   storeSellsLoading = true;
+  clientOrdersLoading = true;
+  purchasesLoading = true;
 
-  ordersChartOptions: Partial<ChartOptions> | any = {
-    series: [],
-    chart: {
-      height: 390,
-      type: "radialBar"
-    },
-    plotOptions: {
-      radialBar: {
-        offsetY: 0,
-        startAngle: 0,
-        endAngle: 270,
-        hollow: {
-          margin: 5,
-          size: "30%",
-          background: "transparent",
-          image: undefined
-        },
-        dataLabels: {
-          name: {
-            show: false
-          },
-          value: {
-            show: false
-          }
-        }
-      }
-    },
+  ordersChart: {colors: string[], labels: string[], max: number, values: number[]} = {
     colors: ["#ED0F0F", "#0F59ED", "#855E14", "#287F1C"],
     labels: [OrderState.IN_PROGRESS, OrderState.IN_DELIVERY, OrderState.RECEIVED, OrderState.CANCELED],
-    legend: {
-      show: true,
-      floating: true,
-      fontSize: "16px",
-      position: "left",
-      offsetX: 10,
-      offsetY: 10,
-      labels: {
-        useSeriesColors: true
-      },
-      formatter: (seriesName: string, opts: any) => {
-        return seriesName + ":  " + opts.w.globals.series[opts.seriesIndex] * this.maxOrders / 100;
-      },
-      itemMargin: {
-        horizontal: 3
-      }
-    },
-    responsive: [
-      {
-        breakpoint: 48,
-        options: {
-          legend: {
-            show: false
-          }
-        }
-      }
-    ]
+    max: 0,
+    values: []
   };
 
-  storeSellsChartOptions: Partial<ChartOptions> | any = {
-    series: [
-      {
-        name: 'sells',
-        data: []
-      }
-    ],
-    chart: {
-      height: 380,
-      type: "line",
-      zoom: {
-        enabled: false
-      }
-    },
-    dataLabels: {
-      enabled: false
-    },
-    stroke: {
-      curve: "smooth",
-      lineCap: "round"
-    },
-    title: {
-      text: "Store Sells in last month",
-      align: "left"
-    },
-    grid: {
-      row: {
-        colors: ["transparent"], // takes an array which will be repeated on columns
-        opacity: 0.5
-      }
-    },
-    xaxis: {
-      categories: this.monthBefore()
-    }
-  };
+  purchasesChart: {title: string, dataName: string, categories: string[], values: number[]} = {
+    title: 'Store Sells in last month',
+    dataName: "sells",
+    categories: this.monthBefore(),
+    values: []
+  }
 
   clientId: number;
   client: any;
-  products: any[];
-  deliveryMen: any[];
+  orders: any[];
 
-  constructor(private route: ActivatedRoute, private dashboardService: DashboardService) { }
+  constructor(private route: ActivatedRoute, private clientService: ClientService) { }
 
   ngOnInit(): void {
     this.getDataId();
@@ -135,47 +56,19 @@ export class ClientDisplayComponent implements OnInit {
       query => {
         const id = query.get('id');
         if(id) this.clientId = +id
-        this.getStore();
-        this.getProducts();
-        this.getDeliveryMen();
+        this.getClient();
         this.getOrdersStatistics();
-        this.grtStoreSells()
+        this.grtPurchases()
+        this.getOrders();
       }
     )
   }
 
-  getStore(){
-    this.dashboardService.getClient(this.clientId)
+  getClient(){
+    this.clientService.client(this.clientId)
     .subscribe({
       next: (resp: any) => {
         this.client = resp.data;
-        console.log(resp);
-      },
-      error: err => {
-        console.log(err);
-      }
-    })
-  }
-
-  getProducts(){
-    this.dashboardService.getStoreProducts(this.clientId, {limit: 8})
-    .subscribe({
-      next: (resp: any) => {
-        this.products = resp.data.products
-        console.log(resp);
-      },
-      error: err => {
-        console.log(err);
-      }
-    })
-  }
-
-  getDeliveryMen(){
-    this.dashboardService.getStoreDeliveryMen(this.clientId, {limit: 8})
-    .subscribe({
-      next: (resp: any) => {
-        this.deliveryMen = resp.data.deliveryMen
-        console.log(resp);
       },
       error: err => {
         console.log(err);
@@ -185,19 +78,19 @@ export class ClientDisplayComponent implements OnInit {
 
   getOrdersStatistics(){
     this.ordersLoading = true
-    this.dashboardService.orderStatistics(this.clientId)
+    this.clientService.orderStatistics(this.clientId)
     .subscribe({
       next: (resp: any) => {
-
+        console.log(resp);
         const statistics = [
           (resp.data['in progress']),
           (resp.data['in delivery']),
           (resp.data['received']),
           (resp.data['canceled'])
         ]
-        this.maxOrders = Math.max(...statistics)
+        this.ordersChart.max = Math.max(...statistics)
 
-        this.ordersChartOptions.series = statistics.map(v => v ? v * 100 / this.maxOrders : 0)
+        this.ordersChart.values = statistics.map(v => v ? v * 100 / this.ordersChart.max : 0)
 
         this.ordersLoading = false
       },
@@ -208,29 +101,43 @@ export class ClientDisplayComponent implements OnInit {
     })
   }
 
-  grtStoreSells(){
-    this.storeSellsLoading = true
-    this.dashboardService.grtStoreSells(this.clientId)
+  grtPurchases(){
+    this.purchasesLoading = true
+    this.clientService.purchases(this.clientId)
     .subscribe({
       next: (resp: any) => {
         console.log("store sells resp", resp);
 
-        this.storeSellsChartOptions.series[0].data = this.monthBefore().map(e => 0)
-
+        this.purchasesChart.values = this.monthBefore().map(e => 0)
 
         resp.data.map((s: any) => {
           const ind = new Date().getDate() - new Date(s.createdAt).getDate()
-          this.storeSellsChartOptions.series[0].data[31 - ind] += s.amount
+          this.purchasesChart.values[31 - ind] += s.amount
         })
 
-        console.log(this.storeSellsChartOptions.series[0].data );
-        setTimeout(() => {
-          this.storeSellsLoading = false
-        }, 100);
+        console.log(this.purchasesChart.values);
+        this.purchasesLoading = false
       },
       error: err => {
-        this.ordersLoading = false
+        this.purchasesLoading = false
         console.log("store sells err", err);
+      }
+    })
+  }
+
+  getOrders(){
+    this.clientOrdersLoading = true
+    this.clientService.orders(this.clientId, {skip: 0, take: 3})
+    .subscribe({
+      next: (resp: any) => {
+        console.log("client orders resp", resp);
+        this.clientOrdersLoading = resp.data.count;
+        this.orders = resp.data.orders
+        this.clientOrdersLoading = false
+      },
+      error: err => {
+        this.clientOrdersLoading = false
+        console.log("client orders err", err);
       }
     })
   }

@@ -14,3 +14,13 @@
 .card-title>span{
   @apply text-2xl font-bold
 }
+
+th{
+  @apply border-b border-gray-400 uppercase text-center
+}
+td, th{
+  @apply p-3
+}
+.order-details{
+  transition: height 300ms ease;
+}

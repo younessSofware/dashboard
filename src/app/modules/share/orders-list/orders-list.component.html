@@ -1,0 +1,54 @@
+<div>
+  <div class="my-6">
+    <div class="flex justify-between items-center">
+      <span class="text-2xl text-primary font-bold block mb-4"><i class="fas fa-boxs"></i> Orders</span>
+      <span class="text-primary underline cursor-pointer">show more</span>
+    </div>
+    <app-loading-line [loading]="!orders"></app-loading-line>
+  </div>
+  <app-alert message="No product in this store yet" type="info" class="my-3 block" *ngIf="!orders || !orders.length" ></app-alert>
+  <div class="" *ngIf="orders && orders.length">
+    <div class="my-3 bg-white border border-gray-500 shadow-lg p-3 rounded-xl" *ngFor="let order of orders">
+      <div class="flex justify-between">
+        <span class="block text-lg font-bold">Order #{{ order.id }} <span class="uppercase font-normal">( {{ order.state }} )</span></span>
+        <div class="flex items-center">
+          <span class="block mx-3">{{ order.createdAt | date: 'medium' }}</span>
+          <button
+            (click)="showOrder != order.id ? showOrder = order.id : showOrder = 0"
+            class="bg-white hover:bg-gray-500 active:bg-gray-500 p-2 rounded-full"
+          >
+            <span *ngIf="showOrder != order.id"><i class="fas fa-chevron-down"></i></span>
+            <span *ngIf="showOrder == order.id"><i class="fas fa-chevron-up"></i></span>
+          </button>
+        </div>
+      </div>
+      <div class="order-details overflow-hidden" [style]="{height: showOrder == order.id ? 'auto' : '0px'}">
+        <table class="w-full mt-2 border-b border-gray-400 text-center">
+          <thead class="text-left">
+            <tr>
+              <th>product</th>
+              <th>price</th>
+              <th>quantity</th>
+              <th>unit price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let productOrder of order.productOrders">
+              <td>{{ productOrder.product.name }}</td>
+              <td>{{ productOrder.product.price }}</td>
+              <td>{{ productOrder.quantity }}</td>
+              <td>{{ productOrder.product.price * productOrder.quantity }}</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td class="text-right font-bold">Total</td>
+              <td class="font-bold">{{ order.amount }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
