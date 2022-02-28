@@ -36,11 +36,19 @@ export class StoreDisplayComponent implements OnInit {
 
   showOrder = 0;
   ordersCount = 0;
+
   storeId: number;
   store: any;
+  profileError: string;
+
   products: any[];
+  productsError: string;
+
   deliveryMen: any[];
+  deliveryManError: string;
+
   orders: any[];
+  ordersError: string;
 
   constructor(private route: ActivatedRoute, private storeService: StoreService) { }
 
@@ -67,7 +75,7 @@ export class StoreDisplayComponent implements OnInit {
         this.getDeliveryMen();
         this.getOrdersStatistics();
         this.grtStoreSells();
-        this.getStoreOrders();
+        this.getOrders();
       }
     )
   }
@@ -80,7 +88,7 @@ export class StoreDisplayComponent implements OnInit {
         console.log(resp);
       },
       error: err => {
-        console.log(err);
+        this.profileError = err;
       }
     })
   }
@@ -93,7 +101,7 @@ export class StoreDisplayComponent implements OnInit {
         console.log(resp);
       },
       error: err => {
-        console.log(err);
+        this.productsError = err;
       }
     })
   }
@@ -106,7 +114,7 @@ export class StoreDisplayComponent implements OnInit {
         console.log(resp);
       },
       error: err => {
-        console.log(err);
+        this.deliveryManError = err;
       }
     })
   }
@@ -128,7 +136,7 @@ export class StoreDisplayComponent implements OnInit {
         this.charts[1].values = statistics.map(v => v ? v * 100 / max : 0)
       },
       error: err => {
-        console.log(err);
+        this.charts[1].error = err;
       }
     })
   }
@@ -144,11 +152,12 @@ export class StoreDisplayComponent implements OnInit {
         })
       },
       error: err => {
+        this.charts[0].error = err;
       }
     })
   }
 
-  getStoreOrders(){
+  getOrders(){
     this.storeService.orders(this.storeId, {skip: 0, take: 3})
     .subscribe({
       next: (resp: any) => {
@@ -156,6 +165,7 @@ export class StoreDisplayComponent implements OnInit {
         this.orders = resp.data.orders
       },
       error: err => {
+        this.ordersError = err;
       }
     })
   }

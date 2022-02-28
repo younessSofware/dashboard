@@ -33,7 +33,9 @@ export class ClientDisplayComponent implements OnInit {
   ordersCount = 0;
   clientId: number;
   client: any;
+  profileError: string;
   orders: any[];
+  ordersError: string;
 
   constructor(private route: ActivatedRoute, private clientService: ClientService) { }
 
@@ -70,7 +72,7 @@ export class ClientDisplayComponent implements OnInit {
         this.client = resp.data;
       },
       error: err => {
-        console.log(err);
+        this.profileError = err;
       }
     })
   }
@@ -92,7 +94,7 @@ export class ClientDisplayComponent implements OnInit {
         this.charts[1].values = statistics.map(v => v ? v * 100 / max : 0)
       },
       error: err => {
-        console.log(err);
+        this.charts[1].error = err;
       }
     })
   }
@@ -109,7 +111,7 @@ export class ClientDisplayComponent implements OnInit {
         })
       },
       error: err => {
-        console.log("store sells err", err);
+        this.charts[0].error = err;
       }
     })
   }
@@ -123,7 +125,7 @@ export class ClientDisplayComponent implements OnInit {
         this.orders = resp.data.orders
       },
       error: err => {
-        console.log("client orders err", err);
+        this.ordersError = err;
       }
     })
   }

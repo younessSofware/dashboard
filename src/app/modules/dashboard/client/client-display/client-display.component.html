@@ -1,9 +1,14 @@
 <div class="p-4 bg-gray-100 h-full overflow-auto">
 
-  <app-display [title]="'Client details / ' + (client ? client.account.name : '')" [charts]="charts" [profile]="(client ? client.account : null)"></app-display>
+  <app-display
+    [title]="'Client details / ' + (client ? client.account.name : '')"
+    [charts]="charts"
+    [profile]="(client ? client.account : null)"
+    [profileError]="profileError"
+  ></app-display>
 
   <div>
-    <app-orders-list [count]="ordersCount" [orders]="orders"></app-orders-list>
+    <app-orders-list [error]="ordersError" [count]="ordersCount" [orders]="orders"></app-orders-list>
   </div>
 
 </div>
