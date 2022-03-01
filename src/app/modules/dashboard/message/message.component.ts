@@ -21,7 +21,6 @@ export class MessageComponent implements OnInit {
   ngOnInit(): void {
     this.getQueryParams();
     this.user = localStorage.getItem('user');
-    // console.log("user: ", this.user);
   }
 
   getQueryParams(){

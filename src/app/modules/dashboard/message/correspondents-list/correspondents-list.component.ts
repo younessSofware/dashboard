@@ -15,7 +15,7 @@ type usersRole = 'clients' | 'delivery men' | 'stores'
 })
 export class CorrespondentsListComponent implements OnInit, OnChanges {
 
-  @Input() targetedAccount: Account;
+  @Input() selectedAccount: Account;
   @Output() onAccountSelected = new EventEmitter();
 
   usersRole: AccountRole = AccountRole.STORE;
@@ -25,7 +25,7 @@ export class CorrespondentsListComponent implements OnInit, OnChanges {
   clients: any[] = [];
   deliverMen: any[] = [];
   stores: any[] = [];
-  selectedAccount: Account | null = null;
+  // selectedAccount: Account | null = null;
   tabs = [
     {
       title: 'Stores',
@@ -49,9 +49,9 @@ export class CorrespondentsListComponent implements OnInit, OnChanges {
     }
   ]
 
-  get targetedMessageAccount(): MessageAccount{
+  get selectedMessageAccount(): MessageAccount{
     return {
-      account: this.targetedAccount,
+      account: this.selectedAccount,
       newMessages: 0,
       lastMessage: ''
     }
@@ -63,25 +63,21 @@ export class CorrespondentsListComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-      if(changes['targetedAccount']){
-        if(this.targetedAccount) this.setTargetedAccount()
-        else if(!this.accounts.length) this.getCorrespondents()
+      if(changes['selectedAccount'] && this.selectedAccount){
+        this.usersRole = this.selectedAccount.role
+        this.accounts = [this.selectedMessageAccount];
+        this.onAccountSelected.emit(this.selectedAccount)
+        this.getCorrespondents();
       }
-  }
-
-  setTargetedAccount(){
-    this.accounts = [this.targetedMessageAccount]
-    this.usersRole = this.targetedAccount.role;
-    this.selectedAccount = this.targetedAccount;
-    this.onAccountSelected.emit(this.selectedAccount);
-    this.getCorrespondents();
   }
 
   changeUsersRole(usersRole: string){
     this.usersRole = usersRole as AccountRole;
     this.accounts = [];
-    this.selectedAccount = null;
-    this.onAccountSelected.emit(null)
+    if(this.selectedAccount.role === usersRole){
+      this.accounts = [this.selectedMessageAccount]
+      this.onAccountSelected.emit(this.selectedAccount)
+    }else this.onAccountSelected.emit(null)
     this.getCorrespondents();
   }
 
@@ -90,17 +86,8 @@ export class CorrespondentsListComponent implements OnInit, OnChanges {
     this.error = null;
     this.dashboardService.getCorrespondents(this.usersRole).subscribe({
       next: (resp: any) => {
-        this.accounts = resp.data.filter((msgAcc: MessageAccount) => msgAcc.account.id != this.selectedAccount?.id)
+        this.accounts = [...this.accounts, ...resp.data.filter((msgAcc: MessageAccount) => msgAcc.account.id != this.selectedAccount?.id)]
 
-        if(this.targetedAccount){
-          const targetAccount = resp.data.find((msgAcc: MessageAccount) => msgAcc.account.id == this.targetedAccount.id);
-          if(!targetAccount && this.usersRole == this.targetedAccount.role) this.accounts.unshift(this.targetedMessageAccount)
-        }
-
-        if(this.selectedAccount){
-          const messageAccount = this.accounts.find(msgAccount => msgAccount.account.id == this.selectedAccount?.id)
-          if(messageAccount) messageAccount.newMessages = 0;
-        }
         this.loading = false;
       },
       error: err => {

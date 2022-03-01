@@ -4,7 +4,7 @@
     <hr class="mt-4">
   </div>
   <div class="flex flex-grow min-h-0">
-    <app-correspondents-list (onAccountSelected)="setPartnerId($event)" [targetedAccount]="defaultAccount"></app-correspondents-list>
+    <app-correspondents-list (onAccountSelected)="setPartnerId($event)" [selectedAccount]="defaultAccount"></app-correspondents-list>
     <app-messages-area [partnerId]="partnerId" class="w-full"></app-messages-area>
   </div>
 </div>
