@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, ViewChild, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-audio-slider',
@@ -6,6 +6,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
   styleUrls: ['./audio-slider.component.scss']
 })
 export class AudioSliderComponent implements OnInit {
+  @ViewChild('slider') slider: ElementRef;
 
   @Input() max: number = 0;
   @Input() min: number = 0;
@@ -13,7 +14,6 @@ export class AudioSliderComponent implements OnInit {
   @Output() onValueChange = new EventEmitter();
 
   get percentValue(){
-    // console.log(this.value);
 
     if(this.max - this.min == 0) return 0;
     return this.value * 100 / (this.max - this.min)
@@ -24,10 +24,8 @@ export class AudioSliderComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  test(event: any){
-    // console.log(event.target.clientWidth);
-    // console.log(event.target.offsetWidth);
-    // console.log(event.offsetX);
-    this.onValueChange.emit(event.offsetX * this.max / event.target.clientWidth)
+  changePosition(event: any){
+    event.stopPropagation();
+    this.onValueChange.emit(event.offsetX * this.max / this.slider.nativeElement.clientWidth)
   }
 }

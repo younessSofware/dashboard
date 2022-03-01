@@ -57,5 +57,9 @@ export class AudioComponent implements OnInit, OnChanges {
   }
   updateAudioPos(pos: number){
     this.audio.seek(pos);
+    this.audio.pause();
+    setTimeout(() => {
+      this.audio.play()
+    }, 100);
   }
 }
