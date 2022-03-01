@@ -43,9 +43,11 @@ export class StoreDisplayComponent implements OnInit {
 
   products: any[];
   productsError: string;
+  productsCount = 0;
 
   deliveryMen: any[];
   deliveryManError: string;
+  deliveryMenCount = 0;
 
   orders: any[];
   ordersError: string;
@@ -98,6 +100,7 @@ export class StoreDisplayComponent implements OnInit {
     .subscribe({
       next: (resp: any) => {
         this.products = resp.data.products
+        this.productsCount = resp.data.count
         console.log(resp);
       },
       error: err => {
@@ -111,6 +114,7 @@ export class StoreDisplayComponent implements OnInit {
     .subscribe({
       next: (resp: any) => {
         this.deliveryMen = resp.data.deliveryMen
+        this.deliveryMenCount = resp.data.count;
         console.log(resp);
       },
       error: err => {
