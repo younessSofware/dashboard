@@ -11,6 +11,9 @@
   </div>
   <div class="flex-grow flex flex-col min-h-0" *ngIf="partnerId">
     <div #messagesArea (scroll)="onScroll()" class="flex-grow overflow-y-auto min-h-0 p-4">
+      <div class="text-center" *ngIf="!loading && !messages.length">
+        <span class="text-center">No message yet !!</span>
+      </div>
       <div *ngFor="let message of messages; let ind = index">
         <div class="flex items-center justify-center relative" *ngIf="allowToShowDate(ind)">
           <span class="bg-gray-100 px-1 z-10 text-xs">{{ message.createdAt | date: 'mediumDate' }}</span>

@@ -1,3 +1,5 @@
+import { AccountRole } from './../../../../common/models/enums/account-role';
+import { Button } from 'src/app/common/models/button';
 import { Header } from 'src/app/common/models/header';
 import { Component, OnInit } from '@angular/core';
 
@@ -67,6 +69,23 @@ export class DeliveryManListComponent implements OnInit {
       type: "date"
     }
   ];
+
+
+  buttons: Button[] = [
+    {
+      name: 'messages',
+      icon: 'fas fa-comments',
+      color: 'blue',
+      routerLink: {
+        link: '/dashboard/messages',
+        query: {
+          id: ':account.id',
+          name: ':account.name',
+          role: AccountRole.DELIVERY_MAN
+        }
+      }
+    }
+  ]
 
 
   constructor() { }

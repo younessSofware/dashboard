@@ -60,6 +60,7 @@ export class CorrespondentsListComponent implements OnInit, OnChanges {
   constructor(private dashboardService: DashboardService) { }
 
   ngOnInit(): void {
+    this.getCorrespondents();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -67,14 +68,14 @@ export class CorrespondentsListComponent implements OnInit, OnChanges {
         this.usersRole = this.selectedAccount.role
         this.accounts = [this.selectedMessageAccount];
         this.onAccountSelected.emit(this.selectedAccount)
-        this.getCorrespondents();
+        if(!this.accounts.length) this.getCorrespondents();
       }
   }
 
   changeUsersRole(usersRole: string){
     this.usersRole = usersRole as AccountRole;
     this.accounts = [];
-    if(this.selectedAccount.role === usersRole){
+    if(this.selectedAccount && this.selectedAccount.role === usersRole){
       this.accounts = [this.selectedMessageAccount]
       this.onAccountSelected.emit(this.selectedAccount)
     }else this.onAccountSelected.emit(null)
@@ -87,7 +88,7 @@ export class CorrespondentsListComponent implements OnInit, OnChanges {
     this.dashboardService.getCorrespondents(this.usersRole).subscribe({
       next: (resp: any) => {
         this.accounts = [...this.accounts, ...resp.data.filter((msgAcc: MessageAccount) => msgAcc.account.id != this.selectedAccount?.id)]
-
+        console.log(resp.data);
         this.loading = false;
       },
       error: err => {
