@@ -23,7 +23,7 @@
     <app-alert message="productsError" type="danger" *ngIf="productsError"></app-alert>
     <app-alert message="No product in this store yet" type="info" class="my-3 block" *ngIf="(!products || !products.length) && !productsError" ></app-alert>
 
-    <div class="py-4 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-4" *ngIf="products && products.length">
+    <div class="py-4 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-8 gap-4" *ngIf="products && products.length">
       <div class="card pb-[100%] relative" [routerLink]="['/dashboard/products/display']" [queryParams]="{id: product.id}" *ngFor="let product of products">
         <div class="h-full w-full absolute flex flex-col min-h-0">
           <div class="bg-black flex-grow min-h-0 overflow-hidden flex items-center justify-center rounded-tl-lg rounded-tr-lg">
@@ -55,7 +55,7 @@
     <app-alert message="productsError" type="danger" *ngIf="deliveryManError"></app-alert>
     <app-alert message="No product in this store yet" type="info" class="my-3 block" *ngIf="(!deliveryMen || !deliveryMen.length) && !deliveryManError" ></app-alert>
 
-    <div class="py-4 grid grid-cols-3 md:grid-cols-4 gap-4 lg:grid-cols-5 xl:grid-cols-7" *ngIf="deliveryMen && deliveryMen.length">
+    <div class="py-4 grid grid-cols-3 md:grid-cols-4 gap-4 lg:grid-cols-5 xl:grid-cols-8" *ngIf="deliveryMen && deliveryMen.length">
 
       <div class="card pb-[100%] relative" [routerLink]="['/dashboard/delivery-men/display']" [queryParams]="{id: deliveryMan.id}" *ngFor="let deliveryMan of deliveryMen">
         <div class="h-full w-full absolute flex flex-col min-h-0">
