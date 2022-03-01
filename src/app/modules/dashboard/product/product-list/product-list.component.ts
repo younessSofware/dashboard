@@ -18,21 +18,31 @@ export class ProductListComponent implements OnInit {
     },
     {
       name: "id",
-      title: "id"
+      title: "id",
     },
     {
       name: 'name',
-      title: 'product name'
+      title: 'product name',
+      search: true
+    },
+    {
+      parents: ['store'],
+      name: 'id',
+      title: 'store ID',
+      search: true,
+      type: 'hidden'
     },
     {
       parents: ['store'],
       name: 'storeName',
-      title: 'store'
+      title: 'store name',
+      search: true
     },
     {
       parents: ['store', 'account'],
       name: 'name',
-      title: 'store Owner'
+      title: 'store Owner',
+      search: true
     },
     {
       name: "description",

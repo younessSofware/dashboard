@@ -17,22 +17,26 @@ export class StoreListComponent implements OnInit {
     },
     {
       name: 'storeName',
-      title: 'store name'
+      title: 'store name',
+      search: true
     },
     {
       parents: ['account'],
       name: "name",
-      title: "owner name"
+      title: "owner name",
+      search: true
     },
     {
       parents: ['account'],
       name: "email",
       title: "email",
+      search: true
     },
     {
       parents: ['account'],
       name: "phoneNumber",
-      title: "Phone Number"
+      title: "Phone Number",
+      search: true
     },
     {
       parents: ['account'],

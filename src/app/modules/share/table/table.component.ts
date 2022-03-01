@@ -43,9 +43,17 @@ export class TableComponent implements OnInit, OnChanges {
 
   currentPage = 1;
   limit = 20;
-  searchQuery = "";
+  searchQuery: any = {};
   sortBy: string;
   sortDir = 1;
+
+  get searchHeaders(){
+    return this.headers.filter(h => h.search)
+  }
+
+  get tableHeaders(){
+    return this.headers.filter(h => h.type != 'hidden')
+  }
 
   constructor(private dataService: DataService, private route: ActivatedRoute,
               private notification: NotificationService, private router: Router) {}
@@ -54,7 +62,7 @@ export class TableComponent implements OnInit, OnChanges {
     this.sortBy = this.primaryKey;
     this.getQueryParams();
     this.getData();
-
+    this.initSearchQueryObject();
     this.initDefaultButtons();
     this.initButtons();
   }
@@ -66,6 +74,43 @@ export class TableComponent implements OnInit, OnChanges {
         if(changes['deleteURL']) this.defaultButtons['delete'].request.url = this.deleteURL
       }
       if(changes['showDisplayButton'] && !this.showDisplayButton) this.initDefaultButtons()
+  }
+
+  getSearchHeaderValue(header: Header){
+    if(!header.parents || !header.parents.length) return this.searchQuery[header.name]
+    return header.parents.reduce((acc, curr) => acc[curr], this.searchQuery)[header.name]
+  }
+
+  setSearchHeaderValue(header: Header, event: any){
+    const value = event.target.value;
+    if(!header.parents || !header.parents.length) this.searchQuery[header.name] = value;
+    else header.parents.reduce((acc, curr) => acc[curr], this.searchQuery)[header.name] = value;
+  }
+
+  initSearchQueryObject(){
+    this.searchHeaders.forEach(header => {
+      if(header.parents && header.parents.length){
+        const field = header.parents.reduce((acc, curr) => {
+          if(!acc[curr]) acc[curr] = {};
+          return acc[curr]
+        }, this.searchQuery)
+
+        if(!field[header.name]) field[header.name] = ''
+      }
+      else this.searchQuery[header.name] = ''
+    })
+  }
+
+  refreshSearchQuery(){
+    this.searchHeaders.forEach(header => {
+      if(header.parents && header.parents.length){
+        header.parents.reduce((acc, curr) => {
+          if(!acc[curr]) acc[curr] = {};
+          return acc[curr]
+        }, this.searchQuery)[header.name] = ''
+      }
+      else this.searchQuery[header.name] = ''
+    })
   }
 
   initDefaultButtons(){
@@ -125,6 +170,11 @@ export class TableComponent implements OnInit, OnChanges {
             this.success = null;
           }, 2000);
         }
+        let searchQuery = query.get('searchQuery')
+        if(searchQuery){
+          searchQuery = JSON.parse(decodeURIComponent(searchQuery))
+          this.searchQuery = searchQuery;
+        }
       },
     )
   }
@@ -152,16 +202,23 @@ export class TableComponent implements OnInit, OnChanges {
   }
 
   filterQuery(){
+    const encodedSearchQuery = encodeURIComponent(JSON.stringify(this.searchQuery))
+
     const query: any = {
       skip:(this.currentPage - 1) * this.limit,
       take: this.limit,
-      searchQuery: this.searchQuery
+      searchQuery: encodedSearchQuery
     }
     if(this.showSortFilter){
       query["sortBy"] = this.sortBy
       query["sortDir"] = this.sortBy
     }
     return query;
+  }
+
+  refresh(){
+    this.refreshSearchQuery();
+    this.getData();
   }
 
   getData(){

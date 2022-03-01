@@ -15,7 +15,7 @@
           <i class="fas fa-boxes"></i>
           Products <span *ngIf="products && products.length">{{ products.length + ' of ' + productsCount  }}</span>
         </span>
-        <span class="cursor-pointer link">show more</span>
+        <span class="link" [routerLink]="['/dashboard/products/list']" [queryParams]="{ searchQuery: storeSearchQuery }">show more</span>
       </div>
       <app-loading-line [loading]="!products && !productsError"></app-loading-line>
     </div>
@@ -47,7 +47,7 @@
           <i class="fas fa-truck"></i>
           Delivery men <span *ngIf="deliveryMen && deliveryMen.length">{{ deliveryMen.length + ' of ' + deliveryMenCount }}</span>
         </span>
-        <span class="cursor-pointer link">show more</span>
+        <span class="link" [routerLink]="['/dashboard/delivery-men/list']" [queryParams]="{ searchQuery: storeSearchQuery }" >show more</span>
       </div>
       <app-loading-line [loading]="!deliveryMen && !deliveryManError"></app-loading-line>
     </div>

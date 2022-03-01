@@ -16,6 +16,7 @@ export class CategoryListComponent implements OnInit {
     {
       name: "name",
       title: "Category name",
+      search: true
     },
     {
       name: "createdAt",

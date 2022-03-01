@@ -16,22 +16,33 @@ export class DeliveryManListComponent implements OnInit {
     {
       parents: ['account'],
       name: "name",
-      title: "full name"
+      title: "full name",
+      search: true
     },
     {
       parents: ['account'],
       name: "email",
       title: "email",
+      search: true
+    },
+    {
+      parents: ['store'],
+      name: "id",
+      title: "store ID",
+      type: 'hidden',
+      search: true
     },
     {
       parents: ['store'],
       name: "storeName",
       title: "store name",
+      search: true
     },
     {
       parents: ['account'],
       name: "phoneNumber",
-      title: "Phone Number"
+      title: "Phone Number",
+      search: true
     },
     {
       parents: ['account'],

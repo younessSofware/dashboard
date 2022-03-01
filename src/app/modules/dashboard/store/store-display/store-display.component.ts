@@ -52,6 +52,14 @@ export class StoreDisplayComponent implements OnInit {
   orders: any[];
   ordersError: string;
 
+  get storeSearchQuery(){
+    return encodeURIComponent(JSON.stringify({
+      store: {
+        id: this.storeId
+      }
+    }))
+  }
+
   constructor(private route: ActivatedRoute, private storeService: StoreService) { }
 
   ngOnInit(): void {

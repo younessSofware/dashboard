@@ -18,17 +18,20 @@ export class ClientListComponent implements OnInit {
     {
       parents: ['account'],
       name: "name",
-      title: "full name"
+      title: "full name",
+      search: true
     },
     {
       parents: ['account'],
       name: "email",
       title: "email",
+      search: true
     },
     {
       parents: ['account'],
       name: "phoneNumber",
-      title: "Phone Number"
+      title: "Phone Number",
+      search: true
     },
     {
       parents: ['account'],

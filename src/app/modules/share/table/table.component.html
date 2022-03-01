@@ -3,44 +3,54 @@
     <span class="text-3xl uppercase my-2"><i [class]="icon + ' mx-2'"></i>List of {{ pluralName }}</span>
     <hr>
   </div>
-  <div class="">
-    <div class="flex justify-end items-center px-4">
-      <span class="nowrap mr-1">Per page</span>
-      <select name="limit" (change)="getData()" [(ngModel)]="limit" placeholder="per page" id="sorter">
-        <option value="20">20</option>
-        <option value="50">50</option>
-        <option value="20">100</option>
-        <option value="20">500</option>
-      </select>
-      <div class="flex items-center mx-1" *ngIf="showSortFilter">
-        <span class="nowrap mr-3">Sort by</span>
-        <select name="sortBy" [(ngModel)]="sortBy" (change)="getData()" name="" placeholder="sort by" id="sorter">
-          <option class="uppercase" [value]="header.name" *ngFor="let header of sortableHeaders()">{{ header.title }}</option>
+  <div class=" my-3 px-6">
+    <div class="bg-gray-100 border border-gray-400 rounded-xl px-3 py-1">
+      <div class="grid grid-cols-3 gap-4 my-3">
+        <input
+          class="custom-input mx-1 "
+          (keyup.enter)="getData()"
+          (keyup)="setSearchHeaderValue(header, $event)"
+          [name]="header.name"
+          [value]="getSearchHeaderValue(header)"
+          [type]="header.type"
+          [placeholder]="header.title"
+          *ngFor="let header of searchHeaders"
+        >
+      </div>
+      <div class="flex justify-end items-center my-3">
+
+        <span class="nowrap mx-2">Per page</span>
+        <select name="limit" class="mx-1" (change)="getData()" [(ngModel)]="limit" placeholder="per page" id="sorter">
+          <option value="20">20</option>
+          <option value="50">50</option>
+          <option value="20">100</option>
+          <option value="20">500</option>
         </select>
-      </div>
-      <div class="mx-1" *ngIf="showSortFilter">
-        <select name="sortDir" [(ngModel)]="sortDir" (change)="getData()">
-          <option value="1">ASC</option>
-          <option value="-1">DESC</option>
-        </select>
-      </div>
-      <div class="flex mx-1">
-        <input class="custom-input mx-1" (keyup.enter)="getData()" name="searchQuery" [(ngModel)]="searchQuery" type="text" placeholder="search">
-        <button (click)="getData()" class="outline-button color-transition"><i class="fas fa-search"></i></button>
-      </div>
-      <div>
         <button
           [routerLink]="[createLink]"
           *ngIf="showCreateButton"
-          class="outline-button"
+          class="outline-button mx-1"
         >
           <i class="fas fa-plus mx-1"></i> Create {{ singleName }}
         </button>
-      </div>
-      <div>
+        <div class="flex items-center mx-1" *ngIf="showSortFilter">
+          <span class="nowrap mx-3">Sort by</span>
+          <select name="sortBy" [(ngModel)]="sortBy" (change)="getData()" name="" placeholder="sort by" id="sorter">
+            <option class="uppercase" [value]="header.name" *ngFor="let header of sortableHeaders()">{{ header.title }}</option>
+          </select>
+        </div>
+        <div class="mx-1" *ngIf="showSortFilter">
+          <select name="sortDir" [(ngModel)]="sortDir" (change)="getData()">
+            <option value="1">ASC</option>
+            <option value="-1">DESC</option>
+          </select>
+        </div>
+
+        <button (click)="getData()" class="outline-button color-transition mx-1"><i class="fas fa-search"></i> Search</button>
+
         <button
-          (click)="getData()"
-          class="outline-button"
+          (click)="refresh()"
+          class="outline-button mx-1"
         >
           <i class="fas fa-sync-alt mx-1"></i> Refresh
         </button>
@@ -89,7 +99,7 @@
               <thead class="bg-primary">
                 <tr>
                   <th
-                    *ngFor="let header of headers"
+                    *ngFor="let header of tableHeaders"
                     scope="col"
                     class="py-3 px-2 text-center text-xs font-medium  text-white uppercase tracking-wider"
                   >
@@ -102,7 +112,7 @@
               </thead>
               <tbody *ngIf="data && data.length" class="bg-white divide-y divide-gray-200">
                 <tr [class.bg-gray-100]="ind % 2" *ngFor="let d of data; let ind = index">
-                  <td class="py-4 whitespace-nowrap text-center px-2 border-l-2 border-gray-200" *ngFor="let header of headers">
+                  <td class="py-4 whitespace-nowrap text-center px-2 border-l-2 border-gray-200" *ngFor="let header of tableHeaders">
                     <section [ngSwitch]="header.type">
                       <img *ngSwitchCase="'image'" [src]="d[header.name]" class="h-10 w-10 bg-gray-500 rounded-full mx-auto ring-2 ring-gray-300" alt="">
                       <span

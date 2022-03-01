@@ -16,7 +16,7 @@ input, select{
 }
 
 .custom-input{
-  @apply block w-full text-primary px-2 py-3 rounded-xl focus:outline-none transition-all duration-700 bg-gray-100 border
+  @apply block w-full text-primary px-2 py-3 rounded-xl focus:outline-none transition-all duration-700 hover:bg-gray-100 bg-white border
    focus:border-primary
 }
 
