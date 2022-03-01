@@ -18,6 +18,11 @@ export class MenuComponent implements OnInit {
       path: "/dashboard/home"
     },
     {
+      name: "notifications",
+      icon: "fas fa-bell",
+      path: "/dashboard/notifications/"
+    },
+    {
       name: "clients",
       icon: "fas fa-users",
       path: "/dashboard/clients/"
@@ -48,15 +53,10 @@ export class MenuComponent implements OnInit {
       path: "/dashboard/messages/",
       notifications: 0
     },
-    {
-      name: "reports",
-      icon: "fas fa-exclamation-triangle",
-      path: "/dashboard/reports"
-    },
   ];
   user: any;
 
-  constructor(private authService: AuthService, private router: Router, messengerService: ModulesMessengerService,
+  constructor( private router: Router, messengerService: ModulesMessengerService,
     private socketService: SocketService) {
     messengerService.getMessage().subscribe({
       next: message => {

@@ -1,0 +1,15 @@
+.notification-item{
+  @apply p-4 border border-gray-300 bg-white my-2
+}
+.notification-item.selected{
+  @apply bg-primary text-white
+}
+td{
+  @apply px-5 py-3 border border-gray-300
+}
+td:first-child{
+  @apply bg-primary text-white border-primary whitespace-nowrap font-semibold
+}
+.outline-button{
+  @apply border border-gray-500 py-2 px-4 rounded-lg hover:bg-gray-400 hover:text-white bg-white
+}

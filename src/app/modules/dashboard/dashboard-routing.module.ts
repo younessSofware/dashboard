@@ -40,6 +40,10 @@ const routes: Routes = [
       {
         path: 'delivery-men',
         loadChildren: () => import('./delivery-man/delivery-man.module').then(m => m.DeliveryManModule),
+      },
+      {
+        path: 'notifications',
+        loadChildren: () => import('./notifications/notifications.module').then(m => m.NotificationsModule),
       }
     ]
   }

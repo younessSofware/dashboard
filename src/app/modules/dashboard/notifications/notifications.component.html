@@ -1,0 +1,58 @@
+<div class="px-4 py-2 bg-gray-100 h-full flex flex-col min-h-0">
+  <div class="">
+    <span class="text-3xl uppercase my-2"><i class="fas fa-bell mx-2"></i>Notifications</span>
+    <hr>
+  </div>
+  <div class="mt-5 grid grid-cols-5 flex-grow min-h-0 ">
+    <div class="col-span-2  h-full min-h-0">
+      <div
+        *ngFor="let not of [1, 2, 3]"
+        [class.selected]="selectedNotification == not"
+        class="notification-item"
+      >
+        <span>Lorem ipsum dolor sit amet consectetur.</span>
+      </div>
+    </div>
+    <div class="h-full flex flex-col min-h-0 bg-white col-span-3 text-center p-4 border-l border-primary">
+      <span class="text-2xl font-bold">Create new store</span>
+      <div class="flex-grow pt-6">
+        <table class="w-full text-left border border-gray-600">
+          <tbody>
+            <tr>
+              <td>Store Name</td>
+              <td>bassi store</td>
+            </tr>
+            <tr>
+              <td>Store Description</td>
+              <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio, rerum? Lorem ipsum dolor sit amet consectetur, adipisicing elit. Debitis, aliquam.</td>
+            </tr>
+            <tr>
+              <td>Store Owner</td>
+              <td>Bassi yassine</td>
+            </tr>
+            <tr>
+              <td>E-mail</td>
+              <td>email@email.com</td>
+            </tr>
+            <tr>
+              <td>PhoneNumber</td>
+              <td>+212659056128</td>
+            </tr>
+            <tr>
+              <td>Longitude</td>
+              <td>9.1231545</td>
+            </tr>
+            <tr>
+              <td>Latitude</td>
+              <td>32.254587</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="grid grid-cols-2 mt-4 gap-4">
+        <button class="custom-button">Accept</button>
+        <button class="outline-button">Reject</button>
+      </div>
+    </div>
+  </div>
+</div>
