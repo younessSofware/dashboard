@@ -12,13 +12,13 @@
 
   <div class="" *ngIf="orders && orders.length">
     <div class="my-3 bg-white border border-gray-500 shadow-lg p-3 rounded-xl" *ngFor="let order of orders">
-      <div class="flex justify-between">
-        <span class="block text-lg font-bold">Order #{{ order.id }} <span class="uppercase font-normal">( {{ order.state }} )</span></span>
+      <div class="flex justify-between items-center">
+        <span class="block text-lg font-bold">Order #{{ order.id }} <span class="uppercase">( {{ order.state }} )</span></span>
         <div class="flex items-center">
           <span class="block mx-3">{{ order.createdAt | date: 'medium' }}</span>
           <button
             (click)="showOrder != order.id ? showOrder = order.id : showOrder = 0"
-            class="bg-white hover:bg-gray-500 active:bg-gray-500 p-2 rounded-full"
+            class="bg-white hover:bg-gray-200 active:bg-gray-200 py-2 px-3 rounded-full"
           >
             <span *ngIf="showOrder != order.id"><i class="fas fa-chevron-down"></i></span>
             <span *ngIf="showOrder == order.id"><i class="fas fa-chevron-up"></i></span>
@@ -37,7 +37,11 @@
           </thead>
           <tbody>
             <tr *ngFor="let productOrder of order.productOrders">
-              <td>{{ productOrder.product.name }}</td>
+              <td>
+                <span class="link" [routerLink]="['/dashboard/products/display']" [queryParams]="{id: productOrder.product.id}">
+                  {{ productOrder.product.name }}
+                </span>
+              </td>
               <td>{{ productOrder.product.price }}</td>
               <td>{{ productOrder.quantity }}</td>
               <td>{{ productOrder.product.price * productOrder.quantity }}</td>

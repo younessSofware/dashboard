@@ -1,10 +1,11 @@
-<div class="p-4 bg-gray-100 h-full overflow-auto">
+<div class="px-4 py-2 bg-gray-100 h-full overflow-auto">
 
   <app-display
-    [title]="'Store details / ' + (store ? store.storeName : '')"
+    [title]="(store ? store.storeName : '')"
     [charts]="charts"
     [profile]="store ? store.account : null"
     [profileError]="profileError"
+    icon="fas fa-store"
   ></app-display>
 
   <div>
@@ -20,7 +21,7 @@
     <app-alert message="No product in this store yet" type="info" class="my-3 block" *ngIf="(!products || !products.length) && !productsError" ></app-alert>
 
     <div class="py-4 grid grid-cols-8 gap-4" *ngIf="products && products.length">
-      <div class="card pb-[100%] relative" *ngFor="let product of products">
+      <div class="card pb-[100%] relative" [routerLink]="['/dashboard/products/display']" [queryParams]="{id: product.id}" *ngFor="let product of products">
         <div class="h-full w-full absolute flex flex-col min-h-0">
           <div class="bg-black flex-grow min-h-0 overflow-hidden flex items-center justify-center rounded-tl-lg rounded-tr-lg">
             <img class="" [src]="photo(product)" alt="">
@@ -50,10 +51,23 @@
 
     <div class="py-4 grid grid-cols-8 gap-4" *ngIf="deliveryMen && deliveryMen.length">
 
-      <div class="flex flex-col items-center" *ngFor="let deliveryMan of deliveryMen">
+      <!-- <div class="flex flex-col items-center" [routerLink]="['/dashboard/delivery-men/display']" [queryParams]="{id: deliveryMan.id}" *ngFor="let deliveryMan of deliveryMen">
         <img class="w-36 h-36 rounded-full border-2 border-gray-300 shadow-xl" src="./../../../../../assets/delivery-man.png" alt="">
         <div class="text-center pt-5">
           <span class="block text-xl">{{ deliveryMan.account.name }}</span>
+        </div>
+      </div> -->
+      <div class="card pb-[100%] relative" [routerLink]="['/dashboard/delivery-men/display']" [queryParams]="{id: deliveryMan.id}" *ngFor="let deliveryMan of deliveryMen">
+        <div class="h-full w-full absolute flex flex-col min-h-0">
+          <div class="bg-white flex-grow min-h-0 overflow-hidden flex items-center justify-center rounded-tl-lg rounded-tr-lg">
+            <img class="" src="./../../../../../assets/delivery-man.png" alt="">
+          </div>
+          <div class="p-2">
+            <span class="block text-lg">{{ deliveryMan.account.name }}</span>
+            <div class="text-right text-sm">
+              <!-- <span>{{ product.price }} SAR</span> -->
+            </div>
+          </div>
         </div>
       </div>
     </div>

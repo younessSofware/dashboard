@@ -39,3 +39,7 @@ input, select{
 .spinner{
   @apply w-20 h-20 bg-primary rounded-full animate-ping
 }
+
+.link{
+  @apply hover:underline hover:text-blue-500 cursor-pointer
+}

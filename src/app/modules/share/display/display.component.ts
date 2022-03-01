@@ -1,5 +1,6 @@
 import { Chart } from './../../../common/models/Chart';
 import { Component, Input, OnInit } from '@angular/core';
+import { StringMapWithRename } from '@angular/compiler/src/compiler_facade_interface';
 
 @Component({
   selector: 'app-display',
@@ -18,6 +19,7 @@ export class DisplayComponent implements OnInit {
     phoneNumber: string
   };
   @Input() charts: Chart[]
+  @Input() icon: string;
 
   constructor() { }
 
