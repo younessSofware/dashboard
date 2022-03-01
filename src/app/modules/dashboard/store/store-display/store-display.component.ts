@@ -51,6 +51,7 @@ export class StoreDisplayComponent implements OnInit {
 
   orders: any[];
   ordersError: string;
+  ordersLimit = 5;
 
   get storeSearchQuery(){
     return encodeURIComponent(JSON.stringify({
@@ -169,8 +170,9 @@ export class StoreDisplayComponent implements OnInit {
     })
   }
 
-  getOrders(){
-    this.storeService.orders(this.storeId, {skip: 0, take: 3})
+  getOrders(skip = 0){
+    this.orders = [];
+    this.storeService.orders(this.storeId, {skip: skip, take: this.ordersLimit})
     .subscribe({
       next: (resp: any) => {
         this.ordersCount = resp.data.count;

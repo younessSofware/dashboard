@@ -75,7 +75,7 @@
 
 
   <div>
-    <app-orders-list [error]="ordersError" [count]="ordersCount" [orders]="orders"></app-orders-list>
+    <app-orders-list (onPageChange)="getOrders($event)" [limit]="ordersLimit" [error]="ordersError" [count]="ordersCount" [orders]="orders"></app-orders-list>
   </div>
 
 

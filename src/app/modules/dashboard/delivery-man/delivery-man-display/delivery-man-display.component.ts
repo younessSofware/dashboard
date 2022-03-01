@@ -14,13 +14,6 @@ export class DeliveryManDisplayComponent implements OnInit {
 
 
   charts: Chart[] = [
-    // {
-    //   name: 'Sells',
-    //   title: 'Client purchases in last month',
-    //   type: 'line',
-    //   categories: this.monthBefore(),
-    //   values: []
-    // },
     {
       name: 'Orders',
       type: 'radial',
@@ -31,12 +24,16 @@ export class DeliveryManDisplayComponent implements OnInit {
       values: []
     }
   ]
-  ordersCount = 0;
+
   deliveryManId: number;
-  profileError: string;
   deliveryMan: any;
+
+  profileError: string;
+
+  ordersCount = 0;
   orders: any[];
   ordersError: string;
+  ordersLimit = 5;
 
   constructor(private route: ActivatedRoute, private deliveryManService: DeliveryMenService) { }
 
@@ -102,25 +99,9 @@ export class DeliveryManDisplayComponent implements OnInit {
     })
   }
 
-  // grtPurchases(){
-  //   this.clientService.purchases(this.deliveryManId)
-  //   .subscribe({
-  //     next: (resp: any) => {
-  //       this.charts[0].values = this.monthBefore().map(e => 0)
-
-  //       resp.data.map((s: any) => {
-  //         const ind = new Date().getDate() - new Date(s.createdAt).getDate()
-  //         this.charts[0].values[31 - ind] += s.amount
-  //       })
-  //     },
-  //     error: err => {
-  //       console.log("store sells err", err);
-  //     }
-  //   })
-  // }
-
-  getOrders(){
-    this.deliveryManService.orders(this.deliveryManId, {skip: 0, take: 3})
+  getOrders(skip = 0){
+    this.orders = []
+    this.deliveryManService.orders(this.deliveryManId, {skip: skip, take: this.ordersLimit})
     .subscribe({
       next: (resp: any) => {
         this.ordersCount = resp.data.count;

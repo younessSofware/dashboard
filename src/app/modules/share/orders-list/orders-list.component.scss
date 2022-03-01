@@ -8,3 +8,10 @@ td, th{
 .order-details{
   transition: height 300ms ease;
 }
+.page-number{
+  @apply mx-[2px] px-2 py-1 font-semibold cursor-pointer hover:bg-gray-200 rounded-full
+}
+
+.page-number.selected{
+  @apply mx-[2px] px-2 py-1 bg-primary text-white font-bold
+}

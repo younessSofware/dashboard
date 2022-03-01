@@ -30,12 +30,15 @@ export class ClientDisplayComponent implements OnInit {
       values: []
     }
   ]
-  ordersCount = 0;
   clientId: number;
   client: any;
+
   profileError: string;
+
   orders: any[];
   ordersError: string;
+  ordersLimit = 5;
+  ordersCount = 0;
 
   constructor(private route: ActivatedRoute, private clientService: ClientService) { }
 
@@ -116,8 +119,9 @@ export class ClientDisplayComponent implements OnInit {
     })
   }
 
-  getOrders(){
-    this.clientService.orders(this.clientId, {skip: 0, take: 3})
+  getOrders(skip = 0){
+    this.orders = []
+    this.clientService.orders(this.clientId, {skip: skip, take: this.ordersLimit})
     .subscribe({
       next: (resp: any) => {
         console.log("client orders resp", resp);

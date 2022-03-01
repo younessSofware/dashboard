@@ -2,7 +2,15 @@
   <div class="my-6">
     <div class="flex justify-between items-center">
       <span class="text-2xl text-primary font-bold block mb-4"><i class="fas fa-boxs"></i> Orders {{ count + ' of ' + (orders ? orders.length : 0 )}}</span>
-      <span class="link" >show more</span>
+      <div class="flex">
+        <div
+          (click)="changePage(page)"
+          class="page-number"
+          [class.selected]="currentPage == ind" *ngFor="let page of pages; let ind = index"
+        >
+          <span>{{ page + 1 }}</span>
+        </div>
+      </div>
     </div>
     <app-loading-line [loading]="!orders && !error"></app-loading-line>
   </div>

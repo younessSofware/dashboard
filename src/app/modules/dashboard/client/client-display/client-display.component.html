@@ -8,7 +8,13 @@
   ></app-display>
 
   <div>
-    <app-orders-list [error]="ordersError" [count]="ordersCount" [orders]="orders"></app-orders-list>
+    <app-orders-list
+      [error]="ordersError"
+      [count]="ordersCount"
+      [orders]="orders"
+      [limit]="ordersLimit"
+      (onPageChange)="getOrders($event)"
+    ></app-orders-list>
   </div>
 
 </div>
