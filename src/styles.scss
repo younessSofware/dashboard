@@ -16,7 +16,7 @@ input, select{
 }
 
 .custom-input{
-  @apply block w-full text-primary px-2 py-3 rounded-xl focus:outline-none transition-all duration-700 hover:bg-gray-100 bg-white border
+  @apply block w-full text-primary px-2 py-3 rounded-xl focus:outline-none transition-all duration-700 bg-gray-100 border
    focus:border-primary
 }
 
@@ -29,7 +29,7 @@ input, select{
 }
 
 .custom-button{
-  @apply text-white bg-primary rounded-lg w-full px-2 py-3 hover:opacity-90 transition-all duration-500 appearance-none
+  @apply text-white bg-primary rounded-xl w-full px-2 py-3 hover:opacity-90 transition-all duration-500 appearance-none
 }
 
 .custom-button:disabled{

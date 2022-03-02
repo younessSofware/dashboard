@@ -1,7 +1,7 @@
 export interface Header{
     name: string,
     title: string,
-    type?: 'input' | 'image' | 'select' | 'textarea' | 'number' | 'string' |  'date' | 'checkbox' | 'text' | 'email' | 'password' | 'input-list' | 'select-tags' | 'hidden',
+    type?: 'input' | 'image' | 'select' | 'textarea' | 'number' | 'string' |  'date' | 'checkbox' | 'text' | 'email' | 'password' | 'input-list' | 'select-tags' | 'hidden' | 'tag',
     width?: string,
     default?: string,
     hidden?: boolean,
@@ -14,4 +14,5 @@ export interface Header{
     parents?: string[],
     reverseBooleanColors?: boolean,
     search?: boolean;
+    tagsColors?: any
 }

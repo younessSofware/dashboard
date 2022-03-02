@@ -30,9 +30,12 @@ export class TableComponent implements OnInit, OnChanges {
   @Input() showDisplayButton = true;
 
   @Input() headers: Header[] = [];
-  @Input() buttons: Button[] = [];
+  @Input() rowButtons: Button[] = [];
+  @Input() tableButtons: Button[] = [];
   @Input() icon = "";
   @Input() primaryKey: string;
+
+  checkedRows: any[] = [];
 
   data: any[];
   pages: number[];
@@ -154,7 +157,7 @@ export class TableComponent implements OnInit, OnChanges {
 
   initButtons(){
     this.displayedButtons = [
-      ...this.buttons,
+      ...this.rowButtons,
       ...Object.keys(this.defaultButtons).map(k => this.defaultButtons[k])
     ]
   }
@@ -309,7 +312,6 @@ export class TableComponent implements OnInit, OnChanges {
   }
 
   handleButtonEvent(button: Button, data: any){
-    console.log(button);
     if(button.confirmation){
       this.showConf(button)
       ?.then(
@@ -326,7 +328,7 @@ export class TableComponent implements OnInit, OnChanges {
   }
 
   redirectBtnEvent(button: Button, data: any, requestData = {}){
-    button.request ? this.doRequest(button, data, requestData) : this.navigateBtn(button, data);
+    button.request ? (data ? this.doRequest(button, data, requestData) : this.doGlobalRequest(button)) : this.navigateBtn(button, data);
   }
 
   parsePath(path: string, data: any){
@@ -354,6 +356,33 @@ export class TableComponent implements OnInit, OnChanges {
     })
   }
 
+  doGlobalRequest(button: Button){
+    if(!button.request) return;
+    const url = button.request.url
+    const ids = this.checkedRows.map(el =>
+      this.parseStrDataAttr(button.dataField ? button.dataField : '', this.data.find(d => d[this.primaryKey] == el))
+    )
+    console.log(ids);
+    this.dataService.sendRequest(button.request.method, url, {
+      ids
+    })
+    ?.subscribe({
+      next: (resp: any) => {
+        if(button.request && button.request.redirectURL)
+          this.router.navigateByUrl(button.request.redirectURL)
+
+        this.checkedRows = [];
+        this.getData();
+        console.log(resp.message);
+
+        this.showSuccessMessage(resp.message);
+      },
+      error: err => {
+        this.showErrorMessage(err.error);
+      }
+    })
+  }
+
   doRequest(button: Button, data: any, requestData = {}){
     if(!button.request) return;
     const url = button.request.url
@@ -371,6 +400,37 @@ export class TableComponent implements OnInit, OnChanges {
         this.showErrorMessage(err.error);
       }
     })
+  }
+
+  allowToShowBtn(button: Button, data: any): boolean{
+    if(button.condition){
+      const inverse = button.condition.includes('!')
+      const elem = button.condition.replace('!', '')
+      const res = elem.split('.').reduce((acc, curr) => acc[curr], data)
+      console.log("----", res);
+
+      return inverse ? !res : res
+    }else {
+      return true;
+    }
+  }
+
+  checkRow(event: any, data: any){
+    if(event.target.checked){
+      this.checkedRows.push(data[this.primaryKey])
+    }else{
+      this.checkedRows.splice(this.checkedRows.indexOf(data[this.primaryKey]), 1)
+    }
+    console.log(this.checkedRows);
+  }
+
+  checkAllRows(event: any){
+    if(event.target.checked){
+      this.data.forEach(d => this.checkedRows.push(d[this.primaryKey]))
+    }else{
+      this.data.forEach(d => this.checkedRows.splice(this.checkedRows.indexOf(d[this.primaryKey]), 1))
+    }
+    console.log(this.checkedRows);
   }
 
 }
