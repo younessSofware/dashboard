@@ -12,7 +12,7 @@ export class AuthService {
   constructor(private http: HttpClient) {
   }
 
-  login(data: {email: string, password: string}){
+  login(data: {phoneNumber: string, password: string}){
     return this.http.post(API_URL + "login", data)
   }
 

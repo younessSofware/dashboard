@@ -22,12 +22,12 @@ export class ClientListComponent implements OnInit {
       title: "full name",
       search: true
     },
-    {
-      parents: ['account'],
-      name: "email",
-      title: "email",
-      search: true
-    },
+    // {
+    //   parents: ['account'],
+    //   name: "email",
+    //   title: "email",
+    //   search: true
+    // },
     {
       parents: ['account'],
       name: "phoneNumber",

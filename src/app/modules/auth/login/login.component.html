@@ -24,13 +24,12 @@
         <div>
           <input
             class="custom-input my-4"
-            [class.invalid]="email?.dirty && !email?.valid"
-            placeholder="E-mail"
-            formControlName="email"
+            [class.invalid]="phoneNumber?.dirty && !phoneNumber?.valid"
+            placeholder="Phone Number"
+            formControlName="phoneNumber"
           >
-          <span class="text-red-500 text-left text-md block mt-2 pl-1" *ngIf="email?.dirty && !email?.valid">
-            <span class="block" *ngIf="email?.hasError('required')">The email field is required</span>
-            <span class="block" *ngIf="email?.hasError('email')">This field must be an email</span>
+          <span class="text-red-500 text-left text-md block mt-2 pl-1" *ngIf="phoneNumber?.dirty && !phoneNumber?.valid">
+            <span class="block" *ngIf="phoneNumber?.hasError('required')">The phone number field is required</span>
           </span>
         </div>
 
