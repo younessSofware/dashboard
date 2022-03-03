@@ -1,8 +1,8 @@
+import { NotificationService } from './../../../services/notification.service';
 import { SocketService } from 'src/app/services/socket.service';
 import { ModulesMessengerService } from './../../../services/modules-messenger.service';
-import { AuthService } from './../../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-menu',
@@ -57,14 +57,19 @@ export class MenuComponent implements OnInit {
   user: any;
 
   constructor( private router: Router, messengerService: ModulesMessengerService,
-    private socketService: SocketService) {
+    private socketService: SocketService, private notificationService: NotificationService) {
     messengerService.getMessage().subscribe({
       next: message => {
         if(message.type == 'new-message'){
-          if(!router.url.includes('/dashboard/messages')){
-            const item = this.menuItems.find(item => item.name == "messages");
-            if(item && item.notifications != undefined) item.notifications += 1;
-          }
+          // if(!router.url.includes('/dashboard/messages')){
+          //   const item = this.menuItems.find(item => item.name == "messages");
+          //   if(item && item.notifications != undefined) item.notifications += 1;
+          // }
+        }
+
+        if(message.type == 'update-notification'){
+          const item = this.menuItems.find(item => item.name == "notifications");
+          if(item && item.notifications != undefined) item.notifications += message.data;
         }
       }
     })
@@ -72,14 +77,24 @@ export class MenuComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUser();
-    if(this.user.role == 'SUPER ADMIN'){
-      this.menuItems.push(
-        {
-          name: "subscriptions",
-          icon: "fas fa-money-check-alt",
-          path: "/dashboard/subscriptions/"
-        });
-    }
+    this.countNotifications();
+  }
+
+  countNotifications(){
+    this.notificationService.count().subscribe({
+      next: (resp: any) => {
+        console.log(resp);
+        const item = this.menuItems.find(item => item.name == "notifications");
+        if(item) {
+          console.log(resp.data.count);
+          item.notifications = resp.data.count;
+          console.log(item);
+        };
+      },
+      error: err => {
+        console.log(err);
+      }
+    })
   }
 
   logout(){

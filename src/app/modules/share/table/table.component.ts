@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 import { Header } from './../../../common/models/header';
+import { ToastrNotificationService } from 'src/app/services/toastr-notification.service';
 
 @Component({
   selector: 'app-table',
@@ -59,7 +60,7 @@ export class TableComponent implements OnInit, OnChanges {
   }
 
   constructor(private dataService: DataService, private route: ActivatedRoute,
-              private notification: NotificationService, private router: Router) {}
+              private notification: ToastrNotificationService, private router: Router) {}
 
   ngOnInit(): void {
     this.sortBy = this.primaryKey;

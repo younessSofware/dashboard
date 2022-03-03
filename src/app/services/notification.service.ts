@@ -1,25 +1,35 @@
+import { HttpClient } from '@angular/common/http';
+import { API_URL } from './../common/constants';
 import { Injectable } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationService {
-  constructor(private toastr: ToastrService) { }
 
-  showSuccess(message: string, title: string){
-    this.toastr.success(message, title)
+  url = API_URL + 'notifications/'
+
+  constructor(private http: HttpClient) { }
+
+  getNotifications(){
+    return this.http.get(`${API_URL}notifications`)
   }
 
-  showError(message: string, title: string){
-      this.toastr.error(message, title)
+  markAsSeen(id: number){
+    return this.http.put(`${API_URL}notifications/${id}/seen`, {})
   }
 
-  showInfo(message: string, title: string){
-      this.toastr.info(message, title)
+  accept(id: number){
+    return this.http.put(`${API_URL}notifications/${id}/accept`, {})
   }
 
-  showWarning(message: string, title: string){
-      this.toastr.warning(message, title)
+  reject(id: number){
+    return this.http.put(`${API_URL}notifications/${id}/reject`, {})
+  }
+
+  count(){
+    console.log("count notifications");
+
+    return this.http.get(`${API_URL}notifications/count`)
   }
 }

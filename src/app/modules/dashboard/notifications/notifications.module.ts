@@ -1,3 +1,4 @@
+import { ShareModule } from './../../share/share.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -11,7 +12,8 @@ import { NotificationsComponent } from './notifications.component';
   ],
   imports: [
     CommonModule,
-    NotificationsRoutingModule
+    NotificationsRoutingModule,
+    ShareModule
   ]
 })
 export class NotificationsModule { }

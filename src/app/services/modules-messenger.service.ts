@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 
 interface MessengerData {
-  type: "new-message",
+  type: 'new-message' | 'update-notification',
   data: any
 }
 
