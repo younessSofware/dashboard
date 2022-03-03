@@ -69,7 +69,10 @@ export class MenuComponent implements OnInit {
 
         if(message.type == 'update-notification'){
           const item = this.menuItems.find(item => item.name == "notifications");
-          if(item && item.notifications != undefined) item.notifications += message.data;
+          if(item && item.notifications != undefined){
+            item.notifications += message.data;
+            if(item.notifications < 0) item.notifications = 0
+          }
         }
       }
     })
