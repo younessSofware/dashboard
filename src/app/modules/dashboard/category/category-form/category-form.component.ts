@@ -16,6 +16,12 @@ export class CategoryFormComponent implements OnInit {
       value: ''
     },
     {
+      name: "photo",
+      title: "",
+      type: "image",
+      value: ''
+    },
+    {
       name: "name",
       title: "Category name",
       type: 'text',

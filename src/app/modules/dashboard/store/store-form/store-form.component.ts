@@ -24,6 +24,12 @@ export class StoreFormComponent implements OnInit {
       value: ''
     },
     {
+      name: "photo",
+      title: "",
+      type: "image",
+      value: ''
+    },
+    {
       name: "storeName",
       title: "store name",
       type: 'text',

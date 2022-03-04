@@ -14,12 +14,6 @@ export class AuthGuard implements CanActivate {
       return false;
     }
     const user = JSON.parse(localStorage.getItem('user') as string)
-    // if(!user || (user.role != 'ADMIN' && user.role != 'SUPER ADMIN')){
-    //   localStorage.removeItem('token')
-    //   localStorage.removeItem('user')
-    //   this.router.navigateByUrl('/auth');
-    //   return false;
-    // }
     return !!user;
   }
 }

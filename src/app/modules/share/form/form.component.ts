@@ -151,7 +151,7 @@ export class FormComponent implements OnInit, OnChanges {
     if(this.imagesUrl[header.name]) return this.imagesUrl[header.name];
 
     const formValue =this.formField(header.name)?.value
-    if(formValue) return  DOMAIN_URL + formValue;
+    if(formValue) return  DOMAIN_URL + "/" + formValue;
 
     return './../../../assets/default-img.png'
   }
@@ -182,7 +182,7 @@ export class FormComponent implements OnInit, OnChanges {
   getFormData(){
     const formData = new FormData();
     this.headers.forEach(header => {
-      const value = this.formField(header.name)?.value;
+      const value = this.formField(this.getFullHeaderName(header))?.value;
       switch (header.type) {
         case 'image':{
           if(header.value){
@@ -199,9 +199,11 @@ export class FormComponent implements OnInit, OnChanges {
           break;
         }
 
-        default:
-          formData.append(header.name, value)
+        default:{
+          const name = !header.parents ? header.name : header.parents.reverse().reduce((acc, curr) => `${curr}[${acc}]`  , header.name);
+          formData.append(name, value ? value : '')
           break;
+        }
       }
     })
     return formData;

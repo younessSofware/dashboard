@@ -13,6 +13,13 @@ export class StoreListComponent implements OnInit {
 
   headers: Header[] = [
     {
+      name: "photo",
+      title: "",
+      type: "image",
+      sort: false,
+      align: 'center'
+    },
+    {
       name: "id",
       title: "id"
     },

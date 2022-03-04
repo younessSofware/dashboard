@@ -126,12 +126,12 @@
               </thead>
               <tbody *ngIf="data && data.length" class="bg-white divide-y divide-gray-200">
                 <tr [class.bg-gray-100]="ind % 2" *ngFor="let d of data; let ind = index">
-                  <td>
+                  <td class="text-center">
                     <input [checked]="checkedRows.includes(d[primaryKey])" class="mx-2" (change)="checkRow($event, d)"  type="checkbox">
                   </td>
                   <td class="py-4 whitespace-nowrap text-center px-2 border-l-2 border-gray-200" *ngFor="let header of tableHeaders">
                     <section [ngSwitch]="header.type">
-                      <img *ngSwitchCase="'image'" [src]="d[header.name]" class="h-10 w-10 bg-gray-500 rounded-full mx-auto ring-2 ring-gray-300" alt="">
+                      <img *ngSwitchCase="'image'" [src]="d[header.name]" class="h-10 w-10 rounded-full mx-auto ring-2 ring-gray-300" alt="">
                       <span
                         *ngSwitchCase="'boolean'"
                         class="p-2 px-3 inline-flex cursor-pointer text-sm leading-5 font-semibold rounded-full"

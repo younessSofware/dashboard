@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
     })
 
     this.form.patchValue({
-      phoneNumber: "admin@wabel.com",
+      phoneNumber: "+212658426577",
       password: "12345678"
     })
   }
