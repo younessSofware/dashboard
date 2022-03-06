@@ -23,13 +23,13 @@ export class CategoryFormComponent implements OnInit {
     },
     {
       name: "name",
-      title: "Category name",
+      title: "category_name",
       type: 'text',
       value: '',
       validators: [
         {
           validatorFn: Validators.required,
-          message: 'the category name is required'
+          message: 'name_required'
         }
       ]
     }

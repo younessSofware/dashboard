@@ -2,11 +2,11 @@
   <div class="flex flex-col items-center bg-gray-200 justify-center py-20">
     <img src="./../../../../assets/logo.png" alt="">
     <span class="text-7xl font-bold text-primary">
-      <span class="block mt-2">Wabel Dashboard</span>
+      <span class="block mt-2">{{ 'app_name_dashboard' | translate }}</span>
     </span>
   </div>
   <div class="bg-white w-full px-4 py-2 mt-4">
-    <span class="text-3xl uppercase my-2"><i class="fa-solid fa-chart-column mx-3"></i>statistics</span>
+    <span class="text-3xl uppercase my-2"><i class="fa-solid fa-chart-column mx-3"></i>{{'statistics' | translate}}</span>
     <hr>
   </div>
   <div class="p-4" *ngIf="error">
@@ -16,10 +16,10 @@
     <div *ngFor="let item of items" class="border border-gray-400 shadow-lg p-4 rounded-lg">
       <div class="flex items-center">
         <span class="text-5xl block text-primary"><i [class]="item.icon"></i> </span>
-        <span class="text-2xl ml-4 block text-primary capitalize">{{ item.title }}</span>
+        <span class="text-2xl mx-4 block text-primary capitalize">{{ item.title | translate }}</span>
       </div>
-      <div class="text-right">
-        <span class="text-secondary font-bold block ml-auto text-5xl">
+      <div class="flex justify-end w-full">
+        <span class="text-secondary font-bold block text-5xl">
           <span *ngIf="statisticsLoading"><i class="fas fa-circle-notch fa-spin"></i></span>
           <span *ngIf="!statisticsLoading">{{ item.count }}</span>
         </span>

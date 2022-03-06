@@ -10,7 +10,7 @@
     <div class="px-3">
       <span class="block text-3xl md:text-4xl lg:text-5xl font-extrabold text-secondary text-center">
         <span class="block"><i class="fa-solid fa-chart-line"></i></span>
-        <span class="block mt-1 md:mt-3">Wabel Dashboard</span>
+        <span class="block mt-1 md:mt-3">{{ 'app_name_dashboard' | translate }}</span>
       </span>
       <div class="mt-6 bg-secondary h-1 w-full hidden sm:block"></div>
     </div>
@@ -18,18 +18,18 @@
   <div class="flex-grow col-span-2 md:col-span-1 flex flex-col items-center justify-center">
     <img class="w-16 sm:w-20" src="./../../../../assets/logo.png" alt="">
     <div class="text-center w-full px-5 sm:px-16">
-      <span class="block text-4xl mt-4 font-bold text-primary">Login</span>
+      <span class="block text-4xl mt-4 font-bold text-primary">{{ 'login' | translate}}</span>
       <app-alert [message]="error" *ngIf="error" [type]="'danger'" class="block my-4"></app-alert>
       <form [formGroup]="form" (ngSubmit)="submit()" class="mt-5 w-full" action="">
         <div>
           <input
             class="custom-input my-4"
             [class.invalid]="phoneNumber?.dirty && !phoneNumber?.valid"
-            placeholder="Phone Number"
+            [placeholder]="'phone_number' | translate"
             formControlName="phoneNumber"
           >
           <span class="text-red-500 text-left text-md block mt-2 pl-1" *ngIf="phoneNumber?.dirty && !phoneNumber?.valid">
-            <span class="block" *ngIf="phoneNumber?.hasError('required')">The phone number field is required</span>
+            <span class="block" *ngIf="phoneNumber?.hasError('required')">{{ 'phone_number_required' | translate }}</span>
           </span>
         </div>
 
@@ -38,11 +38,11 @@
             class="custom-input my-4"
             [class.invalid]="password?.dirty && !password?.valid"
             type="password"
-            placeholder="password"
+            [placeholder]="'password' | translate"
             formControlName="password"
           >
           <span class="text-red-500 text-left text-md" *ngIf="password?.dirty && !password?.valid">
-            <span class="block" *ngIf="password?.hasError('required')">The password field is required</span>
+            <span class="block" *ngIf="password?.hasError('required')">{{ 'password_required' }}</span>
           </span>
         </div>
 
@@ -51,7 +51,7 @@
           [disabled]="!form.valid"
         >
           <span *ngIf="loading" ><i class="fas fa-circle-notch fa-spin"></i></span>
-          <span *ngIf="!loading" >Login</span>
+          <span *ngIf="!loading" >{{ 'login' | translate }}</span>
         </button>
       </form>
     </div>

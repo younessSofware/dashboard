@@ -65,7 +65,6 @@ export class LoginComponent implements OnInit {
           id: parsedToken.sub,
           name: parsedToken.username
         }
-        console.log(user);
         window.localStorage.setItem('user', JSON.stringify(user));
         this.router.navigateByUrl('/dashboard');
       },

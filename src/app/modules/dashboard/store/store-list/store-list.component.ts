@@ -25,13 +25,13 @@ export class StoreListComponent implements OnInit {
     },
     {
       name: 'storeName',
-      title: 'store name',
+      title: 'store_name',
       search: true
     },
     {
       parents: ['account'],
       name: "name",
-      title: "owner name",
+      title: "owner",
       search: true
     },
     // {
@@ -43,7 +43,7 @@ export class StoreListComponent implements OnInit {
     {
       parents: ['account'],
       name: "phoneNumber",
-      title: "Phone Number",
+      title: "phone_number",
       search: true
     },
     {
@@ -65,7 +65,7 @@ export class StoreListComponent implements OnInit {
     },
     {
       name: "createdAt",
-      title: "Created at",
+      title: "created_at",
       type: "date"
     },
     {

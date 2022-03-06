@@ -61,7 +61,7 @@ export class ProductFormComponent implements OnInit {
         validators: [
           {
             validatorFn: Validators.required,
-            message: 'product photo is required'
+            message: 'photo_required'
           }
         ]
       },
@@ -73,12 +73,12 @@ export class ProductFormComponent implements OnInit {
       },
       {
         name: 'name',
-        title: 'product name',
+        title: 'product_name',
         value: '',
         validators: [
           {
             validatorFn: Validators.required,
-            message: 'product name is required'
+            message: 'product_name_required'
           }
         ]
       },
@@ -90,15 +90,15 @@ export class ProductFormComponent implements OnInit {
         validators: [
           {
             validatorFn: Validators.required,
-            message: 'product description is required'
+            message: 'description_required'
           },
           {
             validatorFn: Validators.maxLength(300),
-            message: 'product description must be less than 300 characters'
+            message: 'description_max_ch'
           },
           {
             validatorFn: Validators.minLength(5),
-            message: 'product description must be more than 5 characters'
+            message: 'description_min_ch'
           }
         ]
       },

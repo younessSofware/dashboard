@@ -19,7 +19,7 @@ export class ClientListComponent implements OnInit {
     {
       parents: ['account'],
       name: "name",
-      title: "full name",
+      title: "full_name",
       search: true
     },
     // {
@@ -31,7 +31,7 @@ export class ClientListComponent implements OnInit {
     {
       parents: ['account'],
       name: "phoneNumber",
-      title: "Phone Number",
+      title: "phone_number",
       search: true
     },
     {
@@ -53,7 +53,7 @@ export class ClientListComponent implements OnInit {
     },
     {
       name: "createdAt",
-      title: "Created at",
+      title: "created_at",
       type: "date"
     },
     {

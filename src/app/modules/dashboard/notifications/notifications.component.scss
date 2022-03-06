@@ -8,9 +8,11 @@
 tr{
   @apply border-b border-t border-gray-400
 }
+
 td:nth-child(2){
-  @apply pb-8 pl-10 pt-2
+  @apply pb-8 px-10 pt-2
 }
+
 td:first-child{
   @apply whitespace-nowrap font-bold align-top pt-2 w-1
 }

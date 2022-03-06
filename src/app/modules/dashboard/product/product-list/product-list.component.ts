@@ -22,7 +22,7 @@ export class ProductListComponent implements OnInit {
     },
     {
       name: 'name',
-      title: 'product name',
+      title: 'product_name',
       search: true
     },
     {
@@ -35,13 +35,13 @@ export class ProductListComponent implements OnInit {
     {
       parents: ['store'],
       name: 'storeName',
-      title: 'store name',
+      title: 'store_name',
       search: true
     },
     {
       parents: ['store', 'account'],
       name: 'name',
-      title: 'store Owner',
+      title: 'owner',
       search: true
     },
     {

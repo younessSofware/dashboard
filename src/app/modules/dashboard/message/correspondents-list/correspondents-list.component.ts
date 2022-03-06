@@ -28,25 +28,25 @@ export class CorrespondentsListComponent implements OnInit, OnChanges {
   // selectedAccount: Account | null = null;
   tabs = [
     {
-      title: 'Stores',
+      title: 'stores',
       role: 'store',
       notifications: 0
     },
     {
-      title: 'Clients',
+      title: 'clients',
       role: 'client',
       notifications: 0
     },
     {
-      title: 'Delivery men',
+      title: 'delivery men',
       role: 'delivery man',
       notifications: 0
     },
-    {
-      title: 'Admins',
-      role: 'admin',
-      notifications: 0
-    }
+    // {
+    //   title: 'Admins',
+    //   role: 'admin',
+    //   notifications: 0
+    // }
   ]
 
   get selectedMessageAccount(): MessageAccount{

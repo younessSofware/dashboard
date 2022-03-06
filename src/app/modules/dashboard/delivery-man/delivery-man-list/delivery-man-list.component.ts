@@ -19,7 +19,7 @@ export class DeliveryManListComponent implements OnInit {
     {
       parents: ['account'],
       name: "name",
-      title: "full name",
+      title: "full_name",
       search: true
     },
     // {
@@ -38,13 +38,13 @@ export class DeliveryManListComponent implements OnInit {
     {
       parents: ['store'],
       name: "storeName",
-      title: "store name",
+      title: "store_name",
       search: true
     },
     {
       parents: ['account'],
       name: "phoneNumber",
-      title: "Phone Number",
+      title: "phone_number",
       search: true
     },
     {
@@ -66,7 +66,7 @@ export class DeliveryManListComponent implements OnInit {
     },
     {
       name: "createdAt",
-      title: "Created at",
+      title: "created_at",
       type: "date"
     },
     {

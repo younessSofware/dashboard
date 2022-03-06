@@ -22,12 +22,12 @@ export class CategoryListComponent implements OnInit {
     },
     {
       name: "name",
-      title: "Category name",
+      title: "category_name",
       search: true
     },
     {
       name: "createdAt",
-      title: "creation date",
+      title: "created_at",
       type: 'date',
       default: "none"
     }

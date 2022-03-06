@@ -1,6 +1,6 @@
 <div class=" py-2 bg-gray-100 h-full flex flex-col min-h-0">
   <div class="px-4">
-    <span class="text-3xl uppercase my-2"><i class="fas fa-bell mx-2"></i>Notifications</span>
+    <span class="text-3xl my-2 capitalize"><i class="fas fa-bell mx-2"></i>{{ 'notifications' | translate }}</span>
     <hr>
   </div>
   <div class="mt-5 grid grid-cols-5 flex-grow min-h-0 ">
@@ -34,38 +34,44 @@
         </div>
       </div>
       <div class="px-60 w-full" *ngIf="selectedNotification && !loading">
-        <div class="text-center bg-gray-100 border border-gray-400 rounded-xl px-8 py-4 w-full">
-          <i class="fas fa-bell text-3xl my-2"></i>
-          <span class="text-2xl font-bold uppercase block">{{ selectedNotification.notification.text }}</span>
-          <table class="mt-10 mb-6 text-left w-full" *ngIf="store">
+        <div class="bg-gray-100 border border-gray-400 rounded-xl px-8 py-4 w-full">
+          <div class="text-center">
+            <i class="fas fa-bell text-3xl my-2"></i>
+            <span class="text-2xl font-bold uppercase block">{{ selectedNotification.notification.text }}</span>
+          </div>
+          <table class="mt-10 mb-6 text-right w-full" *ngIf="store">
             <tr>
-              <td>StoreName</td>
+              <td>{{ 'store_name' | translate }}</td>
               <td>{{ store.storeName }}</td>
             </tr>
             <tr>
-              <td>Owner</td>
+              <td>{{ 'owner' | translate }}</td>
               <td>{{ store.account.name }}</td>
             </tr>
             <tr>
-              <td>E-mail</td>
-              <td>{{ store.account.email }}</td>
-            </tr>
-            <tr>
-              <td>Phone Number</td>
+              <td>{{ 'phone_number' | translate }}</td>
               <td>{{ store.account.phoneNumber }}</td>
             </tr>
             <tr>
-              <td>Address</td>
-              <td>{{ store.account.address }}e</td>
+              <td>{{ 'address' | translate }}</td>
+              <td>{{ store.account.address }}</td>
+            </tr>
+            <tr>
+              <td>{{ 'longitude' | translate }}</td>
+              <td>{{ store.account.longitude }}</td>
+            </tr>
+            <tr>
+              <td>{{ 'latitude' | translate }}</td>
+              <td>{{ store.account.latitude }}</td>
             </tr>
           </table>
           <div class="text-xl">
-             <span *ngIf="selectedNotification.state == 'accepted'" class="text-green-500 block"><i class="fas fa-check"></i> Accepted</span>
-             <span *ngIf="selectedNotification.state == 'rejected'" class="text-red-500 block"><i class="fas fa-times"></i> Rejected</span>
+             <span *ngIf="selectedNotification.state == 'accepted'" class="text-green-500 block capitalize"><i class="fas fa-check"></i> {{ 'accepted' | translate }}</span>
+             <span *ngIf="selectedNotification.state == 'rejected'" class="text-red-500 block capitalize"><i class="fas fa-times"></i> {{ 'rejected' | translate }}</span>
           </div>
           <div *ngIf="!['accepted', 'rejected'].includes(selectedNotification.state)" class="grid grid-cols-2 mt-4 gap-4">
-            <button (click)="accept()" class="custom-button">Accept</button>
-            <button (click)="reject()" class="outline-button">Reject</button>
+            <button (click)="accept()" class="custom-button capitalize">{{ 'accept' | translate}}</button>
+            <button (click)="reject()" class="outline-button capitalize">{{ 'reject' | translate}}</button>
           </div>
         </div>
       </div>

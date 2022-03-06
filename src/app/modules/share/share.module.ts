@@ -1,3 +1,4 @@
+import { TranslateModule } from '@ngx-translate/core';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { MsTimePipe } from './../../pipes/ms-time.pipe';
 import { ResumeTextPipe } from './../../pipes/resume-text.pipe';
@@ -32,7 +33,8 @@ import { OrdersListComponent } from './orders-list/orders-list.component';
     ReactiveFormsModule,
     FormsModule,
     RouterModule,
-    NgApexchartsModule
+    NgApexchartsModule,
+    TranslateModule
   ],
   exports: [
     AlertComponent,

@@ -66,12 +66,12 @@ export class FormComponent implements OnInit, OnChanges {
   }
 
   formFieldErrors(header: FormHeader){
-    const errors = Object.keys(this.formField(header.name)?.errors as {});
+    const errors = Object.keys(this.formField(header)?.errors as {});
     return header.validators?.filter(v => errors.includes(v.validatorFn.name)).map(v => v.message);
   }
 
-  formField(fieldName: string){
-    return this.form.get(fieldName)
+  formField(header: Header){
+    return this.form.get(this.getFullHeaderName(header))
   }
 
   getFormType(){
@@ -150,7 +150,7 @@ export class FormComponent implements OnInit, OnChanges {
   getImage(header: FormHeader){
     if(this.imagesUrl[header.name]) return this.imagesUrl[header.name];
 
-    const formValue =this.formField(header.name)?.value
+    const formValue =this.formField(header)?.value
     if(formValue) return  DOMAIN_URL + "/" + formValue;
 
     return './../../../assets/default-img.png'
@@ -169,7 +169,7 @@ export class FormComponent implements OnInit, OnChanges {
     console.log("json data");
 
     return this.headers.reduce((acc, curr) => {
-      let field = {[curr.name]: this.formField(this.getFullHeaderName(curr))?.value}
+      let field = {[curr.name]: this.formField(curr)?.value}
 
       if(curr.parents){
         field = curr.parents.reduce((acc1, curr1) => ({[curr1]: acc1}), field)
@@ -182,7 +182,7 @@ export class FormComponent implements OnInit, OnChanges {
   getFormData(){
     const formData = new FormData();
     this.headers.forEach(header => {
-      const value = this.formField(this.getFullHeaderName(header))?.value;
+      const value = this.formField(header)?.value;
       switch (header.type) {
         case 'image':{
           if(header.value){

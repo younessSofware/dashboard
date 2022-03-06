@@ -11,6 +11,7 @@ import { MessageBoxComponent } from './message-box/message-box.component';
 import { MessagesAreaComponent } from './messages-area/messages-area.component';
 import { CorrespondentsListComponent } from './correspondents-list/correspondents-list.component';
 import { MessageFormComponent } from './message-form/message-form.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { MessageFormComponent } from './message-form/message-form.component';
     CommonModule,
     MessageRoutingModule,
     FormsModule,
-    ShareModule
+    ShareModule,
+    TranslateModule
   ],
 })
 export class MessageModule { }

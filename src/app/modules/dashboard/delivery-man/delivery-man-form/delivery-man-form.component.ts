@@ -51,14 +51,14 @@ export class DeliveryManFormComponent implements OnInit {
       },
       {
         name: "name",
-        title: "full name",
+        title: "full_name",
         parents: ['account'],
         type: 'text',
         value: '',
         validators: [
           {
             validatorFn: Validators.required,
-            message: 'the full name is required'
+            message: 'full_name_required'
           }
         ]
       },
@@ -88,24 +88,24 @@ export class DeliveryManFormComponent implements OnInit {
         validators: [
           {
             validatorFn: Validators.required,
-            message: 'the email is required'
+            message: 'password_required'
           },
           {
             validatorFn: Validators.minLength(8),
-            message: 'password must contains at least 8 characters'
+            message: 'password_min_ch'
           }
         ]
       },
       {
         name: "phoneNumber",
-        title: "phone Number",
+        title: "phone_number",
         parents: ['account'],
         type: 'string',
         value: '',
         validators: [
           {
             validatorFn: Validators.required,
-            message: 'the phone Number is required'
+            message: 'phone_number_required'
           }
         ]
       },
@@ -114,7 +114,13 @@ export class DeliveryManFormComponent implements OnInit {
         title: "address",
         parents: ['account'],
         type: 'textarea',
-        value: ''
+        value: '',
+        validators: [
+          {
+            validatorFn: Validators.required,
+            message: 'address_required'
+          }
+        ]
       },
       {
         name: 'store',

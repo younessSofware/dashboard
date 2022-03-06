@@ -1,3 +1,4 @@
+import { TranslateModule } from '@ngx-translate/core';
 import { ShareModule } from './../share/share.module';
 import { MenuComponent } from './menu/menu.component';
 import { NgModule } from '@angular/core';
@@ -19,7 +20,8 @@ import { HomeComponent } from './home/home.component';
   imports: [
     CommonModule,
     DashboardRoutingModule,
-    ShareModule
+    ShareModule,
+    TranslateModule
   ]
 })
 export class DashboardModule { }

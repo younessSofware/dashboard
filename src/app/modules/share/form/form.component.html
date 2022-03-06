@@ -4,7 +4,7 @@
 </div>
 <div  class="mx-3 h-screen flex flex-col pb-4" *ngIf='!loading'>
   <div class="my-3">
-    <span class="text-3xl uppercase my-2"><i [class]="icon + ' mx-2'"></i>{{type}} {{ singleName }}</span>
+    <span class="text-3xl uppercase my-2"><i [class]="icon + ' mx-2'"></i>{{ type | translate }} {{ singleName | translate }}</span>
     <hr>
   </div>
   <hr>
@@ -16,7 +16,7 @@
       <div class="flex-grow min-h-0 overflow-y-auto pb-5">
         <div *ngFor="let header of headers" class="px-3 my-2" [class]="[header.width ? 'w-' + header.width : 'w-full']">
           <label *ngIf="!header.hidden && header.type != 'checkbox'" class="block uppercase tracking-wide text-gray-700 text-sm font-bold mt-4 mb-2" [for]="header.name">
-            {{ header.title }}
+            {{ header.title | translate }}
           </label>
           <section [ngSwitch]="header.type">
             <section *ngSwitchCase="header.type == 'image' ? header.type : ''">
@@ -34,7 +34,7 @@
                   </div>
                 </div>
                 <label [for]="header.name" class="custom-file-button color-transition mt-3 mb-1">
-                  <i class="fas fa-upload"></i> Upload
+                  <i class="fas fa-upload"></i> {{ 'upload' | translate }}
                 </label>
                 <input
                   (change)="setImage(header, $event)"
@@ -115,9 +115,9 @@
                 [name]="header.name"
                 [formControlName]="getFullHeaderName(header)"
                 (change)="errors[header.name] ? errors[header.name] = undefined : ''"
-                [placeholder]="header.title"
+                [placeholder]="header.title | translate"
                 rows="8"
-                [class.invalid]="(errors && errors[header.name]) || (formField(header.name)?.dirty && !formField(header.name)?.valid)"
+                [class.invalid]="(errors && errors[header.name]) || (formField(header)?.dirty && !formField(header)?.valid)"
                 class="custom-input"
               ></textarea>
             </section>
@@ -157,9 +157,9 @@
                 [name]="header.name"
                 [formControlName]="getFullHeaderName(header)"
                 [type]="header.type"
-                [placeholder]="header.title"
+                [placeholder]="header.title | translate"
                 (change)="errors[header.name] = undefined"
-                [class.invalid]="(errors && errors[header.name]) || (formField(header.name)?.dirty && !formField(header.name)?.valid)"
+                [class.invalid]="(errors && errors[header.name]) || (formField(header)?.dirty && !formField(header)?.valid)"
                 class="custom-input"
               >
             </section>
@@ -167,14 +167,14 @@
           <span [class.text-center]="header.type == 'image'" *ngIf="errors && errors[header.name]" class="pl-1">
             <span class="text-red-500 text-sm italic" *ngFor="let err of errors[header.name]">{{ err }}</span>
           </span>
-          <div [class.text-center]="header.type == 'image'" *ngIf="(header.type == 'image' || formField(header.name)?.dirty) && !formField(header.name)?.valid" class="pl-1 w-full">
-            <span class="text-red-500 text-sm italic" *ngFor="let err of formFieldErrors(header)">{{ err }}</span>
+          <div [class.text-center]="header.type == 'image'" *ngIf="(header.type == 'image' || formField(header)?.dirty) && !formField(header)?.valid" class="pl-1 w-full">
+            <span class="text-red-500 text-sm italic" *ngFor="let err of formFieldErrors(header)">{{ err | translate: {entity: singleName | translate} }}</span>
           </div>
         </div>
       </div>
       <button type="submit" class="custom-button" [disabled]="saveLoading ">
         <span *ngIf="saveLoading"><i class="fas fa-circle-notch fa-spin"></i></span>
-        <span *ngIf="!saveLoading">Save</span>
+        <span *ngIf="!saveLoading">{{ 'save' | translate}}</span>
       </button>
     </div>
   </form>

@@ -12,7 +12,7 @@
       *ngFor="let item of menuItems"
       class="menu-item group"
     >
-        <span class="menu-tooltip group-hover:scale-100">{{ item.name }}</span>
+        <span class="menu-tooltip group-hover:scale-100">{{ item.name | translate }}</span>
 
         <span [class]="item.notifications ? 'scale-100': 'scale-0'" class="notification">{{ item.notifications }}</span>
 
@@ -24,7 +24,7 @@
       <span class="px-4 py-3">
         <i class="fas fa-sign-out-alt"></i>
       </span>
-      <span class="menu-tooltip group-hover:scale-100">logout</span>
+      <span class="menu-tooltip group-hover:scale-100">{{ 'logout' | translate}}</span>
     </a>
   </nav>
 </div>
