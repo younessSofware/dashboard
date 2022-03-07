@@ -9,7 +9,7 @@
   </div>
   <hr>
   <div class="px-2 mb-1">
-    <app-alert [message]="error" type="danger" *ngIf="error"></app-alert>
+    <app-alert [message]="error | translate" type="danger" *ngIf="error"></app-alert>
   </div>
   <form [formGroup]="form" (ngSubmit)="type == 'edit' ? updateData() : storeData()" class="w-full min-h-0 flex-grow" *ngIf="!loading && (type == 'edit') == !!data && headers && headers.length">
     <div class="flex flex-col min-h-0 w-full h-full">
@@ -172,7 +172,7 @@
           </div>
         </div>
       </div>
-      <button type="submit" class="custom-button" [disabled]="saveLoading ">
+      <button type="submit" class="custom-button" >
         <span *ngIf="saveLoading"><i class="fas fa-circle-notch fa-spin"></i></span>
         <span *ngIf="!saveLoading">{{ 'save' | translate}}</span>
       </button>

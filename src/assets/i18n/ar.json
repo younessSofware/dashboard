@@ -67,5 +67,11 @@
   "description_min_ch": "يجب أن يكون وصف {{entity}} اكثر من 3 احرف",
   "name_required": "اسم {{entity}} مطلوب",
   "photo_required": "صورة {{entity}} مطلوبة",
-  "address_required": "العنوان مطلوب"
+  "address_required": "العنوان مطلوب",
+  "ENABLED": "مفعل",
+  "BLOCKED": "محظور",
+  "SUSPENDED": "معلق",
+  "CREATED": "ثم الانشاء",
+  "invalid_data": "مغلومات خاطئة",
+  "internal_server_error": "حدث خطأ"
 }

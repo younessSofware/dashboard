@@ -227,11 +227,9 @@ export class FormComponent implements OnInit, OnChanges {
   handleError(err: any){
     this.saveLoading = false;
 
-    if(err.message && err.message.length){
-      this.errors = err.message.reduce((acc: any, curr: any) => [...acc, ...(curr.children.length ? curr.children : [curr])], [])
-      .map((e: any) => ({property: e.property, errors: Object.keys(e.constraints).map(k => e.constraints[k]) }))
-      .reduce((acc: any, curr: any) => ({...acc, [curr.property]: curr.errors}), {})
-      this.error = "Invalid data";
+    if(err.message){
+      this.errors =err.message
+      this.error = "invalid_data";
     }
     else this.error = err;
 

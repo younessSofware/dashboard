@@ -37,7 +37,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
               this.router.navigateByUrl('/auth/login')
             }
             if(err.status == 400) return throwError(() => error)
-            if(err.status == 500 || err.status == 0) errorMsg = `Internal server error`;
+            if(err.status == 500 || err.status == 0) errorMsg = `internal_server_error`;
             else errorMsg = err.error.message;
         }
         return throwError(() => errorMsg)

@@ -141,7 +141,7 @@
                       >
                         {{ getHeaderValue(d, header, header.type) }}
                       </span>
-                      <span [class]="'tag ' + header.tagsColors[getHeaderValue(d, header, header.type)]" *ngSwitchCase="'tag'">{{ getHeaderValue(d, header, header.type) }}</span>
+                      <span [class]="'tag ' + header.tagsColors[getHeaderValue(d, header, header.type)]" *ngSwitchCase="'tag'">{{ getHeaderValue(d, header, header.type) | translate }}</span>
                       <span *ngSwitchCase="'date'"> {{ getHeaderValue(d, header, header.type) | date: "medium" }} </span>
                       <div class="text-sm text-gray-900" *ngSwitchDefault>{{ getHeaderValue(d, header, header.type) | resumeText: header.maxLength ? header.maxLength : null }}</div>
                     </section>
