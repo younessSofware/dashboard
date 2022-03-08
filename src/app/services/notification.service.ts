@@ -28,8 +28,6 @@ export class NotificationService {
   }
 
   count(){
-    console.log("count notifications");
-
     return this.http.get(`${API_URL}notifications/count`)
   }
 }

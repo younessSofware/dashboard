@@ -15,7 +15,7 @@ export class DeliveryManDisplayComponent implements OnInit {
 
   charts: Chart[] = [
     {
-      name: 'Orders',
+      name: 'orders',
       type: 'radial',
       title: 'Delivery man Orders in',
       categories: [OrderState.IN_PROGRESS, OrderState.IN_DELIVERY, OrderState.RECEIVED, OrderState.CANCELED],

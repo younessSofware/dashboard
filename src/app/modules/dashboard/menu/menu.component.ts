@@ -86,12 +86,9 @@ export class MenuComponent implements OnInit {
   countNotifications(){
     this.notificationService.count().subscribe({
       next: (resp: any) => {
-        console.log(resp);
         const item = this.menuItems.find(item => item.name == "notifications");
         if(item) {
-          console.log(resp.data.count);
           item.notifications = resp.data.count;
-          console.log(item);
         };
       },
       error: err => {

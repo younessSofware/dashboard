@@ -1,31 +1,31 @@
 <div class="bg-gray-100 h-full p-4">
   <div class="grid grid-cols-7 gap-4">
-    <div class="col-span-2 text-center card">
+    <div class="col-span-2 card">
       <app-loading-line [loading]="productLoading"></app-loading-line>
-      <div class="text-left pt-3"><span class="text-2xl font-bold block">Product Details </span></div>
+      <div class="pt-3"><span class="text-2xl font-bold block capitalize">{{ 'product_details' | translate }} </span></div>
       <div class="h-36 w-36 bg-black rounded-xl mx-auto mt-4 overflow-hidden flex items-center">
         <img *ngIf="product" class="w-full" [src]="photo(product.photo)" alt="">
       </div>
-      <span class="text-xl block font-bold mt-3">{{ product ? product.name : "" }}</span>
-      <div class="mt-2">
+      <div class="mt-2 text-center ">
+        <span class="text-xl block font-bold mt-3">{{ product ? product.name : "" }}</span>
         <span>{{ product.description }}</span>
         <table>
           <tbody>
-            <tr>
-              <th>Category</th>
-              <th>Store</th>
+            <tr class="capitalize">
+              <th>{{ 'category' | translate }}</th>
+              <th>{{ 'store' | translate }}</th>
             </tr>
             <tr>
               <td>{{ product.category.name }}</td>
               <td><span [routerLink]="['/dashboard/stores/display']" [queryParams]="{id: product.store.id}" class="link">{{ product.store.storeName }}</span></td>
             </tr>
-            <tr>
-              <th>Stock</th>
-              <th>Price</th>
+            <tr class="capitalize">
+              <th>{{ 'stock' | translate }}</th>
+              <th>{{ 'price' | translate }}</th>
             </tr>
             <tr>
               <td>{{ product.quantity }}</td>
-              <td>{{ product.price }}</td>
+              <td>{{ product.price }} SAR</td>
             </tr>
           </tbody>
         </table>
@@ -34,7 +34,7 @@
     <div class="col-span-5 card flex flex-col">
       <div>
         <app-loading-line [loading]="sellsChartLoading"></app-loading-line>
-        <div class="text-left pt-3"><span class="text-2xl font-bold block">Product Sells </span></div>
+        <div class="pt-3"><span class="text-2xl font-bold block">{{ 'product_sells' | translate }} </span></div>
       </div>
       <div class="flex flex-col flex-grow justify-end">
         <app-line-chart

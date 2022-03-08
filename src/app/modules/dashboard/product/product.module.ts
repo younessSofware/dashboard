@@ -1,3 +1,4 @@
+import { TranslateModule } from '@ngx-translate/core';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { ShareModule } from './../../share/share.module';
 import { NgModule } from '@angular/core';
@@ -21,7 +22,8 @@ import { ProductDisplayComponent } from './product-display/product-display.compo
     CommonModule,
     ProductRoutingModule,
     ShareModule,
-    NgApexchartsModule
+    NgApexchartsModule,
+    TranslateModule
   ]
 })
 export class ProductModule { }

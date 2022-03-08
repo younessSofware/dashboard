@@ -73,5 +73,21 @@
   "SUSPENDED": "معلق",
   "CREATED": "ثم الانشاء",
   "invalid_data": "مغلومات خاطئة",
-  "internal_server_error": "حدث خطأ"
+  "internal_server_error": "حدث خطأ",
+  "client_details": "مغلومات العميل",
+  "store_details": "معلومات المتجر",
+  "delivery_man_details": "معلومات المندوب",
+  "product_details": "معلومات المنتج",
+  "account": "الحساب",
+  "sells": "المبيعات",
+  "of": "من",
+  "received": "تم الاستقبال",
+  "in progress": "قيد التجهيز",
+  "in delivery": "قيد التوصيل",
+  "canceled": "ملغى",
+  "unit_price": "الثمن",
+  "total": "المجموع",
+  "show_more": "أظهر المزيد",
+  "product_sells": "المبيعات",
+  "purchases": "المشتريات"
 }

@@ -1,7 +1,7 @@
 <div class="p-4 bg-gray-100 h-full overflow-auto">
 
   <app-display
-    [title]="'Client details / ' + (client ? client.account.name : '')"
+    [title]="('client_details' | translate) + ' / ' + (client ? client.account.name : '')"
     [charts]="charts"
     [profile]="(client ? client.account : null)"
     [profileError]="profileError"

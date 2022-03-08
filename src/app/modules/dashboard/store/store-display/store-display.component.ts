@@ -15,7 +15,7 @@ export class StoreDisplayComponent implements OnInit {
 
   charts: Chart[] = [
     {
-      name: 'Sells',
+      name: 'sells',
       title: 'Store Sells in last month',
       type: 'line',
       categories: this.monthBefore(),
@@ -24,7 +24,7 @@ export class StoreDisplayComponent implements OnInit {
       values: []
     },
     {
-      name: 'Orders',
+      name: 'orders',
       type: 'radial',
       title: 'Store Orders in',
       categories: [OrderState.IN_PROGRESS, OrderState.IN_DELIVERY, OrderState.RECEIVED, OrderState.CANCELED],

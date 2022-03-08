@@ -1,3 +1,4 @@
+import { TranslateModule } from '@ngx-translate/core';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { ShareModule } from './../../share/share.module';
 import { NgModule } from '@angular/core';
@@ -19,7 +20,8 @@ import { ClientFormComponent } from './client-form/client-form.component';
     CommonModule,
     ClientRoutingModule,
     ShareModule,
-    NgApexchartsModule
+    NgApexchartsModule,
+    TranslateModule
   ]
 })
 export class ClientModule { }

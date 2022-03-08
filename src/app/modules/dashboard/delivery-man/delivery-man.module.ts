@@ -1,3 +1,4 @@
+import { TranslateModule } from '@ngx-translate/core';
 import { ShareModule } from './../../share/share.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -19,7 +20,8 @@ import { DeliveryManDisplayComponent } from './delivery-man-display/delivery-man
   imports: [
     CommonModule,
     DeliveryManRoutingModule,
-    ShareModule
+    ShareModule,
+    TranslateModule
   ]
 })
 export class DeliveryManModule { }

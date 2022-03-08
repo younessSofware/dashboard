@@ -7,7 +7,7 @@
   <div class="card col-span-3 col-start-2 md:col-span-2 lg:col-span-2 xl:col-span-2 md:col-start-1">
     <app-loading-line [loading]="!profile && profileError"></app-loading-line>
     <div class="card-title">
-      <span>Owner</span>
+      <span>{{ 'account' | translate}}</span>
     </div>
     <div class="px-2">
       <app-alert type="danger" [message]="profileError" *ngIf="profileError"></app-alert>
@@ -27,8 +27,8 @@
 
   <div class="card col-span-5 lg:col-span-4 xl:col-span-5" [class]="first ? 'md:col-span-6' : 'md:col-span-8'" *ngFor="let chart of charts; let first = first">
     <app-loading-line [loading]="(!chart.values || !chart.values.length) && !chart.error"></app-loading-line>
-    <div class="card-title">
-      <span>{{ chart.name }}</span>
+    <div class="card-title capitalize">
+      <span>{{ chart.name | translate }}</span>
     </div>
     <div class="px-2">
       <app-alert type="danger" [message]="chart.error" *ngIf="chart.error"></app-alert>

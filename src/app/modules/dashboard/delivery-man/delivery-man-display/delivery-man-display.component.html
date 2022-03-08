@@ -1,7 +1,7 @@
 <div class="p-4 bg-gray-100 h-full overflow-auto">
 
   <app-display
-    [title]="'Delivery man details / ' + (deliveryMan ? deliveryMan.account.name : '')"
+    [title]="('delivery_man_details' | translate) + ' / ' + (deliveryMan ? deliveryMan.account.name : '')"
     [charts]="charts"
     [profile]="(deliveryMan ? deliveryMan.account : null)"
     [profileError]="profileError"

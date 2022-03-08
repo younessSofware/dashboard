@@ -14,14 +14,14 @@ export class ClientDisplayComponent implements OnInit {
 
   charts: Chart[] = [
     {
-      name: 'Sells',
+      name: 'purchases',
       title: 'Client purchases in last month',
       type: 'line',
       categories: this.monthBefore(),
       values: []
     },
     {
-      name: 'Orders',
+      name: 'orders',
       type: 'radial',
       title: 'Store Orders in',
       categories: [OrderState.IN_PROGRESS, OrderState.IN_DELIVERY, OrderState.RECEIVED, OrderState.CANCELED],

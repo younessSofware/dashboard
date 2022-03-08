@@ -11,11 +11,11 @@
   <div>
     <div class="my-6">
       <div class="flex justify-between items-center">
-        <span class="text-2xl text-primary font-bold block mb-4">
+        <span class="text-2xl text-primary font-bold block mb-4 capitalize">
           <i class="fas fa-boxes"></i>
-          Products <span *ngIf="products && products.length">{{ products.length + ' of ' + productsCount  }}</span>
+          {{ 'products' | translate }} <span *ngIf="products && products.length">{{ products.length + " " + ('of' | translate) + " " + productsCount  }}</span>
         </span>
-        <span class="link" [routerLink]="['/dashboard/products/list']" [queryParams]="{ searchQuery: storeSearchQuery }">show more</span>
+        <span class="link" [routerLink]="['/dashboard/products/list']" [queryParams]="{ searchQuery: storeSearchQuery }">{{ 'show_more' | translate }}</span>
       </div>
       <app-loading-line [loading]="!products && !productsError"></app-loading-line>
     </div>
@@ -43,11 +43,11 @@
   <div>
     <div class="my-6">
       <div class="flex justify-between items-center">
-        <span class="text-2xl text-primary font-bold block mb-4">
+        <span class="text-2xl text-primary font-bold block mb-4 capitalize">
           <i class="fas fa-truck"></i>
-          Delivery men <span *ngIf="deliveryMen && deliveryMen.length">{{ deliveryMen.length + ' of ' + deliveryMenCount }}</span>
+          {{ 'delivery men' | translate }} <span *ngIf="deliveryMen && deliveryMen.length">{{ deliveryMen.length + " " + ('of' | translate) + " " + deliveryMenCount }}</span>
         </span>
-        <span class="link" [routerLink]="['/dashboard/delivery-men/list']" [queryParams]="{ searchQuery: storeSearchQuery }" >show more</span>
+        <span class="link" [routerLink]="['/dashboard/delivery-men/list']" [queryParams]="{ searchQuery: storeSearchQuery }" >{{ 'show_more' | translate }}</span>
       </div>
       <app-loading-line [loading]="!deliveryMen && !deliveryManError"></app-loading-line>
     </div>
@@ -64,9 +64,6 @@
           </div>
           <div class="p-2">
             <span class="block text-lg">{{ deliveryMan.account.name }}</span>
-            <div class="text-right text-sm">
-              <!-- <span>{{ product.price }} SAR</span> -->
-            </div>
           </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
 <div>
   <div class="my-6">
     <div class="flex justify-between items-center">
-      <span class="text-2xl text-primary font-bold block mb-4"><i class="fas fa-boxs"></i> Orders {{ count + ' of ' + (orders ? orders.length : 0 )}}</span>
+      <span class="text-2xl text-primary font-bold block mb-4 capitalize"><i class="fas fa-boxs"></i> {{ 'orders' | translate }} {{ count + " " +  ('of' | translate) + " " + (orders ? orders.length : 0 )}}</span>
       <div class="flex">
         <div
           (click)="changePage(page)"
@@ -21,7 +21,7 @@
   <div class="" *ngIf="orders && orders.length">
     <div class="my-3 bg-white border border-gray-500 shadow-lg p-3 rounded-xl" *ngFor="let order of orders">
       <div class="flex justify-between items-center">
-        <span class="block text-lg font-bold">Order #{{ order.id }} <span class="uppercase">( {{ order.state }} )</span></span>
+        <span class="block text-lg font-bold capitalize">{{ 'order' | translate }} #{{ order.id }} <span class="uppercase">( {{ order.state | translate }} )</span></span>
         <div class="flex items-center">
           <span class="block mx-3">{{ order.createdAt | date: 'medium' }}</span>
           <button
@@ -37,10 +37,10 @@
         <table class="w-full mt-2 border-b border-gray-400 text-center">
           <thead class="text-left">
             <tr>
-              <th>product</th>
-              <th>price</th>
-              <th>quantity</th>
-              <th>unit price</th>
+              <th>{{ 'product' | translate }}</th>
+              <th>{{ 'price' | translate }}</th>
+              <th>{{ 'quantity' | translate }}</th>
+              <th>{{ 'unit_price' | translate }}</th>
             </tr>
           </thead>
           <tbody>
@@ -50,15 +50,15 @@
                   {{ productOrder.product.name }}
                 </span>
               </td>
-              <td>{{ productOrder.product.price }}</td>
+              <td>{{ productOrder.product.price }} SAR</td>
               <td>{{ productOrder.quantity }}</td>
               <td>{{ productOrder.product.price * productOrder.quantity }}</td>
             </tr>
             <tr>
               <td></td>
               <td></td>
-              <td class="text-right font-bold">Total</td>
-              <td class="font-bold">{{ order.amount }}</td>
+              <td class="flex justify-end font-bold capitalize">{{ 'total' | translate }}</td>
+              <td class="font-bold">{{ order.amount }} SAR</td>
             </tr>
           </tbody>
         </table>
