@@ -43,9 +43,6 @@ export class MessagesAreaComponent implements OnInit, OnChanges {
   setChatSubscription(){
     this.socketService.onNewMessage().subscribe({
       next: message => {
-        // console.log("-----------------------");
-        // console.log("new message", message);
-
         if(this.partnerId){
           message.state = MessageState.SEEN
           this.socketService.messagesSeen(this.partnerId)
@@ -57,11 +54,6 @@ export class MessagesAreaComponent implements OnInit, OnChanges {
     this.socketService.onMessageSent().subscribe({
       next: message => {
         this.messages = this.messages.map(msg => {
-          console.log("----------------------");
-          console.log("message seen");
-          console.log(decodeURI(msg.media));
-          console.log(decodeURI(msg.media));
-
           if(msg.uuid == message.uuid) return message
           return msg;
         })

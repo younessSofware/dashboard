@@ -42,11 +42,6 @@ export class CorrespondentsListComponent implements OnInit, OnChanges {
       role: 'delivery man',
       notifications: 0
     },
-    // {
-    //   title: 'Admins',
-    //   role: 'admin',
-    //   notifications: 0
-    // }
   ]
 
   get selectedMessageAccount(): MessageAccount{
