@@ -4,11 +4,10 @@
       <span class="text-2xl text-primary font-bold block mb-4 capitalize"><i class="fas fa-boxs"></i> {{ 'orders' | translate }} {{ count + " " +  ('of' | translate) + " " + (orders ? orders.length : 0 )}}</span>
       <div class="flex">
         <div
-          (click)="changePage(page)"
           class="page-number"
           [class.selected]="currentPage == ind" *ngFor="let page of pages; let ind = index"
         >
-          <span>{{ page + 1 }}</span>
+          <span>1</span>
         </div>
       </div>
     </div>
@@ -51,15 +50,15 @@
                   {{ productOrder.product.name }}
                 </span>
               </td>
-              <td>{{ productOrder.product.price }} SAR</td>
+              <td>{{ productOrder.product.price }} {{ 'SAR' | translate}}</td>
               <td>{{ productOrder.quantity }}</td>
-              <td>{{ productOrder.product.price * productOrder.quantity }}</td>
+              <td>{{ productOrder.product.price * productOrder.quantity }} {{ 'SAR' | translate}}</td>
             </tr>
             <tr>
               <td></td>
               <td></td>
               <td class="flex justify-end font-bold capitalize">{{ 'total' | translate }}</td>
-              <td class="font-bold">{{ order.amount }} SAR</td>
+              <td class="font-bold">{{ order.amount }} {{ 'SAR' | translate}}</td>
             </tr>
           </tbody>
         </table>

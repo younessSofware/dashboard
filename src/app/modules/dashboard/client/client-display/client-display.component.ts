@@ -1,3 +1,5 @@
+import { TranslateService } from '@ngx-translate/core';
+import { firstValueFrom } from 'rxjs';
 import { Chart } from './../../../../common/models/Chart';
 import { ClientService } from './../../../../services/client.service';
 import { OrderState } from './../../../../common/models/enums/order-state';
@@ -12,24 +14,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ClientDisplayComponent implements OnInit {
 
-  charts: Chart[] = [
-    {
-      name: 'purchases',
-      title: 'Client purchases in last month',
-      type: 'line',
-      categories: this.monthBefore(),
-      values: []
-    },
-    {
-      name: 'orders',
-      type: 'radial',
-      title: 'Store Orders in',
-      categories: [OrderState.IN_PROGRESS, OrderState.IN_DELIVERY, OrderState.RECEIVED, OrderState.CANCELED],
-      colors: ["#ED0F0F", "#0F59ED", "#855E14", "#287F1C"],
-      max: 0,
-      values: []
-    }
-  ]
+  charts: Chart[] = []
   clientId: number;
   client: any;
 
@@ -40,11 +25,38 @@ export class ClientDisplayComponent implements OnInit {
   ordersLimit = 5;
   ordersCount = 0;
 
-  constructor(private route: ActivatedRoute, private clientService: ClientService) { }
+  constructor(private route: ActivatedRoute, private clientService: ClientService, private translateService: TranslateService) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.getDataId();
+    this.charts = [
+      {
+        name: await firstValueFrom(this.translateService.get('purchases')),
+        title: 'Client purchases in last month',
+        type: 'line',
+        categories: this.monthBefore(),
+        values: []
+      },
+      {
+        name: 'orders',
+        type: 'radial',
+        title: 'Store Orders in',
+        categories: await this.getOrdersStates(),
+        colors: ["#ED0F0F", "#0F59ED", "#855E14", "#287F1C"],
+        max: 0,
+        values: []
+      }
+    ]
   }
+
+  async getOrdersStates(){
+    return [
+     await firstValueFrom(this.translateService.get(OrderState.IN_PROGRESS)),
+     await firstValueFrom(this.translateService.get(OrderState.IN_DELIVERY)),
+     await firstValueFrom(this.translateService.get(OrderState.RECEIVED)),
+     await firstValueFrom(this.translateService.get(OrderState.CANCELED))
+   ];
+ }
 
   monthBefore () {
     const date = new Date()

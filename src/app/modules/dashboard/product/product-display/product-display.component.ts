@@ -1,3 +1,5 @@
+import { firstValueFrom } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 import { Chart } from './../../../../common/models/Chart';
 import { API_URL, DOMAIN_URL } from './../../../../common/constants';
 import { ActivatedRoute } from '@angular/router';
@@ -17,19 +19,20 @@ export class ProductDisplayComponent implements OnInit {
   productId: number;
   product: any;
 
-  chart: Chart = {
-    name: 'Sells',
-    title: 'Product Sells in last month',
-    type: 'line',
-    categories: this.monthBefore(),
-    values: []
-  }
-  sellsChartLoading = true;
-  sellsChartError: string;
+  chart: Chart;
+  salesChartLoading = true;
+  salesChartError: string;
 
-  constructor(private productService: ProductService, private route: ActivatedRoute) { }
+  constructor(private productService: ProductService, private route: ActivatedRoute, private translateService: TranslateService) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    this.chart = {
+      name: await firstValueFrom(this.translateService.get('sales')),
+      title: 'product_sales_last_month',
+      type: 'line',
+      categories: this.monthBefore(),
+      values: []
+    }
     this.getDataId();
   }
 
@@ -48,7 +51,7 @@ export class ProductDisplayComponent implements OnInit {
         const id = query.get('id');
         if(id) this.productId = +id
         this.getProduct();
-        this.getProductSells()
+        this.getProductSales()
       }
     )
   }
@@ -69,9 +72,9 @@ export class ProductDisplayComponent implements OnInit {
     })
   }
 
-  getProductSells(){
-    this.sellsChartLoading = true;
-    this.productService.sells(this.productId).subscribe({
+  getProductSales(){
+    this.salesChartLoading = true;
+    this.productService.sales(this.productId).subscribe({
       next: (resp: any) => {
         console.log(resp);
         // this.product = resp.data
@@ -87,12 +90,12 @@ export class ProductDisplayComponent implements OnInit {
         console.log(this.chart.values);
 
 
-        this.sellsChartLoading = false;
+        this.salesChartLoading = false;
       },
       error: err => {
         console.log(err);
-        this.sellsChartError = err;
-        this.sellsChartLoading = false;
+        this.salesChartError = err;
+        this.salesChartLoading = false;
       }
     })
   }

@@ -1,3 +1,4 @@
+import { TranslateService } from '@ngx-translate/core';
 import { Chart } from './../../../../common/models/Chart';
 import { StoreService } from './../../../../services/store.service';
 import { DOMAIN_URL } from './../../../../common/constants';
@@ -5,6 +6,7 @@ import { OrderState } from './../../../../common/models/enums/order-state';
 import { Component, OnInit } from '@angular/core';
 
 import { ActivatedRoute } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-store-display',
@@ -13,26 +15,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class StoreDisplayComponent implements OnInit {
 
-  charts: Chart[] = [
-    {
-      name: 'sells',
-      title: 'Store Sells in last month',
-      type: 'line',
-      categories: this.monthBefore(),
-      colors: ["#ED0F0F", "#0F59ED", "#855E14", "#287F1C"],
-      max: 0,
-      values: []
-    },
-    {
-      name: 'orders',
-      type: 'radial',
-      title: 'Store Orders in',
-      categories: [OrderState.IN_PROGRESS, OrderState.IN_DELIVERY, OrderState.RECEIVED, OrderState.CANCELED],
-      colors: ["#ED0F0F", "#0F59ED", "#855E14", "#287F1C"],
-      max: 0,
-      values: []
-    }
-  ]
+  charts: Chart[] = []
 
   showOrder = 0;
   ordersCount = 0;
@@ -61,10 +44,40 @@ export class StoreDisplayComponent implements OnInit {
     }))
   }
 
-  constructor(private route: ActivatedRoute, private storeService: StoreService) { }
+  constructor(private route: ActivatedRoute, private storeService: StoreService, private translateService: TranslateService) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.getDataId();
+    console.log(this.monthBefore());
+    this.charts = [
+      {
+        name: await firstValueFrom(this.translateService.get('sales')),
+        title: 'store_sales_last_month',
+        type: 'line',
+        categories: this.monthBefore(),
+        colors: ["#ED0F0F", "#0F59ED", "#855E14", "#287F1C"],
+        max: 0,
+        values: []
+      },
+      {
+        name: await firstValueFrom(this.translateService.get('orders')),
+        type: 'radial',
+        title: 'Store Orders in',
+        categories: await this.getOrdersStates(),
+        colors: ["#ED0F0F", "#0F59ED", "#855E14", "#287F1C"],
+        max: 0,
+        values: []
+      }
+    ]
+  }
+
+  async getOrdersStates(){
+     return [
+      await firstValueFrom(this.translateService.get(OrderState.IN_PROGRESS)),
+      await firstValueFrom(this.translateService.get(OrderState.IN_DELIVERY)),
+      await firstValueFrom(this.translateService.get(OrderState.RECEIVED)),
+      await firstValueFrom(this.translateService.get(OrderState.CANCELED))
+    ];
   }
 
   monthBefore () {
@@ -85,7 +98,7 @@ export class StoreDisplayComponent implements OnInit {
         this.getProducts();
         this.getDeliveryMen();
         this.getOrdersStatistics();
-        this.grtStoreSells();
+        this.grtStoreSales();
         this.getOrders();
       }
     )
@@ -154,8 +167,8 @@ export class StoreDisplayComponent implements OnInit {
     })
   }
 
-  grtStoreSells(){
-    this.storeService.sells(this.storeId)
+  grtStoreSales(){
+    this.storeService.sales(this.storeId)
     .subscribe({
       next: (resp: any) => {
         this.charts[0].values = this.monthBefore().map(e => 0)

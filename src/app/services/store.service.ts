@@ -35,7 +35,7 @@ export class StoreService {
     return this.http.get(this.url)
   }
 
-  sells(storeId: number){
+  sales(storeId: number){
     return this.http.get(`${this.url}${storeId}/store-sells`)
   }
 

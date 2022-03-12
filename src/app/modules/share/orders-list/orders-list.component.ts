@@ -22,7 +22,7 @@ export class OrdersListComponent implements OnInit {
   }
 
   get pages(){
-    return new Array(Math.ceil(this.count / this.limit)).keys()
+    return [...new Array(Math.ceil(this.count / this.limit)).keys()]
   }
 
   constructor() { }

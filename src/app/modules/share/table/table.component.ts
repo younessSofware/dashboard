@@ -1,3 +1,5 @@
+import { firstValueFrom } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 import { Button } from './../../../common/models/button';
 import { API_URL, DOMAIN_URL } from './../../../common/constants';
 import { NotificationService } from './../../../services/notification.service';
@@ -8,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 import { Header } from './../../../common/models/header';
 import { ToastrNotificationService } from 'src/app/services/toastr-notification.service';
+import { lowerFirst } from 'lodash';
 
 @Component({
   selector: 'app-table',
@@ -59,25 +62,25 @@ export class TableComponent implements OnInit, OnChanges {
     return this.headers.filter(h => h.type != 'hidden')
   }
 
-  constructor(private dataService: DataService, private route: ActivatedRoute,
+  constructor(private dataService: DataService, private route: ActivatedRoute, private translateService: TranslateService,
               private notification: ToastrNotificationService, private router: Router) {}
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.sortBy = this.primaryKey;
     this.getQueryParams();
     this.getData();
     this.initSearchQueryObject();
-    this.initDefaultButtons();
+    await this.initDefaultButtons();
     this.initButtons();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  async ngOnChanges(changes: SimpleChanges) {
       if(Object.keys(this.defaultButtons).length){
         if(changes['editLink']) this.defaultButtons['edit'].routerLink.link = this.editLink
         if(changes['displayLink'] && this.defaultButtons['display']) this.defaultButtons['display'].routerLink.link = this.displayLink
         if(changes['deleteURL']) this.defaultButtons['delete'].request.url = this.deleteURL
       }
-      if(changes['showDisplayButton'] && !this.showDisplayButton) this.initDefaultButtons()
+      if(changes['showDisplayButton'] && !this.showDisplayButton) await this.initDefaultButtons()
   }
 
   getSearchHeaderValue(header: Header){
@@ -117,7 +120,7 @@ export class TableComponent implements OnInit, OnChanges {
     })
   }
 
-  initDefaultButtons(){
+  async initDefaultButtons(){
     if(this.showDisplayButton) this.defaultButtons['display'] = {
       name: 'display',
       icon: 'fas fa-eye',
@@ -145,12 +148,12 @@ export class TableComponent implements OnInit, OnChanges {
         method: 'delete'
       },
       confirmation: {
-        title: 'Delete ' + this.singleName,
-        text: 'Are you sure you want to delete this ' + this.singleName,
-        confirmButtonText: 'Yes',
+        title: await firstValueFrom(this.translateService.get('are_you_sure')),
+        text: await firstValueFrom(this.translateService.get('delete_conf_msg')) + ' ' + await firstValueFrom(this.translateService.get(this.singleName)),
+        confirmButtonText: await firstValueFrom(this.translateService.get('yes_delete_it')),
         confirmButtonColor: 'red',
         showCancelButton: true,
-        cancelButtonText: 'No',
+        cancelButtonText: await firstValueFrom(this.translateService.get('no')),
         icon: 'warning'
       }
     }
@@ -247,40 +250,6 @@ export class TableComponent implements OnInit, OnChanges {
     })
   }
 
-  showDeleteConf(){
-    return Swal.fire({
-      title: 'Are you sure?',
-      text: `Do you really want to delete this ${this.singleName} !`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: 'red',
-      confirmButtonText: 'Yes, delete it!'
-    })
-  }
-
-  deleteRow(row: any, ind: number){
-    this.showDeleteConf()
-    .then(
-      resp => {
-        if(resp.isConfirmed){
-          const deleteUrl = this.deleteURL.replace(/:id/g, row[this.primaryKey])
-          this.dataService.sendDeleteRequest(deleteUrl)
-          .subscribe({
-            next: (resp: any) => {
-              console.log(resp);
-              this.data.splice(ind, 1);
-              this.showSuccessMessage(resp.message);
-            },
-            error: err => {
-              console.log(err);
-              this.showErrorMessage(err.error);
-            }
-         })
-        }
-      }
-    )
-  }
-
   showErrorMessage(message: string){
     this.notification.showSuccess(message, 'Error');
   }
@@ -307,8 +276,12 @@ export class TableComponent implements OnInit, OnChanges {
   }
 
 
-  showConf(button: Button){
+  async showConf(button: Button){
     if(!button.confirmation) return;
+    button.confirmation.title = await firstValueFrom(this.translateService.get(button.confirmation.title + ''));
+    button.confirmation.text = await firstValueFrom(this.translateService.get(button.confirmation.text + ''));
+    button.confirmation.confirmButtonText = await firstValueFrom(this.translateService.get(button.confirmation.confirmButtonText + ''));
+    button.confirmation.cancelButtonText = await firstValueFrom(this.translateService.get(button.confirmation.cancelButtonText + ''));
     return Swal.fire(button.confirmation)
   }
 

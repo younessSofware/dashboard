@@ -22,10 +22,6 @@ export class RadialBarComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log('--------------------');
-    console.log(this.labels);
-    console.log(this.colors);
-    console.log(this.max);
     if(this.labels && this.colors && this.max != undefined){
       this.chart = {
         series: [],
@@ -67,7 +63,7 @@ export class RadialBarComponent implements OnInit, OnChanges {
             useSeriesColors: true
           },
           formatter: (seriesName: string, opts: any) => {
-            return seriesName + ":  " + opts.w.globals.series[opts.seriesIndex] * (this.max ? this.max : 1) / 100;
+            return  ' - ' + seriesName + ":  " + opts.w.globals.series[opts.seriesIndex] * (this.max ? this.max : 1) / 100;
           },
           itemMargin: {
             horizontal: 3

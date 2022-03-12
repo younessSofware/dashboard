@@ -15,7 +15,7 @@ export class ProductService {
     return this.http.get(`${this.url}${id}`)
   }
 
-  sells(productId: number){
+  sales(productId: number){
     return this.http.get(`${this.url}${productId}/sells`)
   }
 }

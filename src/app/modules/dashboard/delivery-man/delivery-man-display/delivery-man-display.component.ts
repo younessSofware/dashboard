@@ -1,3 +1,5 @@
+import { TranslateService } from '@ngx-translate/core';
+import { firstValueFrom } from 'rxjs';
 import { DeliveryMenService } from './../../../../services/delivery-men.service';
 import { ClientService } from './../../../../services/client.service';
 import { ActivatedRoute } from '@angular/router';
@@ -13,17 +15,7 @@ import { Component, OnInit } from '@angular/core';
 export class DeliveryManDisplayComponent implements OnInit {
 
 
-  charts: Chart[] = [
-    {
-      name: 'orders',
-      type: 'radial',
-      title: 'Delivery man Orders in',
-      categories: [OrderState.IN_PROGRESS, OrderState.IN_DELIVERY, OrderState.RECEIVED, OrderState.CANCELED],
-      colors: ["#ED0F0F", "#0F59ED", "#855E14", "#287F1C"],
-      max: 0,
-      values: []
-    }
-  ]
+  charts: Chart[] = []
 
   deliveryManId: number;
   deliveryMan: any;
@@ -35,10 +27,21 @@ export class DeliveryManDisplayComponent implements OnInit {
   ordersError: string;
   ordersLimit = 5;
 
-  constructor(private route: ActivatedRoute, private deliveryManService: DeliveryMenService) { }
+  constructor(private route: ActivatedRoute, private deliveryManService: DeliveryMenService, private translateService: TranslateService) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.getDataId();
+    this.charts = [
+      {
+        name: 'orders',
+        type: 'radial',
+        title: 'Delivery man Orders in',
+        categories: await this.getOrdersStates(),
+        colors: ["#ED0F0F", "#0F59ED", "#855E14", "#287F1C"],
+        max: 0,
+        values: []
+      }
+    ]
   }
 
   monthBefore () {
@@ -48,6 +51,15 @@ export class DeliveryManDisplayComponent implements OnInit {
       return date.getDate() + ' ' + date.toString().slice(4, 7)
     })
   }
+
+  async getOrdersStates(){
+    return [
+     await firstValueFrom(this.translateService.get(OrderState.IN_PROGRESS)),
+     await firstValueFrom(this.translateService.get(OrderState.IN_DELIVERY)),
+     await firstValueFrom(this.translateService.get(OrderState.RECEIVED)),
+     await firstValueFrom(this.translateService.get(OrderState.CANCELED))
+   ];
+ }
 
   getDataId(){
     this.route.queryParamMap

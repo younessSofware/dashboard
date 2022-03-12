@@ -32,7 +32,7 @@
           <div class="p-2">
             <span class="block text-lg">{{ product.name }}</span>
             <div class="text-right text-sm">
-              <span>{{ product.price }} SAR</span>
+              <span>{{ product.price }} {{ 'SAR' | translate }}</span>
             </div>
           </div>
         </div>
@@ -72,10 +72,12 @@
 
 
   <div>
-    <app-orders-list (onPageChange)="getOrders($event)" [limit]="ordersLimit" [error]="ordersError" [count]="ordersCount" [orders]="orders"></app-orders-list>
+    <app-orders-list
+      (onPageChange)="getOrders($event)"
+      [limit]="ordersLimit" [error]="ordersError"
+      [count]="ordersCount"
+      [orders]="orders"
+    ></app-orders-list>
   </div>
 
-
-  <!-- <div class="bg-red-500 h-60 my-4">
-  </div> -->
 </div>

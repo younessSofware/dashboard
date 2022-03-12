@@ -94,12 +94,12 @@ export class StoreListComponent implements OnInit {
         method: 'put',
       },
       confirmation: {
-        title: 'Block Store Account',
-        text: 'Are you sure you want to block those store account',
-        confirmButtonText: 'Yes',
+        title: 'are_you_sure',
+        text: 'block_account_conf_msg',
+        confirmButtonText: 'yes',
         confirmButtonColor: 'red',
         showCancelButton: true,
-        cancelButtonText: 'No',
+        cancelButtonText: 'no',
         icon: 'warning'
       }
     },
@@ -114,12 +114,12 @@ export class StoreListComponent implements OnInit {
         method: 'put',
       },
       confirmation: {
-        title: 'Suspend Store Account',
-        text: 'Are you sure you want to suspend those store account',
-        confirmButtonText: 'Yes',
+        title: 'are_you_sure',
+        text: 'suspend_account_conf_msg',
+        confirmButtonText: 'yes',
         confirmButtonColor: 'red',
         showCancelButton: true,
-        cancelButtonText: 'No',
+        cancelButtonText: 'no',
         icon: 'warning'
       }
     },
@@ -134,12 +134,12 @@ export class StoreListComponent implements OnInit {
         method: 'put',
       },
       confirmation: {
-        title: 'Enable Store Account',
-        text: 'Are you sure you want to enable those store account',
-        confirmButtonText: 'Yes',
+        title: 'are_you_sure',
+        text: 'enable_account_conf_msg',
+        confirmButtonText: 'yes',
         confirmButtonColor: 'red',
         showCancelButton: true,
-        cancelButtonText: 'No',
+        cancelButtonText: 'no',
         icon: 'warning'
       }
     },
