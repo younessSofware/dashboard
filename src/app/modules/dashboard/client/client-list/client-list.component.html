@@ -1,17 +1,15 @@
-<div class="container-fluid">
-  <app-table
-    [headers]="headers"
-    [rowButtons]="buttons"
-    [tableButtons]="tableButtons"
-    pluralName="clients"
-    singleName="client"
-    primaryKey="id"
-    deleteURL="clients/:id"
-    retrieveURL="clients/dashboard"
-    displayLink="/dashboard/clients/display"
-    editLink="/dashboard/clients/form/edit"
-    createLink="/dashboard/clients/form/create"
-    [showSortFilter]="false"
-    icon="fas fa-users"
-  ></app-table>
-</div>
+<app-table
+  [headers]="headers"
+  [rowButtons]="buttons"
+  [tableButtons]="tableButtons"
+  pluralName="clients"
+  singleName="client"
+  primaryKey="id"
+  deleteURL="clients/:id"
+  retrieveURL="clients/dashboard"
+  displayLink="/dashboard/clients/display"
+  editLink="/dashboard/clients/form/edit"
+  createLink="/dashboard/clients/form/create"
+  [showSortFilter]="false"
+  icon="fas fa-users"
+></app-table>

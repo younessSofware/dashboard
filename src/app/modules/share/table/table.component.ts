@@ -49,7 +49,7 @@ export class TableComponent implements OnInit, OnChanges {
   defaultButtons: any = {};
 
   currentPage = 1;
-  limit = 20;
+  limit = 5;
   searchQuery: any = {};
   sortBy: string;
   sortDir = 1;

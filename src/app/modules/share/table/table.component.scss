@@ -3,9 +3,7 @@
   height: 50px;
   border-radius: 50%;
 }
-td{
-  vertical-align: middle;
-}
+
 .disabled{
   cursor: none;
   @apply text-gray-300 border-gray-300 hover:bg-transparent;
@@ -50,4 +48,8 @@ select, input{
 
 .search-input{
   @apply px-2
+}
+
+th{
+  @apply top-0 sticky
 }
