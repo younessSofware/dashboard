@@ -15,8 +15,6 @@ export class AppComponent {
     AuthService.logoutOnTokenExpired();
     this.socketService.onNewMessageNotification().subscribe({
       next: sender => {
-        console.log("-----------------------");
-        console.log("new message-not from app", sender);
         modulesMessengerService.sendMessage({type: 'new-message', data: sender})
       }
     })

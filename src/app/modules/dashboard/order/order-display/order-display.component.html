@@ -1,0 +1,118 @@
+<div class="p-4 bg-gray-100 h-full overflow-auto">
+  <div>
+    <div class="flex items-center">
+      <span class="text-3xl uppercase my-2"><i class="fas fa-box mx-2"></i>{{ 'order_details' | translate }}</span>
+      <div class="px-2">
+        <div class="px-3 py-2 text-white bg-primary rounded-lg">{{ order.state | translate}}</div>
+      </div>
+    </div>
+    <hr>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-5 mt-4">
+    <div>
+      <div class="card">
+        <app-loading-line [loading]="!order && error"></app-loading-line>
+        <div class="card-title">
+          <span>{{ 'store' | translate}}</span>
+        </div>
+        <div class="px-2">
+          <app-alert type="danger" [message]="error" *ngIf="error"></app-alert>
+        </div>
+        <div class="flex items-center my-2 mx-4 md:mx-0 md:block">
+          <div class="flex flex-col items-center justify-center md:my-8">
+            <img *ngIf="order" [src]="order.store.photo | serverMedia" class="w-22 h-32 rounded-full ring-1 ring-gray-200" alt="">
+          </div>
+          <div class="pl-4 md:mt-8" *ngIf="order">
+            <span class="text-lg font-semibold">{{ order.store.storeName }}</span>
+            <span class="user-info "><i class="fas fa-user"></i> {{ order.store.account.name }} </span>
+            <span class="user-info"><i class="fas fa-phone"></i> {{ order.store.account.phoneNumber }}</span>
+            <span class="user-info"><i class="fas fa-location-dot"></i> {{ order.store.account.address }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class=" md:col-span-5">
+      <div class="card">
+        <app-loading-line [loading]="!order && error"></app-loading-line>
+        <div class="card-title">
+          <span>{{ 'products' | translate}}</span>
+        </div>
+        <div class="p-2" *ngIf="order">
+          <table class="w-full text-center">
+            <thead>
+              <tr>
+                <th>{{ 'id' | translate }}</th>
+                <th>{{ 'product' | translate }}</th>
+                <th>{{ 'category' | translate }}</th>
+                <th>{{ 'quantity' | translate }}</th>
+                <th>{{ 'unit_price' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let productOrder of order.productOrders">
+                <td>{{ productOrder.id }}</td>
+                <td>{{ productOrder.product.name }}</td>
+                <td>{{ productOrder.product.category.name }}</td>
+                <td>{{ productOrder.product.quantity }}</td>
+                <td>{{ productOrder.product.price }} {{'SAR' | translate}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="flex justify-end mt-3">
+            <div class="p-2 bg-gray-200 border border-gray-400 rounded-xl">
+              <span class="">{{ 'total' | translate }} : {{ order.amount }} {{ 'SAR' | translate }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card w-auto mt-4">
+        <app-loading-line [loading]="!order && error"></app-loading-line>
+        <div class="card-title">
+          <span>{{ 'delivery man' | translate}}</span>
+        </div>
+        <div class="p-2" *ngIf="order && !order.deliveryMan">
+          <app-alert [message]="'order_no_deliver_man'| translate" type="info"></app-alert>
+        </div>
+        <div class="flex px-3 py-3" *ngIf="order && order.deliveryMan">
+          <img class="w-20 h-20 border border-gray-400 rounded-full shadow-xl" src="./../../../../../assets/delivery-man.png" alt="">
+          <table class="x-full flex-grow text-center">
+            <tr>
+              <td><i class="fas fa-user mx-1"></i> {{ order.deliveryMan.account.name }}</td>
+              <td><i class="fas fa-location-dot mx-1"></i> {{ order.deliveryMan.account.address }}</td>
+              <td><i class="fas fa-phone mx-1"></i> {{ order.deliveryMan.account.phoneNumber }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="card col-span-5 lg:col-span-4 xl:col-span-5" [class]="first ? 'md:col-span-6' : 'md:col-span-8'" *ngFor="let chart of charts; let first = first">
+      <app-loading-line [loading]="(!chart.values || !chart.values.length) && !chart.error"></app-loading-line>
+      <div class="card-title capitalize">
+        <span>{{ chart.name | translate }}</span>
+      </div>
+      <div class="px-2">
+        <app-alert type="danger" [message]="chart.error" *ngIf="chart.error"></app-alert>
+      </div>
+      <div *ngIf="chart.values && chart.values.length" class="px-2 flex flex-col justify-end">
+        <app-line-chart
+          [categories]="chart.categories"
+          [title]="chart.title"
+          [dataName]="chart.name"
+          [values]="chart.values"
+          *ngIf="chart.type == 'line'"
+        >
+        </app-line-chart>
+        <app-radial-bar
+          [labels]="chart.categories"
+          [colors]="chart.colors"
+          [max]="chart.max"
+          [values]="chart.values"
+          *ngIf="chart.colors && chart.type == 'radial'"
+        >
+        </app-radial-bar>
+      </div>
+    </div> -->
+  </div>
+
+</div>

@@ -44,4 +44,8 @@ export class StoreService {
       params
     })
   }
+
+  storesLocations(){
+    return this.http.get(`${this.url}locations`)
+  }
 }

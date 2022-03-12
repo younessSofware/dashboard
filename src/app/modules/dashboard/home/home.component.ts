@@ -1,3 +1,4 @@
+import { StoreService } from './../../../services/store.service';
 import { DashboardService } from './../../../services/dashboard.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -39,10 +40,11 @@ export class HomeComponent implements OnInit {
     }
   ]
 
-  constructor(private dashboardService: DashboardService) { }
+  constructor(private dashboardService: DashboardService, private storeService: StoreService) { }
 
   ngOnInit(): void {
     this.getStatistics()
+    this.getStoresLocations();
   }
 
   getStatistics(){
@@ -58,6 +60,17 @@ export class HomeComponent implements OnInit {
         console.log(err);
         this.error = err;
         this.statisticsLoading = false;
+      }
+    })
+  }
+
+  getStoresLocations(){
+    this.storeService.storesLocations().subscribe({
+      next: resp => {
+        console.log(resp);
+      },
+      error: err => {
+        console.log(err);
       }
     })
   }

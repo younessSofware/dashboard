@@ -89,5 +89,9 @@
   "total": "المجموع",
   "show_more": "أظهر المزيد",
   "product_sells": "المبيعات",
-  "purchases": "المشتريات"
+  "purchases": "المشتريات",
+  "show_details": "اظهر التفاصيل",
+  "order_details": "تفاصيل الطلب",
+  "SAR": "ريال سعودي",
+  "order_no_deliver_man": "لم يتم تحديد منذوب لطلب بعد"
 }

@@ -1,3 +1,4 @@
+import { ServerMediaPipe } from './../../pipes/server-media.pipe';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { MsTimePipe } from './../../pipes/ms-time.pipe';
@@ -26,7 +27,8 @@ import { OrdersListComponent } from './orders-list/orders-list.component';
     RadialBarComponent,
     LineChartComponent,
     LoadingLineComponent,
-    OrdersListComponent
+    OrdersListComponent,
+    ServerMediaPipe
   ],
   imports: [
     CommonModule,
@@ -45,7 +47,8 @@ import { OrdersListComponent } from './orders-list/orders-list.component';
     RadialBarComponent,
     LineChartComponent,
     LoadingLineComponent,
-    OrdersListComponent
+    OrdersListComponent,
+    ServerMediaPipe
   ]
 })
 export class ShareModule { }

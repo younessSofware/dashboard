@@ -133,7 +133,7 @@
                   </td>
                   <td class="py-4 whitespace-nowrap text-center px-2 border-l-2 border-gray-200" *ngFor="let header of tableHeaders">
                     <section [ngSwitch]="header.type">
-                      <img *ngSwitchCase="'image'" [src]="d[header.name]" class="h-10 w-10 rounded-full mx-auto ring-2 ring-gray-300" alt="">
+                      <img *ngSwitchCase="'image'" [src]="d[header.name]" class="w-10 h-10 rounded-full mx-auto ring-2 ring-gray-300" alt="">
                       <span
                         *ngSwitchCase="'boolean'"
                         class="p-2 px-3 inline-flex cursor-pointer text-sm leading-5 font-semibold rounded-full"

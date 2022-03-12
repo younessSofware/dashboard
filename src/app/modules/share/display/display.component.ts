@@ -11,6 +11,7 @@ import { StringMapWithRename } from '@angular/compiler/src/compiler_facade_inter
 export class DisplayComponent implements OnInit {
 
   @Input() title: string
+
   @Input() profileError: string
   @Input() profile: {
     name: string,
@@ -18,6 +19,8 @@ export class DisplayComponent implements OnInit {
     address: string,
     phoneNumber: string
   };
+  @Input() profileTitle = "account";
+
   @Input() charts: Chart[]
   @Input() icon: string;
 

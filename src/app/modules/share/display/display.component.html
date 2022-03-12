@@ -7,7 +7,7 @@
   <div class="card col-span-3 col-start-2 md:col-span-2 lg:col-span-2 xl:col-span-2 md:col-start-1">
     <app-loading-line [loading]="!profile && profileError"></app-loading-line>
     <div class="card-title">
-      <span>{{ 'account' | translate}}</span>
+      <span>{{ profileTitle | translate}}</span>
     </div>
     <div class="px-2">
       <app-alert type="danger" [message]="profileError" *ngIf="profileError"></app-alert>
