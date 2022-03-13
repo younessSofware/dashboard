@@ -25,4 +25,8 @@ export class DeliveryMenService {
     return this.http.get(`${this.url}${id}/orders-statistics`)
   }
 
+  deliveryMenLocations(){
+    return this.http.get(`${this.url}locations`)
+  }
+
 }

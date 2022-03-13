@@ -29,4 +29,8 @@ export class ClientService {
     })
   }
 
+  clientsLocations(){
+    return this.http.get(`${this.url}locations`)
+  }
+
 }

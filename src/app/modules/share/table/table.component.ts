@@ -241,7 +241,7 @@ export class TableComponent implements OnInit, OnChanges {
           }
         })
         const nbPages = Math.floor(resp.data.count / this.limit) + 1
-        this.pages = [...new Array(nbPages - 1).keys()].map(key => key + 1);
+        this.pages = [...new Array(nbPages).keys()].map(key => key + 1);
       },
       error: err => {
         console.log("err", err);
