@@ -47,19 +47,13 @@ export class HomeComponent implements OnInit {
     clients: null,
     deliveryMen: null
   };
-  storesMap: any;
-  deliveryManMap: any;
-  clientsMap: any;
-  stores: any[]
 
   constructor(private dashboardService: DashboardService, private storeService: StoreService, private clientService: ClientService,
     private deliveryMenService: DeliveryMenService) { }
 
   ngOnInit(): void {
-    this.initMap('stores')
-    this.initMap('clients')
-    this.initMap('deliveryMen')
-    this.getStatistics()
+    Object.keys(this.maps).forEach(key => this.initMap(key))
+    this.getStatistics();
     this.getStoresLocations();
     this.getClientsLocations();
     this.getDeliveryMenLocations();
@@ -121,7 +115,7 @@ export class HomeComponent implements OnInit {
   private initMap(id: string): void {
     this.maps[id] = Leaflet.map(id, {
       center: [ 23.7294493, 46.2676419 ],
-      zoom: 3
+      zoom: 2
     });
     const tiles = Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18,
@@ -133,10 +127,7 @@ export class HomeComponent implements OnInit {
   }
 
   addMarker(text: string, longitude: number, latitude: number, id: string){
-    console.log('add map marker', id);
-
-    const marker = Leaflet.marker({lat: latitude, lng: longitude}, {
-    });
+    const marker = Leaflet.marker({lat: latitude, lng: longitude});
 
     marker.bindPopup(text).openPopup()
 

@@ -21,9 +21,9 @@
         <div class="flex items-center my-2 mx-4 md:mx-0 md:block">
           <div class="flex flex-col items-center justify-center md:my-8">
             <img *ngIf="order" [src]="order.store.photo | serverMedia" class="w-22 h-32 rounded-full ring-1 ring-gray-200" alt="">
+            <span class="text-lg font-semibold">{{ order.store.storeName }}</span>
           </div>
           <div class="pl-4 md:mt-8" *ngIf="order">
-            <span class="text-lg font-semibold">{{ order.store.storeName }}</span>
             <span class="user-info "><i class="fas fa-user"></i> {{ order.store.account.name }} </span>
             <span class="user-info"><i class="fas fa-phone"></i> {{ order.store.account.phoneNumber }}</span>
             <span class="user-info"><i class="fas fa-location-dot"></i> {{ order.store.account.address }}</span>
@@ -68,6 +68,13 @@
       <div class="card w-auto mt-4">
         <app-loading-line [loading]="!order && error"></app-loading-line>
         <div class="card-title">
+          <span>{{ 'track_order' | translate}}</span>
+        </div>
+        <div class="w-full h-96" id="map"></div>
+      </div>
+      <div class="card w-auto mt-4">
+        <app-loading-line [loading]="!order && error"></app-loading-line>
+        <div class="card-title">
           <span>{{ 'delivery man' | translate}}</span>
         </div>
         <div class="p-2" *ngIf="order && !order.deliveryMan">
@@ -86,33 +93,5 @@
       </div>
     </div>
 
-    <!-- <div class="card col-span-5 lg:col-span-4 xl:col-span-5" [class]="first ? 'md:col-span-6' : 'md:col-span-8'" *ngFor="let chart of charts; let first = first">
-      <app-loading-line [loading]="(!chart.values || !chart.values.length) && !chart.error"></app-loading-line>
-      <div class="card-title capitalize">
-        <span>{{ chart.name | translate }}</span>
-      </div>
-      <div class="px-2">
-        <app-alert type="danger" [message]="chart.error" *ngIf="chart.error"></app-alert>
-      </div>
-      <div *ngIf="chart.values && chart.values.length" class="px-2 flex flex-col justify-end">
-        <app-line-chart
-          [categories]="chart.categories"
-          [title]="chart.title"
-          [dataName]="chart.name"
-          [values]="chart.values"
-          *ngIf="chart.type == 'line'"
-        >
-        </app-line-chart>
-        <app-radial-bar
-          [labels]="chart.categories"
-          [colors]="chart.colors"
-          [max]="chart.max"
-          [values]="chart.values"
-          *ngIf="chart.colors && chart.type == 'radial'"
-        >
-        </app-radial-bar>
-      </div>
-    </div> -->
   </div>
-
 </div>

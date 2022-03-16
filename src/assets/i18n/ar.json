@@ -102,5 +102,6 @@
   "yes": "نعم",
   "enable_account_conf_msg": "هل أنت متأكد أنك تريد تفعيل هذا الحساب ؟",
   "block_account_conf_msg": "هل أنت متأكد أنك تريد حظر هذا الحساب؟",
-  "suspend_account_conf_msg": "هل أنت متأكد أنك تريد تعليق هذا الحساب؟"
+  "suspend_account_conf_msg": "هل أنت متأكد أنك تريد تعليق هذا الحساب؟",
+  "track_order": "تتبع الطلب"
 }
