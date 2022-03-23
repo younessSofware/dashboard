@@ -166,8 +166,6 @@ export class FormComponent implements OnInit, OnChanges {
                           : header.name
   }
   getJsonData(){
-    console.log("json data");
-
     return this.headers.reduce((acc, curr) => {
       let field = {[curr.name]: this.formField(curr)?.value}
 

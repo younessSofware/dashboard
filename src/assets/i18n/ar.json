@@ -103,5 +103,10 @@
   "enable_account_conf_msg": "هل أنت متأكد أنك تريد تفعيل هذا الحساب ؟",
   "block_account_conf_msg": "هل أنت متأكد أنك تريد حظر هذا الحساب؟",
   "suspend_account_conf_msg": "هل أنت متأكد أنك تريد تعليق هذا الحساب؟",
-  "track_order": "تتبع الطلب"
+  "track_order": "تتبع الطلب",
+  "commerce_number": "رقم السجل التجاري",
+  "commerce_number_required": "رقم السجل التجاري مطلوب",
+  "bank_account_number": "رقم الحساب البنكي",
+  "bank_account_number_required": "رقم الجساب البنكي مطلوب",
+  "edit": "تعديل"
 }

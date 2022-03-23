@@ -54,6 +54,30 @@ export class StoreFormComponent implements OnInit {
         }
       ]
     },
+    {
+      name: "commerceNumber",
+      title: "commerce_number",
+      type: 'text',
+      value: '',
+      validators: [
+        {
+          validatorFn: Validators.required,
+          message: 'commerce_number_required'
+        }
+      ]
+    },
+    {
+      name: "bankAccountNumber",
+      title: "bank_account_number",
+      type: 'number',
+      value: '',
+      validators: [
+        {
+          validatorFn: Validators.required,
+          message: 'bank_account_number_required'
+        }
+      ]
+    },
     // {
     //   name: "email",
     //   title: "E-mail",
