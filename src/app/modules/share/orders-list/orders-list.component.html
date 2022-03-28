@@ -7,7 +7,7 @@
           class="page-number"
           [class.selected]="currentPage == ind" *ngFor="let page of pages; let ind = index"
         >
-          <span>1</span>
+          <span>{{ page + 1 }}</span>
         </div>
       </div>
     </div>
