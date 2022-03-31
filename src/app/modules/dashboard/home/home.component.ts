@@ -133,4 +133,5 @@ export class HomeComponent implements OnInit {
 
     this.maps[id].addLayer(marker)
   }
+
 }

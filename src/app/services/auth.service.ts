@@ -1,6 +1,7 @@
 import { API_URL } from './../common/constants';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ export class AuthService {
 
   private static timer: any = null;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
   }
 
   login(data: {phoneNumber: string, password: string}){
@@ -17,6 +18,8 @@ export class AuthService {
   }
 
   logout(){
+    localStorage.removeItem('token');
+    this.router.navigateByUrl('/auth')
   }
 
   setToken(token: string){

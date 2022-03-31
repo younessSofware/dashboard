@@ -47,7 +47,7 @@ export class SocketService {
     return this.socket.fromEvent('messages-seen')
   }
 
-  onError(): Observable<number>{
+  onError(): Observable<any>{
     return this.socket.fromEvent('error')
   }
 
