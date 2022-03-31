@@ -67,6 +67,7 @@ export class HomeComponent implements OnInit {
         console.log(resp);
         this.statisticsLoading = false;
         this.items = this.items.map((item) => ({...item, count: resp[item.name ? item.name : item.title]}))
+        console.log("statistics done");
       },
       error: err => {
         console.log(err);
@@ -80,6 +81,8 @@ export class HomeComponent implements OnInit {
     this.storeService.storesLocations().subscribe({
       next: (resp: any) => {
         console.log(resp);
+        console.log("store locations");
+
         resp.data.forEach((store: any) => this.addMarker(store.storeName, store.longitude, store.latitude, 'stores') );
       },
       error: err => {
@@ -92,6 +95,7 @@ export class HomeComponent implements OnInit {
     this.clientService.clientsLocations().subscribe({
       next: (resp: any) => {
         console.log(resp);
+        console.log("clients");
         resp.data.forEach((client: any) => this.addMarker(client.name, client.longitude, client.latitude, 'clients') );
       },
       error: err => {
@@ -104,7 +108,8 @@ export class HomeComponent implements OnInit {
     this.deliveryMenService.deliveryMenLocations().subscribe({
       next: (resp: any) => {
         console.log(resp);
-        resp.data.forEach((deliveryMan: any) => this.addMarker(deliveryMan.name, deliveryMan.longitude, deliveryMan.latitude, 'deliveryMen') );
+        console.log("delivery man");
+        // resp.data.forEach((deliveryMan: any) => this.addMarker(deliveryMan.name, deliveryMan.longitude, deliveryMan.latitude, 'deliveryMen') );
       },
       error: err => {
         console.log(err);

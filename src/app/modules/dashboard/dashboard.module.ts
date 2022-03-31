@@ -1,3 +1,4 @@
+import { NotificationsComponent } from './notifications/notifications.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { ShareModule } from './../share/share.module';
 import { MenuComponent } from './menu/menu.component';
@@ -15,7 +16,8 @@ import { HomeComponent } from './home/home.component';
     DashboardComponent,
     MenuComponent,
     ClientComponent,
-    HomeComponent
+    HomeComponent,
+    NotificationsComponent
   ],
   imports: [
     CommonModule,

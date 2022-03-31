@@ -108,5 +108,6 @@
   "commerce_number_required": "رقم السجل التجاري مطلوب",
   "bank_account_number": "رقم الحساب البنكي",
   "bank_account_number_required": "رقم الجساب البنكي مطلوب",
-  "edit": "تعديل"
+  "edit": "تعديل",
+  "no_notifications": "لا توجد اي اشعارات"
 }

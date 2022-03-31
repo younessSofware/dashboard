@@ -1,7 +1,7 @@
 import { NotificationService } from './../../../services/notification.service';
 import { SocketService } from 'src/app/services/socket.service';
 import { ModulesMessengerService } from './../../../services/modules-messenger.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -10,17 +10,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit {
-
+  @Output() showNotifications = new EventEmitter();
+  @Output() hideNotifications = new EventEmitter();
+  notificationsDisplayed = false;
   menuItems = [
     {
       name: "home",
       icon: "fas fa-home",
       path: "/dashboard/home"
-    },
-    {
-      name: "notifications",
-      icon: "fas fa-bell",
-      path: "/dashboard/notifications/"
     },
     {
       name: "clients",
@@ -56,8 +53,8 @@ export class MenuComponent implements OnInit {
   ];
   user: any;
 
-  constructor( private router: Router, messengerService: ModulesMessengerService,
-    private socketService: SocketService, private notificationService: NotificationService) {
+  constructor( private router: Router, messengerService: ModulesMessengerService, private socketService: SocketService,
+    private notificationService: NotificationService) {
     messengerService.getMessage().subscribe({
       next: message => {
         if(message.type == 'new-message'){
@@ -98,24 +95,23 @@ export class MenuComponent implements OnInit {
   }
 
   logout(){
+    this.hideNotifications.emit();
     localStorage.removeItem('token');
     this.router.navigateByUrl('/auth/login')
     this.socketService.disconnect()
-    // this.authService.logout()
-    // .subscribe(
-    //   resp => {
-    //     window.localStorage.removeItem('token');
-    //     this.router.navigateByUrl('/auth')
-    //     console.log();
-    //   },
-    //   err => {
-
-    //   }
-    // )
   }
 
   getUser(){
     this.user = JSON.parse(localStorage.getItem('user')as string);
   }
 
+  showNots(){
+    this.notificationsDisplayed = true;
+    this.showNotifications.emit();
+  }
+
+  hideNots(){
+    this.notificationsDisplayed = false;
+    this.hideNotifications.emit();
+  }
 }
