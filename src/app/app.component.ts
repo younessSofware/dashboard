@@ -26,8 +26,6 @@ export class AppComponent implements OnInit {
     })
     this.socketService.onError().subscribe({
       next: (error: any) => {
-        console.log("socket error", error);
-        console.log("socket error", error.status);
         if(error.status && error.status == 401) this.authService.logout();
       }
     })
