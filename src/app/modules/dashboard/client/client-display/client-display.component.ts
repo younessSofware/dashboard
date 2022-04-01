@@ -6,6 +6,8 @@ import { OrderState } from './../../../../common/models/enums/order-state';
 import { ActivatedRoute } from '@angular/router';
 import { DOMAIN_URL } from './../../../../common/constants';
 import { Component, OnInit } from '@angular/core';
+import { AccountService } from 'src/app/services/account.service';
+import { AccountState } from 'src/app/common/models/enums/account-state';
 
 @Component({
   selector: 'app-client-display',
@@ -25,15 +27,17 @@ export class ClientDisplayComponent implements OnInit {
   ordersLimit = 5;
   ordersCount = 0;
 
-  constructor(private route: ActivatedRoute, private clientService: ClientService, private translateService: TranslateService) { }
+  constructor(private route: ActivatedRoute, private clientService: ClientService, private translateService: TranslateService,
+    private accountService: AccountService) { }
 
   async ngOnInit() {
+    console.log("month before: ", this.monthBefore());
     this.getDataId();
     this.charts = [
       {
-        name: 'orders',
+        name: await firstValueFrom(this.translateService.get('orders')),
         type: 'radial',
-        title: 'Store Orders in',
+        title: 'client_orders',
         categories: await this.getOrdersStates(),
         colors: ["#ED0F0F", "#0F59ED", "#855E14", "#287F1C"],
         max: 0,
@@ -41,9 +45,11 @@ export class ClientDisplayComponent implements OnInit {
       },
       {
         name: await firstValueFrom(this.translateService.get('purchases')),
-        title: 'Client purchases in last month',
+        title: 'client_purchases_last_month',
         type: 'line',
         categories: this.monthBefore(),
+        colors: ["#ED0F0F", "#0F59ED", "#855E14", "#287F1C"],
+        max: 0,
         values: []
       }
     ]
@@ -63,7 +69,7 @@ export class ClientDisplayComponent implements OnInit {
     return [...new Array(31).keys()].map((e, ind) => {
       if(ind) date.setDate(date.getDate() - 1)
       return date.getDate() + ' ' + date.toString().slice(4, 7)
-    })
+    }).reverse()
   }
 
   getDataId(){
@@ -119,10 +125,9 @@ export class ClientDisplayComponent implements OnInit {
     .subscribe({
       next: (resp: any) => {
         this.charts[1].values = this.monthBefore().map(e => 0)
-
         resp.data.map((s: any) => {
-          const ind = new Date().getDate() - new Date(s.createdAt).getDate()
-          this.charts[1].values[31 - ind] += s.amount
+          const ind = Math.floor((new Date().getTime() - new Date(s.createdAt).getTime()) / 1000 / 60 / 60 / 24)
+          this.charts[1].values[30 - ind] += s.amount
         })
       },
       error: err => {
@@ -146,4 +151,39 @@ export class ClientDisplayComponent implements OnInit {
     })
   }
 
+  enable(){
+    this.accountService.enable(this.client.account.id).subscribe({
+      next: (resp: any) => {
+        console.log(resp);
+        this.client.account.state = AccountState.ENABLED
+      },
+      error: err => {
+        console.log(err);
+      }
+    })
+  }
+
+  block(){
+    this.accountService.block(this.client.account.id).subscribe({
+      next: (resp: any) => {
+        console.log(resp);
+        this.client.account.state = AccountState.BLOCKED
+      },
+      error: err => {
+        console.log(err);
+      }
+    })
+  }
+
+  suspend(){
+    this.accountService.suspend(this.client.account.id).subscribe({
+      next: (resp: any) => {
+        console.log(resp);
+        this.client.account.state = AccountState.SUSPENDED
+      },
+      error: err => {
+        console.log(err);
+      }
+    })
+  }
 }

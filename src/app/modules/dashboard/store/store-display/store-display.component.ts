@@ -51,7 +51,6 @@ export class StoreDisplayComponent implements OnInit {
 
   async ngOnInit() {
     this.getDataId();
-    console.log(this.monthBefore());
     this.charts = [
       {
         name: await firstValueFrom(this.translateService.get('orders')),

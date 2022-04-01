@@ -1,3 +1,4 @@
+import { AccountState } from 'src/app/common/models/enums/account-state';
 import { Chart } from './../../../common/models/Chart';
 import { Component, Input, OnInit } from '@angular/core';
 import { StringMapWithRename } from '@angular/compiler/src/compiler_facade_interface';
@@ -18,8 +19,8 @@ export class DisplayComponent implements OnInit {
     email: string,
     address: string,
     phoneNumber: string,
-    longitude: number,
-    latitude: number
+    createdAt: string,
+    state: AccountState
   };
   @Input() profileTitle = "account";
 
