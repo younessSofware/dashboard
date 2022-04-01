@@ -31,19 +31,19 @@ export class ClientDisplayComponent implements OnInit {
     this.getDataId();
     this.charts = [
       {
-        name: await firstValueFrom(this.translateService.get('purchases')),
-        title: 'Client purchases in last month',
-        type: 'line',
-        categories: this.monthBefore(),
-        values: []
-      },
-      {
         name: 'orders',
         type: 'radial',
         title: 'Store Orders in',
         categories: await this.getOrdersStates(),
         colors: ["#ED0F0F", "#0F59ED", "#855E14", "#287F1C"],
         max: 0,
+        values: []
+      },
+      {
+        name: await firstValueFrom(this.translateService.get('purchases')),
+        title: 'Client purchases in last month',
+        type: 'line',
+        categories: this.monthBefore(),
         values: []
       }
     ]
@@ -105,11 +105,11 @@ export class ClientDisplayComponent implements OnInit {
         ]
 
         const max = Math.max(...statistics)
-        this.charts[1].max = max
-        this.charts[1].values = statistics.map(v => v ? v * 100 / max : 0)
+        this.charts[0].max = max
+        this.charts[0].values = statistics.map(v => v ? v * 100 / max : 0)
       },
       error: err => {
-        this.charts[1].error = err;
+        this.charts[0].error = err;
       }
     })
   }
@@ -118,15 +118,15 @@ export class ClientDisplayComponent implements OnInit {
     this.clientService.purchases(this.clientId)
     .subscribe({
       next: (resp: any) => {
-        this.charts[0].values = this.monthBefore().map(e => 0)
+        this.charts[1].values = this.monthBefore().map(e => 0)
 
         resp.data.map((s: any) => {
           const ind = new Date().getDate() - new Date(s.createdAt).getDate()
-          this.charts[0].values[31 - ind] += s.amount
+          this.charts[1].values[31 - ind] += s.amount
         })
       },
       error: err => {
-        this.charts[0].error = err;
+        this.charts[1].error = err;
       }
     })
   }

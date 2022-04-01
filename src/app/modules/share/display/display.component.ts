@@ -17,12 +17,15 @@ export class DisplayComponent implements OnInit {
     name: string,
     email: string,
     address: string,
-    phoneNumber: string
+    phoneNumber: string,
+    longitude: number,
+    latitude: number
   };
   @Input() profileTitle = "account";
 
   @Input() charts: Chart[]
   @Input() icon: string;
+  @Input() showDefaultProfileInfo = true;
 
   constructor() { }
 

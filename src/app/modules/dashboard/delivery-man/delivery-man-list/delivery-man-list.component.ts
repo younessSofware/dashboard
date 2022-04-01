@@ -1,4 +1,4 @@
-import { AccountState } from './../../../../common/models/account-state';
+import { AccountState } from '../../../../common/models/enums/account-state';
 import { AccountRole } from './../../../../common/models/enums/account-role';
 import { Button } from 'src/app/common/models/button';
 import { Header } from 'src/app/common/models/header';

@@ -1,8 +1,8 @@
-import { AccountState } from './../../../../common/models/account-state';
 import { AccountRole } from './../../../../common/models/enums/account-role';
 import { Button } from 'src/app/common/models/button';
 import { Header } from './../../../../common/models/header';
 import { Component, OnInit } from '@angular/core';
+import { AccountState } from 'src/app/common/models/enums/account-state';
 
 @Component({
   selector: 'app-store-list',

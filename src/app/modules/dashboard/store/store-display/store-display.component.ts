@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { ActivatedRoute } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
+import { AccountService } from 'src/app/services/account.service';
+import { AccountState } from 'src/app/common/models/enums/account-state';
 
 @Component({
   selector: 'app-store-display',
@@ -44,26 +46,27 @@ export class StoreDisplayComponent implements OnInit {
     }))
   }
 
-  constructor(private route: ActivatedRoute, private storeService: StoreService, private translateService: TranslateService) { }
+  constructor(private route: ActivatedRoute, private storeService: StoreService, private translateService: TranslateService,
+    private accountService: AccountService) { }
 
   async ngOnInit() {
     this.getDataId();
     console.log(this.monthBefore());
     this.charts = [
       {
-        name: await firstValueFrom(this.translateService.get('sales')),
-        title: 'store_sales_last_month',
-        type: 'line',
-        categories: this.monthBefore(),
+        name: await firstValueFrom(this.translateService.get('orders')),
+        type: 'radial',
+        title: 'Store Orders in',
+        categories: await this.getOrdersStates(),
         colors: ["#ED0F0F", "#0F59ED", "#855E14", "#287F1C"],
         max: 0,
         values: []
       },
       {
-        name: await firstValueFrom(this.translateService.get('orders')),
-        type: 'radial',
-        title: 'Store Orders in',
-        categories: await this.getOrdersStates(),
+        name: await firstValueFrom(this.translateService.get('sales')),
+        title: 'store_sales_last_month',
+        type: 'line',
+        categories: this.monthBefore(),
         colors: ["#ED0F0F", "#0F59ED", "#855E14", "#287F1C"],
         max: 0,
         values: []
@@ -158,11 +161,11 @@ export class StoreDisplayComponent implements OnInit {
         ]
 
         const max = Math.max(...statistics)
-        this.charts[1].max = max
-        this.charts[1].values = statistics.map(v => v ? v * 100 / max : 0)
+        this.charts[0].max = max
+        this.charts[0].values = statistics.map(v => v ? v * 100 / max : 0)
       },
       error: err => {
-        this.charts[1].error = err;
+        this.charts[0].error = err;
       }
     })
   }
@@ -171,14 +174,14 @@ export class StoreDisplayComponent implements OnInit {
     this.storeService.sales(this.storeId)
     .subscribe({
       next: (resp: any) => {
-        this.charts[0].values = this.monthBefore().map(e => 0)
+        this.charts[1].values = this.monthBefore().map(e => 0)
         resp.data.map((s: any) => {
           const ind = new Date().getDate() - new Date(s.createdAt).getDate()
-          this.charts[0].values[30 - ind]++
+          this.charts[1].values[30 - ind]++
         })
       },
       error: err => {
-        this.charts[0].error = err;
+        this.charts[1].error = err;
       }
     })
   }
@@ -199,5 +202,41 @@ export class StoreDisplayComponent implements OnInit {
 
   photo(product: any){
     return DOMAIN_URL + "" + product.photo
+  }
+
+  enable(){
+    this.accountService.enable(this.store.account.id).subscribe({
+      next: resp => {
+        console.log(resp);
+        this.store.account.state = AccountState.ENABLED
+      },
+      error: err => {
+        console.log(err);
+      }
+    })
+  }
+
+  block(){
+    this.accountService.block(this.store.account.id).subscribe({
+      next: resp => {
+        console.log(resp);
+        this.store.account.state = AccountState.BLOCKED
+      },
+      error: err => {
+        console.log(err);
+      }
+    })
+  }
+
+  suspend(){
+    this.accountService.suspend(this.store.account.id).subscribe({
+      next: resp => {
+        console.log(resp);
+        this.store.account.state = AccountState.SUSPENDED
+      },
+      error: err => {
+        console.log(err);
+      }
+    })
   }
 }

@@ -82,8 +82,6 @@ export class RadialBarComponent implements OnInit, OnChanges {
       }
     }
     if(changes['values'] && this.values && this.values.length){
-      console.log(this.chart);
-
       this.chart.series = this.values;
     }
   }

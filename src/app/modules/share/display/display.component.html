@@ -1,10 +1,13 @@
 
 <div class="">
-  <span class="text-3xl uppercase my-2"><i [class]="icon + ' mx-2'"></i>{{ title }}</span>
+  <div class="flex justify-between items-center">
+    <span class="text-3xl block uppercase my-2"><i [class]="icon + ' mx-2'"></i>{{ title }}</span>
+    <ng-content select=".header-buttons"></ng-content>
+  </div>
   <hr>
 </div>
-<div class="grid grid-cols-5 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 mt-5 gap-5">
-  <div class="card col-span-3 col-start-2 md:col-span-2 lg:col-span-2 xl:col-span-2 md:col-start-1">
+<div class="grid grid-cols-5 lg:grid-cols-8 xl:grid-cols-12 mt-5 gap-5">
+  <div class="card col-span-5 lg:col-span-4 xl:col-span-4 md:col-start-1">
     <app-loading-line [loading]="!profile && profileError"></app-loading-line>
     <div class="card-title">
       <span>{{ profileTitle | translate}}</span>
@@ -12,20 +15,43 @@
     <div class="px-2">
       <app-alert type="danger" [message]="profileError" *ngIf="profileError"></app-alert>
     </div>
-    <div class="flex items-center my-2 mx-4 md:mx-0 md:block">
-      <div class="flex justify-center md:my-8">
+    <div class="my-2 md:mx-0 md:block">
+      <ng-content select=".profile-info" *ngIf="!showDefaultProfileInfo"></ng-content>
+      <div class="flex justify-center md:my-8" *ngIf="showDefaultProfileInfo">
         <img src="./../../../../../assets/admin_avatar.png" class="w-20 h-20 rounded-full ring-1 ring-gray-200" alt="">
       </div>
-      <div class="pl-4 md:mt-8" *ngIf="profile">
-        <span class="user-info "><i class="fas fa-user"></i> {{ profile.name }} </span>
-        <span class="user-info"><i class="fas fa-at"></i> {{ profile.email }}</span>
-        <span class="user-info"><i class="fas fa-location-dot"></i> {{ profile.address }}</span>
-        <span class="user-info"><i class="fas fa-phone"></i> {{ profile.phoneNumber }}</span>
+      <div class="px-4 mt-2 w-full" *ngIf="profile && showDefaultProfileInfo">
+        <table class="w-full text-center">
+          <tr>
+            <td>{{ 'full_name' | translate }}</td>
+            <td>{{ profile.name }}</td>
+          </tr>
+          <tr>
+            <td>{{ 'phone_number' | translate }}</td>
+            <td>{{ profile.phoneNumber }}</td>
+          </tr>
+          <tr>
+            <td>{{ 'address' | translate }}</td>
+            <td>{{ profile.address }}</td>
+          </tr>
+          <tr>
+            <td>{{ 'longitude' | translate }}</td>
+            <td>{{ profile.longitude }}</td>
+          </tr>
+          <tr>
+            <td>{{ 'latitude' | translate }}</td>
+            <td>{{ profile.latitude }}</td>
+          </tr>
+        </table>
       </div>
     </div>
   </div>
 
-  <div class="card col-span-5 lg:col-span-4 xl:col-span-5" [class]="first ? 'md:col-span-6' : 'md:col-span-8'" *ngFor="let chart of charts; let first = first">
+  <div
+    class="card col-span-5 xl:col-span-5"
+    [class]="chart.type == 'line' ? 'lg:col-span-8 xl:col-span-12' : 'lg:col-span-4 xl:col-span-8'"
+    *ngFor="let chart of charts; let first = first"
+  >
     <app-loading-line [loading]="(!chart.values || !chart.values.length) && !chart.error"></app-loading-line>
     <div class="card-title capitalize">
       <span>{{ chart.name | translate }}</span>

@@ -14,3 +14,17 @@
 .card-title>span{
   @apply text-2xl font-bold
 }
+
+.title{
+  font-weight: bold;
+  font-size: 16px;
+}
+
+td{
+  padding: 4px;
+  border: 1px solid #bbb;
+}
+
+td:first-child{
+  background-color: #eee;
+}
