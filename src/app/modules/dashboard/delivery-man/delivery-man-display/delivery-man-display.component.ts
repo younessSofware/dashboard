@@ -1,11 +1,12 @@
+import { AccountService } from 'src/app/services/account.service';
 import { TranslateService } from '@ngx-translate/core';
 import { firstValueFrom } from 'rxjs';
 import { DeliveryMenService } from './../../../../services/delivery-men.service';
-import { ClientService } from './../../../../services/client.service';
 import { ActivatedRoute } from '@angular/router';
 import { OrderState } from './../../../../common/models/enums/order-state';
 import { Chart } from './../../../../common/models/Chart';
 import { Component, OnInit } from '@angular/core';
+import { AccountState } from 'src/app/common/models/enums/account-state';
 
 @Component({
   selector: 'app-delivery-man-display',
@@ -27,7 +28,8 @@ export class DeliveryManDisplayComponent implements OnInit {
   ordersError: string;
   ordersLimit = 5;
 
-  constructor(private route: ActivatedRoute, private deliveryManService: DeliveryMenService, private translateService: TranslateService) { }
+  constructor(private route: ActivatedRoute, private deliveryManService: DeliveryMenService, private translateService: TranslateService,
+    private accountService: AccountService) { }
 
   async ngOnInit() {
     this.getDataId();
@@ -121,6 +123,42 @@ export class DeliveryManDisplayComponent implements OnInit {
       },
       error: (err: any) => {
         this.ordersError = err;
+      }
+    })
+  }
+
+  enable(){
+    this.accountService.enable(this.deliveryMan.account.id).subscribe({
+      next: (resp: any) => {
+        console.log(resp);
+        this.deliveryMan.account.state = AccountState.ENABLED
+      },
+      error: err => {
+        console.log(err);
+      }
+    })
+  }
+
+  block(){
+    this.accountService.block(this.deliveryMan.account.id).subscribe({
+      next: (resp: any) => {
+        console.log(resp);
+        this.deliveryMan.account.state = AccountState.BLOCKED
+      },
+      error: err => {
+        console.log(err);
+      }
+    })
+  }
+
+  suspend(){
+    this.accountService.suspend(this.deliveryMan.account.id).subscribe({
+      next: (resp: any) => {
+        console.log(resp);
+        this.deliveryMan.account.state = AccountState.SUSPENDED
+      },
+      error: err => {
+        console.log(err);
       }
     })
   }

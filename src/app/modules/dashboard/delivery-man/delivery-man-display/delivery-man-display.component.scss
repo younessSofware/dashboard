@@ -1,0 +1,9 @@
+
+
+.button{
+  @apply py-2 px-4 border border-gray-200 rounded-lg mx-1 text-white
+}
+
+.button:disabled{
+  @apply bg-gray-400 hover:bg-gray-400 cursor-not-allowed
+}

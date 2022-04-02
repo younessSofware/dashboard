@@ -5,8 +5,13 @@
     [charts]="charts"
     [profile]="(deliveryMan ? deliveryMan.account : null)"
     [profileError]="profileError"
-  ></app-display>
-
+  >
+  <div class="header-buttons" *ngIf="deliveryMan">
+    <button (click)="enable()" [disabled]="deliveryMan.account.state == 'ENABLED'" class=" button bg-green-500 hover:bg-green-400 ">{{ 'enable' | translate }}</button>
+    <button (click)="block()" [disabled]="deliveryMan.account.state == 'BLOCKED'" class="button bg-red-500 hover:bg-red-400">{{ 'block' | translate }}</button>
+    <button (click)="suspend()" [disabled]="deliveryMan.account.state == 'SUSPENDED'" class="button bg-yellow-500 hover:bg-yellow-400">{{ 'suspend' | translate }}</button>
+  </div>
+</app-display>
   <div>
     <app-orders-list
       [count]="ordersCount"

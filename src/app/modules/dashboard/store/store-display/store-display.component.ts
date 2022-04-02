@@ -175,7 +175,7 @@ export class StoreDisplayComponent implements OnInit {
       next: (resp: any) => {
         this.charts[1].values = this.monthBefore().map(e => 0)
         resp.data.map((s: any) => {
-          const ind = new Date().getDate() - new Date(s.createdAt).getDate()
+          const ind = Math.floor((new Date().getTime() - new Date(s.createdAt).getTime()) / 1000 / 60 / 60 / 24)
           this.charts[1].values[30 - ind]++
         })
       },
