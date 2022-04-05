@@ -28,6 +28,7 @@ export class OrdersListComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    this.skip = 0;
   }
 
   changePage(page: number){
