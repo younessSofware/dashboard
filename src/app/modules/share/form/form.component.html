@@ -153,8 +153,8 @@
             <section *ngSwitchDefault>
               <input
                 *ngIf="!header.hidden"
-                [id]="header.name"
-                [name]="header.name"
+                [id]="getFullHeaderName(header)"
+                [name]="getFullHeaderName(header)"
                 [formControlName]="getFullHeaderName(header)"
                 [type]="header.type"
                 [placeholder]="header.title | translate"

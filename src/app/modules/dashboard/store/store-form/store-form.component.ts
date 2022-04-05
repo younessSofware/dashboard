@@ -126,10 +126,75 @@ export class StoreFormComponent implements OnInit {
       ]
     },
     {
-      name: "address",
-      title: "address",
-      parents: ['account'],
-      type: 'textarea',
+      name: "countryCode",
+      title: "country_code",
+      parents: ['account', 'address'],
+      type: 'text',
+      value: '',
+      validators: [
+        {
+          validatorFn: Validators.required,
+          message: 'address_required'
+        }
+      ]
+    },
+    {
+      name: "country",
+      title: "country",
+      parents: ['account', 'address'],
+      type: 'text',
+      value: '',
+      validators: [
+        {
+          validatorFn: Validators.required,
+          message: 'address_required'
+        }
+      ]
+    },
+    {
+      name: "state",
+      title: "state",
+      parents: ['account', 'address'],
+      type: 'text',
+      value: '',
+      validators: [
+        {
+          validatorFn: Validators.required,
+          message: 'address_required'
+        }
+      ]
+    },
+    {
+      name: "city",
+      title: "city",
+      parents: ['account', 'address'],
+      type: 'text',
+      value: '',
+      validators: [
+        {
+          validatorFn: Validators.required,
+          message: 'address_required'
+        }
+      ]
+    },
+    {
+      name: "street",
+      title: "street",
+      parents: ['account', 'address'],
+      type: 'text',
+      value: '',
+      validators: [
+        {
+          validatorFn: Validators.required,
+          message: 'address_required'
+        }
+      ]
+    },
+    {
+      name: "postCode",
+      title: "post_code",
+      parents: ['account', 'address'],
+      type: 'text',
       value: '',
       validators: [
         {

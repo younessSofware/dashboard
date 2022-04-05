@@ -46,7 +46,6 @@ export class FormComponent implements OnInit, OnChanges {
     this.createForm()
   }
 
-
   ngOnChanges(changes: SimpleChanges){
     if(changes['headers']){
       this.createForm();
@@ -55,7 +54,6 @@ export class FormComponent implements OnInit, OnChanges {
       this.getFormType();
     }
   }
-
 
   createForm(){
     const formGroup = this.headers.reduce((acc, curr) => ({
@@ -117,7 +115,7 @@ export class FormComponent implements OnInit, OnChanges {
   setFormValues(){
     const form = {
       ...this.headers.map(h => {
-        let value = h.parents ? h.parents.reverse().reduce((acc, curr) => acc[curr], this.data)[h.name] : this.data[h.name]
+        let value = h.parents ? [...h.parents].reduce((acc, curr) => acc[curr], this.data)[h.name] : this.data[h.name]
         if(h.selectOptions && h.type == 'select') value = value[h.selectOptions?.valueProperty]
         return {
           name: this.getFullHeaderName(h),
@@ -161,7 +159,7 @@ export class FormComponent implements OnInit, OnChanges {
   }
 
   getFullHeaderName(header: Header){
-    return header.parents ? header.parents.reverse()
+    return header.parents ? [...header.parents].reverse()
                             .reduce((acc, curr) => acc + (acc ? this.capitalize(curr) : curr), '') + this.capitalize(header.name)
                           : header.name
   }
@@ -198,7 +196,7 @@ export class FormComponent implements OnInit, OnChanges {
         }
 
         default:{
-          const name = !header.parents ? header.name : header.parents.reverse().reduce((acc, curr) => `${curr}[${acc}]`  , header.name);
+          const name = !header.parents ? header.name : [...header.parents].reverse().reduce((acc, curr) => `${curr}[${acc}]`  , header.name);
           formData.append(name, value ? value : '')
           break;
         }

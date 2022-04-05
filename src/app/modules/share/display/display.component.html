@@ -31,11 +31,15 @@
             <td>{{ profile.phoneNumber }}</td>
           </tr>
           <tr>
-            <td>{{ 'address' | translate }}</td>
-            <td>{{ profile.address }}</td>
+            <td>{{ 'email' | translate }}</td>
+            <td>{{ profile.email }}</td>
           </tr>
           <tr>
-            <td>{{ 'state' | translate }}</td>
+            <td>{{ 'address' | translate }}</td>
+            <td>{{ profile.address.country }}, {{ profile.address.city }}, {{ profile.address.street }}</td>
+          </tr>
+          <tr>
+            <td>{{ 'status' | translate }}</td>
             <td>{{ profile.state | translate}}</td>
           </tr>
         </table>

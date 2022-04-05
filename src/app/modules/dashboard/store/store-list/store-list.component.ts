@@ -47,21 +47,18 @@ export class StoreListComponent implements OnInit {
       search: true
     },
     {
-      parents: ['account'],
-      name: "address",
-      title: "address",
+      parents: ['account', 'address'],
+      name: "country",
+      title: "country",
       default: 'none',
       maxLength: 80
     },
     {
-      parents: ['account'],
-      name: "longitude",
-      title: "longitude"
-    },
-    {
-      parents: ['account'],
-      name: "latitude",
-      title: "latitude"
+      parents: ['account', 'address'],
+      name: "city",
+      title: "city",
+      default: 'none',
+      maxLength: 80
     },
     {
       name: "createdAt",
@@ -71,7 +68,7 @@ export class StoreListComponent implements OnInit {
     {
       parents: ['account'],
       name: "state",
-      title: "state",
+      title: "status",
       type: 'tag',
       tagsColors: {
         [AccountState.CREATED]: 'bg-blue-200',

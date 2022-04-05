@@ -32,11 +32,15 @@
             <td>{{ store.account.phoneNumber }}</td>
           </tr>
           <tr>
-            <td>{{ 'address' | translate }}</td>
-            <td>{{ store.account.address }}</td>
+            <td>{{ 'email' | translate }}</td>
+            <td>{{ store.account.email }}</td>
           </tr>
           <tr>
-            <td>{{ 'state' | translate }}</td>
+            <td>{{ 'address' | translate }}</td>
+            <td>{{ store.account.address.country }}, {{ store.account.address.city }}, {{ store.account.address.street }}</td>
+          </tr>
+          <tr>
+            <td>{{ 'status' | translate }}</td>
             <td>{{ store.account.state | translate }}</td>
           </tr>
         </table>

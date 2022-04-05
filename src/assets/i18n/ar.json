@@ -42,7 +42,7 @@
   "full_name": "الاسم الكامل",
   "phone_number": "رقم الهاتف",
   "created_at": "تاريح الانشاء",
-  "state": "الحالة",
+  "status": "الحالة",
   "next": "التالي",
   "previous": "السابق",
   "category_name": "اسم التصنيف",
@@ -74,7 +74,7 @@
   "CREATED": "ثم الانشاء",
   "invalid_data": "معلومات خاطئة",
   "internal_server_error": "حدث خطأ",
-  "client_details": "مغلومات العميل",
+  "client_details": "معلومات العميل",
   "store_details": "معلومات المتجر",
   "delivery_man_details": "معلومات المندوب",
   "product_details": "معلومات المنتج",
@@ -109,5 +109,12 @@
   "bank_account_number": "رقم الحساب البنكي",
   "bank_account_number_required": "رقم الجساب البنكي مطلوب",
   "edit": "تعديل",
-  "no_notifications": "لا توجد اي اشعارات"
+  "no_notifications": "لا توجد اي اشعارات",
+  "country_code": "رمز الدولة",
+  "state": "الولاية",
+  "post_code": "الرمز البريدي",
+  "street": "الشارع",
+  "city": "المدينة",
+  "country": "ألدولة",
+  "email": "البريد الالكتروني"
 }

@@ -243,7 +243,7 @@ export class TableComponent implements OnInit, OnChanges {
         console.log("count : ", resp.data.count);
         console.log("count : ", this.limit);
 
-        const nbPages = Math.ceil(resp.data.count / this.limit) + 1
+        const nbPages = Math.ceil(resp.data.count / this.limit)
         this.pages = [...new Array(nbPages).keys()];
       },
       error: err => {

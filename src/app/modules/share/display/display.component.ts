@@ -17,7 +17,7 @@ export class DisplayComponent implements OnInit {
   @Input() profile: {
     name: string,
     email: string,
-    address: string,
+    address: any,
     phoneNumber: string,
     createdAt: string,
     state: AccountState

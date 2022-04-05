@@ -84,12 +84,12 @@
       </button>
       <nav class="relative z-0 inline-flex rounded-md shadow-sm" aria-label="Pagination">
         <a
-          [class.active]="currentPage == page"
-          (click)="currentPage = page;getData()"
+          [class.active]="currentPage == page + 1"
+          (click)="currentPage = page + 1;getData()"
           *ngFor="let page of pages"
           class="pagination-number"
         >
-          {{ page }}
+          {{ page + 1 }}
         </a>
       </nav>
       <button
