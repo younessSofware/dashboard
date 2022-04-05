@@ -16,6 +16,10 @@ export class OrderDisplayComponent implements OnInit {
   error: any;
   map: any;
 
+  get productsTotal(){
+    return this.order.productOrders.reduce((acc: number, curr: any) => acc + curr.price * curr.quantity, 0)
+  }
+
   constructor(private route: ActivatedRoute, private orderService: OrderService) { }
 
   ngOnInit(): void {
@@ -63,7 +67,6 @@ export class OrderDisplayComponent implements OnInit {
 
     this.addMarker('store : ' + store.storeName, store.account.longitude, store.account.latitude, "red")
     this.addMarker('client : ' + client.account.name, client.account.longitude, client.account.latitude, "green")
-    this.drawPolyLine({lat: client.account.latitude, lng: client.account.longitude}, {lat: store.account.latitude, lng: store.account.longitude})
   }
 
   addMarker(text: string, longitude: number, latitude: number, color = "blue"){
@@ -83,13 +86,13 @@ export class OrderDisplayComponent implements OnInit {
     this.map.addLayer(marker)
   }
 
-  drawPolyLine(point1: any, point2: any){
-    const polyline = Leaflet.polyline([point1, point2], {
-        color: 'red',
-        weight: 3,
-        opacity: 0.5,
-        smoothFactor: 1
-    })
-    this.map.addLayer(polyline)
-  }
+  // drawPolyLine(point1: any, point2: any){
+  //   const polyline = Leaflet.polyline([point1, point2], {
+  //       color: 'red',
+  //       weight: 3,
+  //       opacity: 0.5,
+  //       smoothFactor: 1
+  //   })
+  //   this.map.addLayer(polyline)
+  // }
 }

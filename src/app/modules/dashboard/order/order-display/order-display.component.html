@@ -21,12 +21,15 @@
         <div class="flex items-center my-2 mx-4 md:mx-0 md:block">
           <div class="flex flex-col items-center justify-center md:my-8">
             <img *ngIf="order" [src]="order.store.photo | serverMedia" class="w-22 h-32 rounded-full ring-1 ring-gray-200" alt="">
-            <span class="text-lg font-semibold">{{ order.store.storeName }}</span>
+            <span class="text-lg font-semibold link" routerLink="/dashboard/stores/display" [queryParams]="{id: order.store.id}">
+              {{ order.store.storeName }}
+            </span>
           </div>
           <div class="pl-4 md:mt-8" *ngIf="order">
             <span class="user-info "><i class="fas fa-user"></i> {{ order.store.account.name }} </span>
             <span class="user-info"><i class="fas fa-phone"></i> {{ order.store.account.phoneNumber }}</span>
-            <span class="user-info"><i class="fas fa-location-dot"></i> {{ order.store.account.address }}</span>
+            <span class="user-info"><i class="fas fa-location-dot"></i>
+              {{ order.store.account.address.country }}, {{ order.store.account.address.city }}, {{ order.store.account.address.street }}</span>
           </div>
         </div>
       </div>
@@ -53,19 +56,38 @@
                 <td>{{ productOrder.id }}</td>
                 <td>{{ productOrder.product.name }}</td>
                 <td>{{ productOrder.product.category.name }}</td>
-                <td>{{ productOrder.product.quantity }}</td>
-                <td>{{ productOrder.product.price }} {{'SAR' | translate}}</td>
+                <td>{{ productOrder.quantity }}</td>
+                <td>{{ productOrder.price }} {{'SAR' | translate}}</td>
+              </tr>
+              <tr>
+                <td class="bg-gray-200" colspan="4">
+                  {{ 'total_products' | translate }}
+                </td>
+                <td>
+                  {{ productsTotal }} {{ 'SAR' | translate }}
+                </td>
+              </tr>
+              <tr>
+                <td class="bg-gray-200" colspan="4">
+                  {{ 'delivery_price' | translate }}
+                </td>
+                <td>
+                  {{  order.deliveryPrice }} {{ 'SAR' | translate }}
+                </td>
+              </tr>
+              <tr>
+                <td class="bg-gray-200" colspan="4">
+                  {{ 'total' | translate }}
+                </td>
+                <td class="border bg-primary text-white">
+                  {{  order.amount }} {{ 'SAR' | translate }}
+                </td>
               </tr>
             </tbody>
           </table>
-          <div class="flex justify-end mt-3">
-            <div class="p-2 bg-gray-200 border border-gray-400 rounded-xl">
-              <span class="">{{ 'total' | translate }} : {{ order.amount }} {{ 'SAR' | translate }}</span>
-            </div>
-          </div>
         </div>
       </div>
-      <div class="card w-auto mt-4">
+      <div class="card w-auto mt-4" *ngIf="order.state == 'in-delivery'">
         <app-loading-line [loading]="!order && error"></app-loading-line>
         <div class="card-title">
           <span>{{ 'track_order' | translate}}</span>
@@ -84,7 +106,11 @@
           <img class="w-20 h-20 border border-gray-400 rounded-full shadow-xl" src="./../../../../../assets/delivery-man.png" alt="">
           <table class="x-full flex-grow text-center">
             <tr>
-              <td><i class="fas fa-user mx-1"></i> {{ order.deliveryMan.account.name }}</td>
+              <td>
+                <span
+                  class="link"
+                  routerLink="/dashboard/delivery-men/display" [queryParams]="{id: order.deliveryMan.id}"
+                ><i class="fas fa-user mx-1"></i> {{ order.deliveryMan.account.name }}</span></td>
               <td><i class="fas fa-location-dot mx-1"></i> {{ order.deliveryMan.account.address }}</td>
               <td><i class="fas fa-phone mx-1"></i> {{ order.deliveryMan.account.phoneNumber }}</td>
             </tr>
