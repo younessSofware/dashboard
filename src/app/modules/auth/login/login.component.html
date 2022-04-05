@@ -24,12 +24,12 @@
         <div>
           <input
             class="custom-input my-4"
-            [class.invalid]="phoneNumber?.dirty && !phoneNumber?.valid"
-            [placeholder]="'phone_number' | translate"
-            formControlName="phoneNumber"
+            [class.invalid]="email?.dirty && !email?.valid"
+            [placeholder]="'email' | translate"
+            formControlName="email"
           >
-          <span class="text-red-500 text-left text-md block mt-2 pl-1" *ngIf="phoneNumber?.dirty && !phoneNumber?.valid">
-            <span class="block" *ngIf="phoneNumber?.hasError('required')">{{ 'phone_number_required' | translate }}</span>
+          <span class="text-red-500 text-left text-md block mt-2 pl-1" *ngIf="email?.dirty && !email?.valid">
+            <span class="block" *ngIf="email?.hasError('required')">{{ 'phone_number_required' | translate }}</span>
           </span>
         </div>
 

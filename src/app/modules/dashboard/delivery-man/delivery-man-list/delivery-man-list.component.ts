@@ -22,12 +22,12 @@ export class DeliveryManListComponent implements OnInit {
       title: "full_name",
       search: true
     },
-    // {
-    //   parents: ['account'],
-    //   name: "email",
-    //   title: "email",
-    //   search: true
-    // },
+    {
+      parents: ['account'],
+      name: "email",
+      title: "email",
+      search: true
+    },
     {
       parents: ['store'],
       name: "id",

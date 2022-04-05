@@ -36,23 +36,23 @@ export class ClientFormComponent implements OnInit {
         }
       ]
     },
-    // {
-    //   name: "email",
-    //   title: "E-mail",
-    //   parents: ['account'],
-    //   type: 'email',
-    //   value: '',
-    //   validators: [
-    //     {
-    //       validatorFn: Validators.required,
-    //       message: 'the email is required'
-    //     },
-    //     {
-    //       validatorFn: Validators.email,
-    //       message: 'this field must be an email'
-    //     }
-    //   ]
-    // },
+    {
+      name: "email",
+      title: "E-mail",
+      parents: ['account'],
+      type: 'email',
+      value: '',
+      validators: [
+        {
+          validatorFn: Validators.required,
+          message: 'the email is required'
+        },
+        {
+          validatorFn: Validators.email,
+          message: 'this field must be an email'
+        }
+      ]
+    },
     {
       name: "password",
       title: "password",

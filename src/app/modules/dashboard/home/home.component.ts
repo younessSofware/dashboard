@@ -95,7 +95,6 @@ export class HomeComponent implements OnInit {
     this.clientService.clientsLocations().subscribe({
       next: (resp: any) => {
         console.log(resp);
-        console.log("clients");
         resp.data.forEach((client: any) => this.addMarker(client.name, client.longitude, client.latitude, 'clients') );
       },
       error: err => {
@@ -107,9 +106,7 @@ export class HomeComponent implements OnInit {
   getDeliveryMenLocations(){
     this.deliveryMenService.deliveryMenLocations().subscribe({
       next: (resp: any) => {
-        console.log(resp);
-        console.log("delivery man");
-        // resp.data.forEach((deliveryMan: any) => this.addMarker(deliveryMan.name, deliveryMan.longitude, deliveryMan.latitude, 'deliveryMen') );
+        resp.data.forEach((deliveryMan: any) => this.addMarker(deliveryMan.name, deliveryMan.longitude, deliveryMan.latitude, 'deliveryMen') );
       },
       error: err => {
         console.log(err);

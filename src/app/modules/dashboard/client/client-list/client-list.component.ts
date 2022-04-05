@@ -22,12 +22,12 @@ export class ClientListComponent implements OnInit {
       title: "full_name",
       search: true
     },
-    // {
-    //   parents: ['account'],
-    //   name: "email",
-    //   title: "email",
-    //   search: true
-    // },
+    {
+      parents: ['account'],
+      name: "email",
+      title: "email",
+      search: true
+    },
     {
       parents: ['account'],
       name: "phoneNumber",
@@ -40,16 +40,6 @@ export class ClientListComponent implements OnInit {
       title: "address",
       default: 'none',
       maxLength: 80
-    },
-    {
-      parents: ['account'],
-      name: "longitude",
-      title: "longitude"
-    },
-    {
-      parents: ['account'],
-      name: "latitude",
-      title: "latitude"
     },
     {
       name: "createdAt",

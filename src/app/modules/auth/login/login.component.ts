@@ -16,8 +16,8 @@ export class LoginComponent implements OnInit {
   error = '';
   form: FormGroup;
 
-  get phoneNumber(){
-    return this.form.get('phoneNumber')
+  get email(){
+    return this.form.get('email')
   }
 
   get password(){
@@ -26,19 +26,19 @@ export class LoginComponent implements OnInit {
 
   get data(){
     return {
-      phoneNumber: this.phoneNumber?.value,
+      email: this.email?.value,
       password:  this.password?.value
     }
   }
 
   constructor(private authService: AuthService, private router: Router, private socketService: SocketService) {
     this.form = new FormGroup({
-      phoneNumber: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required])
     })
 
     this.form.patchValue({
-      phoneNumber: "+212658426577",
+      email: "+212658426577",
       password: "12345678"
     })
   }

@@ -239,9 +239,12 @@ export class TableComponent implements OnInit, OnChanges {
               data[header.name] = DOMAIN_URL + "/" + data[header.name];
             })
           }
-        })
-        const nbPages = Math.floor(resp.data.count / this.limit) + 1
-        this.pages = [...new Array(nbPages).keys()].map(key => key + 1);
+        });
+        console.log("count : ", resp.data.count);
+        console.log("count : ", this.limit);
+
+        const nbPages = Math.ceil(resp.data.count / this.limit) + 1
+        this.pages = [...new Array(nbPages).keys()];
       },
       error: err => {
         console.log("err", err);
