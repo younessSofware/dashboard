@@ -139,24 +139,26 @@ export class TableComponent implements OnInit, OnChanges {
         query: {id: ':id'}
       }
     }
-    this.defaultButtons['delete'] = {
-      name: 'delete',
-      icon: 'fas fa-trash-alt',
-      color: 'blue',
-      request: {
-        url: this.deleteURL,
-        method: 'delete'
-      },
-      confirmation: {
-        title: await firstValueFrom(this.translateService.get('are_you_sure')),
-        text: await firstValueFrom(this.translateService.get('delete_conf_msg')) + ' ' + await firstValueFrom(this.translateService.get(this.singleName)),
-        confirmButtonText: await firstValueFrom(this.translateService.get('yes_delete_it')),
-        confirmButtonColor: 'red',
-        showCancelButton: true,
-        cancelButtonText: await firstValueFrom(this.translateService.get('no')),
-        icon: 'warning'
+
+    if(this.showDeleteButton)
+      this.defaultButtons['delete'] = {
+        name: 'delete',
+        icon: 'fas fa-trash-alt',
+        color: 'blue',
+        request: {
+          url: this.deleteURL,
+          method: 'delete'
+        },
+        confirmation: {
+          title: await firstValueFrom(this.translateService.get('are_you_sure')),
+          text: await firstValueFrom(this.translateService.get('delete_conf_msg')) + ' ' + await firstValueFrom(this.translateService.get(this.singleName)),
+          confirmButtonText: await firstValueFrom(this.translateService.get('yes_delete_it')),
+          confirmButtonColor: 'red',
+          showCancelButton: true,
+          cancelButtonText: await firstValueFrom(this.translateService.get('no')),
+          icon: 'warning'
+        }
       }
-    }
   }
 
   initButtons(){

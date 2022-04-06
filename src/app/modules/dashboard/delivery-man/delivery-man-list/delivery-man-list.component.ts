@@ -41,12 +41,12 @@ export class DeliveryManListComponent implements OnInit {
       title: "store_name",
       search: true
     },
-    {
-      parents: ['account'],
-      name: "phoneNumber",
-      title: "phone_number",
-      search: true
-    },
+    // {
+    //   parents: ['account'],
+    //   name: "phoneNumber",
+    //   title: "phone_number",
+    //   search: true
+    // },
     {
       parents: ['account', 'address'],
       name: "country",

@@ -117,7 +117,8 @@ export class HomeComponent implements OnInit {
   private initMap(id: string): void {
     this.maps[id] = Leaflet.map(id, {
       center: [ 23.7294493, 46.2676419 ],
-      zoom: 2
+      zoom: 2,
+      maxBoundsViscosity: 1
     });
     const tiles = Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18,

@@ -96,19 +96,19 @@ export class DeliveryManFormComponent implements OnInit {
           }
         ]
       },
-      {
-        name: "phoneNumber",
-        title: "phone_number",
-        parents: ['account'],
-        type: 'string',
-        value: '',
-        validators: [
-          {
-            validatorFn: Validators.required,
-            message: 'phone_number_required'
-          }
-        ]
-      },
+      // {
+      //   name: "phoneNumber",
+      //   title: "phone_number",
+      //   parents: ['account'],
+      //   type: 'string',
+      //   value: '',
+      //   validators: [
+      //     {
+      //       validatorFn: Validators.required,
+      //       message: 'phone_number_required'
+      //     }
+      //   ]
+      // },
       {
         name: "countryCode",
         title: "country_code",
