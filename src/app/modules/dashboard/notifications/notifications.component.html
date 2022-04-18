@@ -1,6 +1,9 @@
 <div class=" py-2 h-full flex flex-col min-h-0">
   <div class="px-4">
-    <span class="text-3xl my-2 capitalize"><i class="fas fa-bell mx-2"></i>{{ 'notifications' | translate }}</span>
+    <div class="flex justify-between  my-2 ">
+      <span class="text-3xl capitalize"><i class="fas fa-bell mx-2"></i>{{ 'notifications' | translate }}</span>
+      <span class="text-2xl cursor-pointer" (click)="hideNotifications.emit()"><i class="fas fa-times"></i></span>
+    </div>
     <hr>
   </div>
   <div class="mt-3">

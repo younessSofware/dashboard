@@ -67,7 +67,6 @@ export class NotificationsComponent implements OnInit {
            messageDate.getDate() != lastMessageDate.getDate();
   }
 
-
   navigate(url: string){
     this.hideNotifications.emit();
     this.router.navigateByUrl(url);

@@ -7,11 +7,11 @@
       </span>
     </div>
     <nav>
-      <a [class.active]="notificationsDisplayed" (click)="!notificationsDisplayed ? showNots() : hideNots()" class="menu-item group">
+      <a [class.active]="showNotification" (click)="!showNotification ? showNots() : hideNots()" class="menu-item group">
         <span class="px-4 py-3">
           <i class="fas fa-bell"></i>
         </span>
-        <span class="menu-tooltip group-hover:scale-100">{{ 'notification' | translate}} {{notificationsDisplayed}}</span>
+        <span class="menu-tooltip group-hover:scale-100">{{ 'notification' | translate}}</span>
       </a>
       <a
         routerLinkActive="active"

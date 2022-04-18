@@ -1,7 +1,7 @@
 import { NotificationService } from './../../../services/notification.service';
 import { SocketService } from 'src/app/services/socket.service';
 import { ModulesMessengerService } from './../../../services/modules-messenger.service';
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -12,7 +12,8 @@ import { Router } from '@angular/router';
 export class MenuComponent implements OnInit {
   @Output() showNotifications = new EventEmitter();
   @Output() hideNotifications = new EventEmitter();
-  notificationsDisplayed = false;
+  @Input() showNotification = false;
+
   menuItems = [
     {
       name: "home",
@@ -106,12 +107,10 @@ export class MenuComponent implements OnInit {
   }
 
   showNots(){
-    this.notificationsDisplayed = true;
     this.showNotifications.emit();
   }
 
   hideNots(){
-    this.notificationsDisplayed = false;
     this.hideNotifications.emit();
   }
 }
