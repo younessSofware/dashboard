@@ -73,6 +73,7 @@ export class ClientFormComponent implements OnInit {
     {
       title: "address",
       name: "address",
+      parents: ['account'],
       type: 'map'
     }
   ];

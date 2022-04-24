@@ -171,12 +171,30 @@ export class FormComponent implements OnInit, OnChanges {
   }
 
   getJsonData(){
+    console.log("***************");
+
     return this.headers.reduce((acc, curr) => {
-      let field = {[curr.name]: this.formField(curr)?.value}
+      let field;
+      if(curr.type == 'map') field = {
+        [curr.name]: this.maps[this.getFullHeaderName(curr)]['address'],
+        stringAddress: this.maps[this.getFullHeaderName(curr)]['stringAddress'],
+        longitude: this.maps[this.getFullHeaderName(curr)]['longitude'],
+        latitude: this.maps[this.getFullHeaderName(curr)]['latitude']
+      }
+      else {
+        field = {[curr.name]: this.formField(curr)?.value}
+
+      }
 
       if(curr.parents){
         field = curr.parents.reduce((acc1, curr1) => ({[curr1]: acc1}), field)
       }
+      console.log("--------------");
+      console.log(curr);
+      console.log(acc);
+      console.log(field);
+      console.log("--------------");
+
 
       return _.merge(field, acc)
     }, {})
@@ -305,41 +323,64 @@ export class FormComponent implements OnInit, OnChanges {
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     });
 
-
     map.on('click', (e: any) => {
-      console.log("e latlng: ", e.latlng);
+      const latitude = e.latlng.lat;
+      const longitude = e.latlng.lng;
 
-      this.addressService.getAddress(e.latlng.latitude, e.latlng.longitude, 'ar').pipe(
-        switchMap(arAddress => this.addressService.getAddress(e.latlng.latitude, e.latlng.longitude, 'en').pipe(
-          rxjsMap(enAddress => ({
-            arAddress,
-            enAddress
+      this.maps[id]['loading'] = true;
+
+      this.addressService.getAddress(latitude, longitude, 'ar').pipe(
+        switchMap((arAddress: any) => this.addressService.getAddress(latitude, longitude, 'en').pipe(
+          rxjsMap((enAddress: any) => ({
+            arAddress: arAddress.address,
+            enAddress: enAddress
           }))
         ))
-      ).subscribe(({ arAddress, enAddress }) => {
-        console.log(arAddress);
-        console.log(enAddress);
-      })
+      ).subscribe({
+        next: ({ arAddress, enAddress }: any) => {
+          this.maps[id]['loading'] = false;
+          if(arAddress) this.maps[id]['stringAddress'] = `${ arAddress.country ? ' ' + arAddress.country : '' }${ arAddress.state ? ' ,' + arAddress.state : '' }${ arAddress.state_district ? ' ,' + arAddress.state_district : '' }${ arAddress.region ? ' ,' + arAddress.region : ''}${ arAddress.province ? ' ,' + arAddress.province : ''}${ arAddress.city ? ' ,' + arAddress.city : '' }${ arAddress.village ? ' ,' + arAddress.village : '' }${ arAddress.town ? ' ,' + arAddress.town : '' }`;
+          if(enAddress){
+            const address = enAddress.address;
+            this.maps[id]['address'] = {
+              country: address.country,
+              countryCode: address.country_code,
+              state: address.state ? address.state : address.region,
+              city: address.city ? address.city : (address.village ? address.village : address.town),
+              street: address.suburb,
+              postCode: address.postcode
+            }
+            this.maps[id]['longitude'] = enAddress.lat;
+            this.maps[id]['latitude'] = enAddress.lon;
+          }
+        },
+        error: (err: any) => {
+          console.log(err);
+          this.maps[id]['loading'] = false;
+        }
+      });
 
-      this.addMarker(id, e.latlng)
+      this.addMarker(id, e.latlng, this.maps[id]['stringAddress'])
     })
 
-    this.maps = {[id]: { map }, ...this.maps}
+    this.maps = {[id]: { map, stringAddress: '' }, ...this.maps}
 
     tiles.addTo(this.maps[id].map);
-
-    console.log("map init");
   }
 
-  async addMarker(id: string, coords: any){
+  async addMarker(id: string, coords: any, address: string){
 
     if(this.maps[id]['marker']) this.maps[id].map.removeLayer(this.maps[id]['marker']);
 
     this.maps[id]['marker'] = Leaflet.marker(coords);
 
-    // marker.bindPopup(text).openPopup()
+    if(address) this.maps[id]['marker'].bindPopup(address).openPopup()
 
     this.maps[id].map.addLayer(this.maps[id]['marker'])
     console.log("draw marker : ", coords);
+  }
+
+  isFormValid(){
+    return this.form.valid && this.headers.filter(h => h.type == 'map').reduce((acc, curr) => acc && this.maps[this.getFullHeaderName(curr)]['address'], true)
   }
 }

@@ -150,12 +150,18 @@
                 </div>
               </div>
             </div>
-            <section *ngSwitchCase="'map'">
-              <div class="w-full h-72 my-2"   [id]="getFullHeaderName(header)"></div>
+            <section *ngSwitchCase="'map'" class="my-2" >
+              <div class="flex justify-center" *ngIf="!maps || !maps[getFullHeaderName(header)] || maps[getFullHeaderName(header)]['loading']">
+                <div class="bg-primary h-1 w-1/2 animate-ping"></div>
+              </div>
+              <div class="w-full h-72" [id]="getFullHeaderName(header)"></div>
               <input
+                *ngIf="maps && maps[getFullHeaderName(header)]"
                 [id]="getFullHeaderName(header) + 'input'"
                 [name]="getFullHeaderName(header)"
+                [value]="maps[getFullHeaderName(header)]['stringAddress']"
                 type="text"
+                [placeholder]="header.title | translate "
                 disabled
                 class="custom-input"
               >
@@ -180,9 +186,12 @@
           <div [class.text-center]="header.type == 'image'" *ngIf="(header.type == 'image' || formField(header)?.dirty) && !formField(header)?.valid" class="pl-1 w-full">
             <span class="text-red-500 text-sm italic" *ngFor="let err of formFieldErrors(header)">{{ err | translate: {entity: singleName | translate} }}</span>
           </div>
+          <div *ngIf="header.type == 'map' && (maps && maps[getFullHeaderName(header)] && !maps[getFullHeaderName(header)]['stringAddress'])" class="pl-1 w-full">
+            <span class="text-red-500 text-sm italic">{{ 'address_required' | translate }}</span>
+          </div>
         </div>
       </div>
-      <button type="submit" class="custom-button" >
+      <button type="submit" [disabled]="!isFormValid()" class="custom-button" >
         <span *ngIf="saveLoading"><i class="fas fa-circle-notch fa-spin"></i></span>
         <span *ngIf="!saveLoading">{{ 'save' | translate}}</span>
       </button>
