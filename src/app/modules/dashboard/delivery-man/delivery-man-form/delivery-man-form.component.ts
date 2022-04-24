@@ -64,7 +64,7 @@ export class DeliveryManFormComponent implements OnInit {
       },
       {
         name: "email",
-        title: "E-mail",
+        title: "email",
         parents: ['account'],
         type: 'email',
         value: '',
@@ -110,84 +110,6 @@ export class DeliveryManFormComponent implements OnInit {
       //   ]
       // },
       {
-        name: "countryCode",
-        title: "country_code",
-        parents: ['account', 'address'],
-        type: 'text',
-        value: '',
-        validators: [
-          {
-            validatorFn: Validators.required,
-            message: 'address_required'
-          }
-        ]
-      },
-      {
-        name: "country",
-        title: "country",
-        parents: ['account', 'address'],
-        type: 'text',
-        value: '',
-        validators: [
-          {
-            validatorFn: Validators.required,
-            message: 'address_required'
-          }
-        ]
-      },
-      {
-        name: "state",
-        title: "state",
-        parents: ['account', 'address'],
-        type: 'text',
-        value: '',
-        validators: [
-          {
-            validatorFn: Validators.required,
-            message: 'address_required'
-          }
-        ]
-      },
-      {
-        name: "city",
-        title: "city",
-        parents: ['account', 'address'],
-        type: 'text',
-        value: '',
-        validators: [
-          {
-            validatorFn: Validators.required,
-            message: 'address_required'
-          }
-        ]
-      },
-      {
-        name: "street",
-        title: "street",
-        parents: ['account', 'address'],
-        type: 'text',
-        value: '',
-        validators: [
-          {
-            validatorFn: Validators.required,
-            message: 'address_required'
-          }
-        ]
-      },
-      {
-        name: "postCode",
-        title: "post_code",
-        parents: ['account', 'address'],
-        type: 'text',
-        value: '',
-        validators: [
-          {
-            validatorFn: Validators.required,
-            message: 'address_required'
-          }
-        ]
-      },
-      {
         name: 'store',
         title: 'store',
         type: 'select',
@@ -198,18 +120,10 @@ export class DeliveryManFormComponent implements OnInit {
         }
       },
       {
-        name: "longitude",
-        title: "longitude",
+        title: "address",
+        name: "address",
         parents: ['account'],
-        type: 'number',
-        value: ''
-      },
-      {
-        name: "latitude",
-        title: "latitude",
-        parents: ['account'],
-        type: 'number',
-        value: ''
+        type: 'map'
       }
     ];
   }

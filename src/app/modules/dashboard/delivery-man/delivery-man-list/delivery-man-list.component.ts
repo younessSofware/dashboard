@@ -48,16 +48,9 @@ export class DeliveryManListComponent implements OnInit {
     //   search: true
     // },
     {
-      parents: ['account', 'address'],
-      name: "country",
-      title: "country",
-      default: 'none',
-      maxLength: 80
-    },
-    {
-      parents: ['account', 'address'],
-      name: "city",
-      title: "city",
+      parents: ['account'],
+      name: "stringAddress",
+      title: "address",
       default: 'none',
       maxLength: 80
     },
