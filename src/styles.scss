@@ -43,3 +43,5 @@ input, select{
 .link{
   @apply hover:underline hover:text-blue-500 cursor-pointer
 }
+
+@import "~leaflet/dist/leaflet.css"

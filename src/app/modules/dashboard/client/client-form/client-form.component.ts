@@ -38,18 +38,18 @@ export class ClientFormComponent implements OnInit {
     },
     {
       name: "email",
-      title: "E-mail",
+      title: "email",
       parents: ['account'],
       type: 'email',
       value: '',
       validators: [
         {
           validatorFn: Validators.required,
-          message: 'the email is required'
+          message: 'email_required'
         },
         {
           validatorFn: Validators.email,
-          message: 'this field must be an email'
+          message: 'email_email'
         }
       ]
     },
@@ -71,109 +71,9 @@ export class ClientFormComponent implements OnInit {
       ]
     },
     {
-      name: "phoneNumber",
-      title: "phone_number",
-      parents: ['account'],
-      type: 'string',
-      value: '',
-      validators: [
-        {
-          validatorFn: Validators.required,
-          message: 'phone_number_required'
-        }
-      ]
-    },
-    {
-      name: "countryCode",
-      title: "country_code",
-      parents: ['account', 'address'],
-      type: 'text',
-      value: '',
-      validators: [
-        {
-          validatorFn: Validators.required,
-          message: 'address_required'
-        }
-      ]
-    },
-    {
-      name: "country",
-      title: "country",
-      parents: ['account', 'address'],
-      type: 'text',
-      value: '',
-      validators: [
-        {
-          validatorFn: Validators.required,
-          message: 'address_required'
-        }
-      ]
-    },
-    {
-      name: "state",
-      title: "state",
-      parents: ['account', 'address'],
-      type: 'text',
-      value: '',
-      validators: [
-        {
-          validatorFn: Validators.required,
-          message: 'address_required'
-        }
-      ]
-    },
-    {
-      name: "city",
-      title: "city",
-      parents: ['account', 'address'],
-      type: 'text',
-      value: '',
-      validators: [
-        {
-          validatorFn: Validators.required,
-          message: 'address_required'
-        }
-      ]
-    },
-    {
-      name: "street",
-      title: "street",
-      parents: ['account', 'address'],
-      type: 'text',
-      value: '',
-      validators: [
-        {
-          validatorFn: Validators.required,
-          message: 'address_required'
-        }
-      ]
-    },
-    {
-      name: "postCode",
-      title: "post_code",
-      parents: ['account', 'address'],
-      type: 'text',
-      value: '',
-      validators: [
-        {
-          validatorFn: Validators.required,
-          message: 'address_required'
-        }
-      ]
-    },
-    {
-      name: "longitude",
-      title: "longitude",
-      parents: ['account'],
-      type: 'number',
-      value: ''
-    },
-    {
-      name: "latitude",
-      title: "latitude",
-      parents: ['account'],
-      type: 'number',
-      value: ''
+      title: "address",
+      name: "address",
+      type: 'map'
     }
   ];
 

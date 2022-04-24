@@ -30,21 +30,8 @@ export class ClientListComponent implements OnInit {
     },
     {
       parents: ['account'],
-      name: "phoneNumber",
-      title: "phone_number",
-      search: true
-    },
-    {
-      parents: ['account', 'address'],
-      name: "country",
-      title: "country",
-      default: 'none',
-      maxLength: 80
-    },
-    {
-      parents: ['account', 'address'],
-      name: "city",
-      title: "city",
+      name: "stringAddress",
+      title: "address",
       default: 'none',
       maxLength: 80
     },

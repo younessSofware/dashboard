@@ -150,6 +150,16 @@
                 </div>
               </div>
             </div>
+            <section *ngSwitchCase="'map'">
+              <div class="w-full h-72 my-2"   [id]="getFullHeaderName(header)"></div>
+              <input
+                [id]="getFullHeaderName(header) + 'input'"
+                [name]="getFullHeaderName(header)"
+                type="text"
+                disabled
+                class="custom-input"
+              >
+            </section>
             <section *ngSwitchDefault>
               <input
                 *ngIf="!header.hidden"

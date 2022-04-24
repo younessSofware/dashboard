@@ -1,3 +1,4 @@
+import { AddressService } from './../../../services/address.service';
 import { DOMAIN_URL } from './../../../common/constants';
 import { FormHeader } from './../../../common/models/form-header';
 import { FormGroup, FormControl } from '@angular/forms';
@@ -6,8 +7,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Header } from './../../../common/models/header';
 import { DataService } from 'src/app/services/data.service';
-
+import * as Leaflet from 'leaflet';
 import * as _ from "lodash"
+import { switchMap, map as rxjsMap} from 'rxjs';
 
 @Component({
   selector: 'app-form',
@@ -37,18 +39,22 @@ export class FormComponent implements OnInit, OnChanges {
   type: string;
   dataId: string;
   data: any;
-  form: FormGroup
+  form: FormGroup;
+  maps: any;
 
   constructor(private sanitizer: DomSanitizer, private dataService: DataService, private router: Router,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute, private addressService: AddressService) { }
 
   ngOnInit(): void {
-    this.createForm()
+    this.createForm();
   }
 
   ngOnChanges(changes: SimpleChanges){
     if(changes['headers']){
       this.createForm();
+      setTimeout(() => {
+        this.initMaps();
+      }, 1000)
     }
     if(!this.type && this.headers && this.headers.length){
       this.getFormType();
@@ -163,6 +169,7 @@ export class FormComponent implements OnInit, OnChanges {
                             .reduce((acc, curr) => acc + (acc ? this.capitalize(curr) : curr), '') + this.capitalize(header.name)
                           : header.name
   }
+
   getJsonData(){
     return this.headers.reduce((acc, curr) => {
       let field = {[curr.name]: this.formField(curr)?.value}
@@ -279,4 +286,60 @@ export class FormComponent implements OnInit, OnChanges {
     header.value.splice(ind, 1);
   }
 
+  initMaps(){
+    this.headers.forEach(header => {
+      if(header.type == 'map') this.initMap(this.getFullHeaderName(header));
+    })
+  }
+
+  initMap(id: string){
+    const map = Leaflet.map(id, {
+      center: [ 23.7294493, 46.2676419 ],
+      zoom: 2,
+      maxBoundsViscosity: 1
+    });
+
+    const tiles = Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      minZoom: 2,
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    });
+
+
+    map.on('click', (e: any) => {
+      console.log("e latlng: ", e.latlng);
+
+      this.addressService.getAddress(e.latlng.latitude, e.latlng.longitude, 'ar').pipe(
+        switchMap(arAddress => this.addressService.getAddress(e.latlng.latitude, e.latlng.longitude, 'en').pipe(
+          rxjsMap(enAddress => ({
+            arAddress,
+            enAddress
+          }))
+        ))
+      ).subscribe(({ arAddress, enAddress }) => {
+        console.log(arAddress);
+        console.log(enAddress);
+      })
+
+      this.addMarker(id, e.latlng)
+    })
+
+    this.maps = {[id]: { map }, ...this.maps}
+
+    tiles.addTo(this.maps[id].map);
+
+    console.log("map init");
+  }
+
+  async addMarker(id: string, coords: any){
+
+    if(this.maps[id]['marker']) this.maps[id].map.removeLayer(this.maps[id]['marker']);
+
+    this.maps[id]['marker'] = Leaflet.marker(coords);
+
+    // marker.bindPopup(text).openPopup()
+
+    this.maps[id].map.addLayer(this.maps[id]['marker'])
+    console.log("draw marker : ", coords);
+  }
 }

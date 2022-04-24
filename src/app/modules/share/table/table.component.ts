@@ -1,8 +1,7 @@
 import { firstValueFrom } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { Button } from './../../../common/models/button';
-import { API_URL, DOMAIN_URL } from './../../../common/constants';
-import { NotificationService } from './../../../services/notification.service';
+import { DOMAIN_URL } from './../../../common/constants';
 // import { NotificationService } from './../../services/notification.service';
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import Swal from 'sweetalert2';
@@ -10,7 +9,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 import { Header } from './../../../common/models/header';
 import { ToastrNotificationService } from 'src/app/services/toastr-notification.service';
-import { lowerFirst } from 'lodash';
 
 @Component({
   selector: 'app-table',

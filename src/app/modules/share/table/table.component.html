@@ -80,7 +80,7 @@
         (click)="previousPage()"
         class="pagination-button color-transition capitalize"
       >
-        <i class="fas fa-arrow-left mx-1"></i> {{ 'previous' | translate}}
+        <i class="fas fa-arrow-right mx-1"></i> {{ 'previous' | translate}}
       </button>
       <nav class="relative z-0 inline-flex rounded-md shadow-sm" aria-label="Pagination">
         <a
@@ -98,7 +98,7 @@
         (click)="nextPage()"
         class="pagination-button color-transition capitalize"
       >
-        {{'next' | translate}} <i class="fas fa-arrow-right mx-1"></i>
+        {{'next' | translate}} <i class="fas fa-arrow-left mx-1"></i>
       </button>
     </div>
     <div class="flex-grow my-2 overflow-y-auto relative min-h-0 ">
@@ -136,7 +136,7 @@
                 </span>
                 <span [class]="'tag ' + header.tagsColors[getHeaderValue(d, header, header.type)]" *ngSwitchCase="'tag'">{{ getHeaderValue(d, header, header.type) | translate }}</span>
                 <span *ngSwitchCase="'date'"> {{ getHeaderValue(d, header, header.type) | date: "medium" }} </span>
-                <div class="text-sm text-gray-900" *ngSwitchDefault>{{ getHeaderValue(d, header, header.type) | resumeText: header.maxLength ? header.maxLength : null }}</div>
+                <div class="text-sm text-gray-900" *ngSwitchDefault>{{ getHeaderValue(d, header, header.type) | translate | resumeText: header.maxLength ? header.maxLength : null }}</div>
               </section>
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-right flex justify-end">
