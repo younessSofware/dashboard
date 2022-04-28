@@ -42,23 +42,10 @@ export class StoreListComponent implements OnInit {
     },
     {
       parents: ['account'],
-      name: "phoneNumber",
-      title: "phone_number",
-      search: true
-    },
-    {
-      parents: ['account', 'address'],
-      name: "country",
-      title: "country",
+      name: "stringAddress",
+      title: "address",
       default: 'none',
-      maxLength: 80
-    },
-    {
-      parents: ['account', 'address'],
-      name: "city",
-      title: "city",
-      default: 'none',
-      maxLength: 80
+      maxLength: 40
     },
     {
       name: "createdAt",

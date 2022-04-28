@@ -108,6 +108,19 @@
                 </option>
               </select>
             </section>
+            <section *ngSwitchCase="'multi-select'">
+              <div class="form-check">
+                <input
+                  class="appearance-none border-gray-600 border-2 h-4 w-4 rounded-sm"
+                  type="checkbox"
+                  value=""
+                  id="flexCheckCheckedDisabled"
+                >
+                <label class="form-check-label inline-block text-gray-800 opacity-50" for="flexCheckCheckedDisabled">
+                  Disabled checked checkbox
+                </label>
+              </div>
+            </section>
             <section *ngSwitchCase="'textarea'">
               <textarea
                 *ngIf="!header.hidden"

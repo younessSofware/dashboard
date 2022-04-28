@@ -171,8 +171,6 @@ export class FormComponent implements OnInit, OnChanges {
   }
 
   getJsonData(){
-    console.log("***************");
-
     return this.headers.reduce((acc, curr) => {
       let field;
       if(curr.type == 'map') field = {
@@ -189,12 +187,6 @@ export class FormComponent implements OnInit, OnChanges {
       if(curr.parents){
         field = curr.parents.reduce((acc1, curr1) => ({[curr1]: acc1}), field)
       }
-      console.log("--------------");
-      console.log(curr);
-      console.log(acc);
-      console.log(field);
-      console.log("--------------");
-
 
       return _.merge(field, acc)
     }, {})
@@ -203,20 +195,35 @@ export class FormComponent implements OnInit, OnChanges {
   getFormData(){
     const formData = new FormData();
     this.headers.forEach(header => {
+      const name = !header.parents ? header.name : [...header.parents].reverse().reduce((acc, curr) => `${curr}[${acc}]`  , header.name);
       const value = this.formField(header)?.value;
       switch (header.type) {
         case 'image':{
           if(header.value){
-            formData.append(header.name, header.value, 'image')
+            formData.append(name, header.value, 'image')
           }
           break;
         }
         case 'select-tags':
-          formData.append(header.name, value);
+          formData.append(name, value);
           break;
         case 'input-list': {
           const list = value.filter((val: string) => val.length)
-          formData.append(header.name, JSON.stringify(list));
+          formData.append(name, JSON.stringify(list));
+          break;
+        }
+        case 'map': {
+          const mapValue = this.maps[this.getFullHeaderName(header)];
+          Object.keys(mapValue['address']).forEach(key => {
+            formData.append(`${name}[${key}]`, mapValue['address'][key]);
+          });
+          console.log(name);
+          console.log(name.replace(`[${ header.name }]`, ''));
+
+          const parentName = name.replace(`[${ header.name }]`, '');
+          formData.append(`${parentName}[stringAddress]`, mapValue['stringAddress']);
+          formData.append(`${parentName}[latitude]`, mapValue['latitude']);
+          formData.append(`${parentName}[longitude]`, mapValue['longitude']);
           break;
         }
 

@@ -33,7 +33,7 @@ export class ClientListComponent implements OnInit {
       name: "stringAddress",
       title: "address",
       default: 'none',
-      maxLength: 80
+      maxLength: 40
     },
     {
       name: "createdAt",
