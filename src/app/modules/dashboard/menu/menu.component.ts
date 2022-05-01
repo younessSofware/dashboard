@@ -13,12 +13,16 @@ export class MenuComponent implements OnInit {
   @Output() showNotifications = new EventEmitter();
   @Output() hideNotifications = new EventEmitter();
   @Input() showNotification = false;
-
   menuItems = [
     {
       name: "home",
       icon: "fas fa-home",
       path: "/dashboard/home"
+    },
+    {
+      name: 'ads',
+      icon: 'fas fa-rectangle-ad',
+      path: '/dashboard/ads'
     },
     {
       name: "clients",

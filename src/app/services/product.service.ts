@@ -18,4 +18,8 @@ export class ProductService {
   sales(productId: number){
     return this.http.get(`${this.url}${productId}/sells`)
   }
+
+  offers(productId: number){
+    return this.http.get(`${this.url}${productId}/offers`)
+  }
 }

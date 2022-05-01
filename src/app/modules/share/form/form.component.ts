@@ -132,8 +132,10 @@ export class FormComponent implements OnInit, OnChanges {
     this.form.patchValue(form);
   }
 
-  fieldChanged(name: string, value: any){
-    this.onChange.emit({name, value});
+  fieldChanged(header: Header, event: any){
+    header.value = event.target.value
+    this.errors && this.errors[this.getFullHeaderName(header)] ? this.errors[this.getFullHeaderName(header)] = undefined : ''
+    this.onChange.emit({name: header.name, value: header.value});
   }
 
   addTag(header: Header, event: any){
@@ -147,12 +149,12 @@ export class FormComponent implements OnInit, OnChanges {
 
   setImage(header: Header, $event: any){
     const image = $event.target.files[0];
-    this.imagesUrl[header.name] = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(image));
+    this.imagesUrl[this.getFullHeaderName(header)] = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(image));
     header.value = image;
   }
 
   getImage(header: FormHeader){
-    if(this.imagesUrl[header.name]) return this.imagesUrl[header.name];
+    if(this.imagesUrl[this.getFullHeaderName(header)]) return this.imagesUrl[header.name];
 
     const formValue =this.formField(header)?.value
     if(formValue) return  DOMAIN_URL + "/" + formValue;
@@ -197,10 +199,17 @@ export class FormComponent implements OnInit, OnChanges {
     this.headers.forEach(header => {
       const name = !header.parents ? header.name : [...header.parents].reverse().reduce((acc, curr) => `${curr}[${acc}]`  , header.name);
       const value = this.formField(header)?.value;
+
       switch (header.type) {
         case 'image':{
           if(header.value){
             formData.append(name, header.value, 'image')
+          }
+          break;
+        }
+        case 'cover':{
+          if(header.value){
+            formData.append(name, header.value, 'cover')
           }
           break;
         }
@@ -217,9 +226,6 @@ export class FormComponent implements OnInit, OnChanges {
           Object.keys(mapValue['address']).forEach(key => {
             formData.append(`${name}[${key}]`, mapValue['address'][key]);
           });
-          console.log(name);
-          console.log(name.replace(`[${ header.name }]`, ''));
-
           const parentName = name.replace(`[${ header.name }]`, '');
           formData.append(`${parentName}[stringAddress]`, mapValue['stringAddress']);
           formData.append(`${parentName}[latitude]`, mapValue['latitude']);
@@ -256,8 +262,11 @@ export class FormComponent implements OnInit, OnChanges {
     this.saveLoading = false;
 
     if(err.message){
-      this.errors =err.message
-      this.error = "invalid_data";
+      if(typeof err.message == 'string') this.error = err.message;
+      else{
+        this.errors = err.message
+        this.error = "invalid_data";
+      }
     }
     else this.error = err;
 
@@ -269,7 +278,6 @@ export class FormComponent implements OnInit, OnChanges {
 
   updateData(){
     this.beforeRequest();
-    console.log("request: ", this.getRequestData());
     this.dataService.sendPutRequest(this.updateURL, this.getRequestData())
     .subscribe({
       next: resp => {
@@ -286,7 +294,7 @@ export class FormComponent implements OnInit, OnChanges {
   }
 
   getRequestData(){
-    return this.headers.filter(h => h.type == 'image').length ? this.getFormData() : this.getJsonData()
+    return this.headers.filter(h => ['image', 'cover'].includes(h.type + '')).length ? this.getFormData() : this.getJsonData()
   }
 
   storeData(){

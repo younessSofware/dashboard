@@ -15,10 +15,28 @@
     <div class="flex flex-col min-h-0 w-full h-full">
       <div class="flex-grow min-h-0 overflow-y-auto pb-5">
         <div *ngFor="let header of headers" class="px-3 my-2" [class]="[header.width ? 'w-' + header.width : 'w-full']">
-          <label *ngIf="!header.hidden && header.type != 'checkbox'" class="block uppercase tracking-wide text-gray-700 text-sm font-bold mt-4 mb-2" [for]="header.name">
+          <label *ngIf="!header.hidden && !['checkbox', 'image', 'cover'].includes(header.type + '')" class="block uppercase tracking-wide text-gray-700 text-sm font-bold mt-4 mb-2" [for]="header.name">
             {{ header.title | translate }}
           </label>
           <section [ngSwitch]="header.type">
+            <section *ngSwitchCase="'cover'">
+              <div class="h-64 bg-gray-200 w-full relative flex justify-center">
+                <img [src]="getImage(header)" class="h-full" alt="">
+                <div class="w-full h-full absolute top-0 left-0 flex items-center justify-center">
+                  <label [for]="header.name" class="custom-file-button color-transition mt-3 mb-1 cursor-pointer">
+                    <i class="fas fa-upload"></i> {{ 'upload' | translate }}
+                  </label>
+                  <input
+                    (change)="setImage(header, $event)"
+                    type="file"
+                    [name]="getFullHeaderName(header)"
+                    [formControlName]="getFullHeaderName(header)"
+                    [id]="getFullHeaderName(header)"
+                    hidden
+                  >
+                </div>
+              </div>
+            </section>
             <section *ngSwitchCase="header.type == 'image' ? header.type : ''">
               <div class="mt-1 flex flex-col items-center">
                 <div class="flex items-center justify-center">
@@ -33,7 +51,7 @@
                     >
                   </div>
                 </div>
-                <label [for]="header.name" class="custom-file-button color-transition mt-3 mb-1">
+                <label [for]="header.name" class="custom-file-button color-transition mt-3 mb-1 cursor-pointer">
                   <i class="fas fa-upload"></i> {{ 'upload' | translate }}
                 </label>
                 <input
@@ -91,12 +109,11 @@
             </section>
             <section *ngSwitchCase="'select'">
               <select
-                (change)="fieldChanged(header.name, header.value)"
-                [formControlName]="header.name"
-                [id]="header.name"
-                [name]="header.name"
-                (change)="errors[header.name] ? errors[header.name] = undefined : ''"
-                [class.error]="errors && errors[header.name]"
+                (change)="fieldChanged(header, $event)"
+                [formControlName]="getFullHeaderName(header)"
+                [id]="getFullHeaderName(header)"
+                [name]="getFullHeaderName(header)"
+                [class.error]="errors && errors[getFullHeaderName(header)]"
                 class="custom-input"
                 *ngIf="header.selectOptions"
               >

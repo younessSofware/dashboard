@@ -1,0 +1,12 @@
+<app-form
+    [headers]="headers"
+    pluralName="ads"
+    singleName="ad"
+    icon="fas fa-rectangle-ad"
+    redirectLink="/dashboard/ads/list"
+    retrieveURL="ads/:id"
+    storeURL="ads"
+    updateURL="ads"
+    (onChange)="valueChanged($event)"
+    (headersChanged)="headerChanged($event)"
+></app-form>

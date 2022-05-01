@@ -27,7 +27,7 @@ export class TableComponent implements OnInit, OnChanges {
   @Input() createLink: string;
   @Input() showSortFilter = true;
   @Input() showDeleteButton = true;
-  @Input() showUpdateButton = true;
+  @Input() showEditButton = true;
   @Input() showCreateButton = true;
   @Input() showDisplayButton = true;
 
@@ -128,7 +128,7 @@ export class TableComponent implements OnInit, OnChanges {
         query: {id: ':id'}
       }
     }
-    this.defaultButtons['edit'] = {
+    if(this.showEditButton) this.defaultButtons['edit'] = {
       name: 'edit',
       icon: 'fas fa-edit',
       color: 'blue',
@@ -234,7 +234,7 @@ export class TableComponent implements OnInit, OnChanges {
       next: (resp: any) => {
         this.data = resp.data[this.pluralName];
         this.headers?.forEach(header => {
-          if(header.type == 'image'){
+          if(['image', 'cover'].includes(header.type + '')){
             this.data.forEach(data => {
               data[header.name] = DOMAIN_URL + "/" + data[header.name];
             })
@@ -269,7 +269,7 @@ export class TableComponent implements OnInit, OnChanges {
     let element = data[header.name]
     if(header.parents?.length)
       element = header.parents.reduce((acc, curr) => {
-        return acc[curr]
+        return acc[curr] ? acc[curr] : header.default
       }, data)[header.name]
 
     if(!element) return header.default;
