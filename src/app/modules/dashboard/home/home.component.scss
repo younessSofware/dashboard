@@ -1,0 +1,11 @@
+
+.list-item{
+  @apply p-3 px-4 flex items-center hover:bg-indigo-100 cursor-pointer transition-all duration-300
+}
+
+.list-item.selected{
+  @apply bg-primary text-white
+}
+.map-container{
+  padding-bottom: 100%;
+}

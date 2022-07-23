@@ -1,0 +1,18 @@
+
+.menu-item{
+  @apply m-2 rounded-3xl bg-primary text-white cursor-pointer flex justify-between hover:bg-secondary hover:rounded-xl transition-all duration-300 ease-linear
+}
+
+.menu-item.active{
+  @apply text-secondary hover:text-white
+}
+
+.menu-tooltip{
+  z-index: 2001;
+  @apply absolute py-2 px-5 right-[75px] shadow-2xl bg-primary text-white
+  mx-auto rounded-xl transition-all duration-100 origin-left scale-0 whitespace-nowrap
+}
+
+.notification{
+  @apply absolute right-10 bg-secondary w-6 h-6 rounded-full flex justify-center items-center text-black transition-all duration-300
+}

@@ -1,0 +1,16 @@
+<div class="flex items-center " dir="ltr">
+  <div class="cursor-pointe " (click)="toggleAudio()">
+    <span class="text-lg" *ngIf="!play"><i class="fas fa-play"></i></span>
+    <span class="text-lg mx-[1.5px]" *ngIf="play"><i class="fas fa-pause"></i></span>
+  </div>
+  <div class="mx-4 w-40">
+
+    <app-audio-slider
+      [min]="0"
+      [max]="duration"
+      [value]="time"
+      (onValueChange)="updateAudioPos($event)"
+    ></app-audio-slider>
+  </div>
+  <span class="text-sm"> {{ duration - time | msTime }}</span>
+</div>

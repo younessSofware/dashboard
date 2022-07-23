@@ -1,0 +1,15 @@
+<app-table
+  [headers]="headers"
+  pluralName="ads"
+  singleName="ad"
+  primaryKey="id"
+  deleteURL="ads/:id"
+  retrieveURL="ads"
+  displayLink="/dashboard/ads/display"
+  editLink="/dashboard/ads/form/edit"
+  createLink="/dashboard/ads/form/create"
+  [showSortFilter]="false"
+  [showDisplayButton]="false"
+  [showEditButton]="false"
+  icon="fas fa-rectangle-ad"
+></app-table>

@@ -1,0 +1,25 @@
+<div class="p-4 bg-gray-100 h-full overflow-auto">
+
+  <app-display
+    [title]="('delivery_man_details' | translate) + ' / ' + (deliveryMan ? deliveryMan.account.name : '')"
+    [charts]="charts"
+    [profile]="(deliveryMan ? deliveryMan.account : null)"
+    [profileError]="profileError"
+  >
+  <div class="header-buttons" *ngIf="deliveryMan">
+    <button (click)="enable()" [disabled]="deliveryMan.account.state == 'ENABLED'" class=" button bg-green-500 hover:bg-green-400 ">{{ 'enable' | translate }}</button>
+    <button (click)="block()" [disabled]="deliveryMan.account.state == 'BLOCKED'" class="button bg-red-500 hover:bg-red-400">{{ 'block' | translate }}</button>
+    <button (click)="suspend()" [disabled]="deliveryMan.account.state == 'SUSPENDED'" class="button bg-yellow-500 hover:bg-yellow-400">{{ 'suspend' | translate }}</button>
+  </div>
+</app-display>
+  <div>
+    <app-orders-list
+      [count]="ordersCount"
+      [orders]="orders"
+      [error]="ordersError"
+      [limit]="ordersLimit"
+      (onPageChange)="getOrders($event)"
+    ></app-orders-list>
+  </div>
+
+</div>

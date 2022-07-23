@@ -1,0 +1,123 @@
+<div class="p-4 bg-gray-100 h-full overflow-auto">
+  <div>
+    <div class="flex items-center">
+      <span class="text-3xl uppercase my-2"><i class="fas fa-box mx-2"></i>{{ 'order_details' | translate }}</span>
+      <div class="px-2">
+        <div class="px-3 py-2 text-white bg-primary rounded-lg">{{ order.state | translate}}</div>
+      </div>
+    </div>
+    <hr>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-5 mt-4">
+    <div>
+      <div class="card">
+        <app-loading-line [loading]="!order && error"></app-loading-line>
+        <div class="card-title">
+          <span>{{ 'store' | translate}}</span>
+        </div>
+        <div class="px-2">
+          <app-alert type="danger" [message]="error" *ngIf="error"></app-alert>
+        </div>
+        <div class="flex items-center my-2 mx-4 md:mx-0 md:block">
+          <div class="flex flex-col items-center justify-center md:my-8">
+            <img *ngIf="order" [src]="order.store.photo | serverMedia" class="w-22 h-32 rounded-full ring-1 ring-gray-200" alt="">
+            <span class="text-lg font-semibold link" routerLink="/dashboard/stores/display" [queryParams]="{id: order.store.id}">
+              {{ order.store.storeName }}
+            </span>
+          </div>
+          <div class="pl-4 md:mt-8" *ngIf="order">
+            <span class="user-info "><i class="fas fa-user"></i> {{ order.store.account.name }} </span>
+            <span class="user-info"><i class="fas fa-phone"></i> {{ order.store.account.phoneNumber }}</span>
+            <span class="user-info"><i class="fas fa-location-dot"></i>
+              {{ order.store.account.address.country }}, {{ order.store.account.address.city }}, {{ order.store.account.address.street }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class=" md:col-span-5">
+      <div class="card">
+        <app-loading-line [loading]="!order && error"></app-loading-line>
+        <div class="card-title">
+          <span>{{ 'products' | translate}}</span>
+        </div>
+        <div class="p-2" *ngIf="order">
+          <table class="w-full text-center">
+            <thead>
+              <tr>
+                <th>{{ 'id' | translate }}</th>
+                <th>{{ 'product' | translate }}</th>
+                <th>{{ 'category' | translate }}</th>
+                <th>{{ 'quantity' | translate }}</th>
+                <th>{{ 'unit_price' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let productOrder of order.productOrders">
+                <td>{{ productOrder.id }}</td>
+                <td>{{ productOrder.product.name }}</td>
+                <td>{{ productOrder.product.category.name }}</td>
+                <td>{{ productOrder.quantity }}</td>
+                <td>{{ productOrder.price }} {{'SAR' | translate}}</td>
+              </tr>
+              <tr>
+                <td class="bg-gray-200" colspan="4">
+                  {{ 'total_products' | translate }}
+                </td>
+                <td>
+                  {{ productsTotal }} {{ 'SAR' | translate }}
+                </td>
+              </tr>
+              <tr>
+                <td class="bg-gray-200" colspan="4">
+                  {{ 'delivery_price' | translate }}
+                </td>
+                <td>
+                  {{  order.deliveryPrice }} {{ 'SAR' | translate }}
+                </td>
+              </tr>
+              <tr>
+                <td class="bg-gray-200" colspan="4">
+                  {{ 'total' | translate }}
+                </td>
+                <td class="border bg-primary text-white">
+                  {{  order.amount }} {{ 'SAR' | translate }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card w-auto mt-4" *ngIf="order.state == 'in-delivery'">
+        <app-loading-line [loading]="!order && error"></app-loading-line>
+        <div class="card-title">
+          <span>{{ 'track_order' | translate}}</span>
+        </div>
+        <div class="w-full h-96" id="map"></div>
+      </div>
+      <div class="card w-auto mt-4">
+        <app-loading-line [loading]="!order && error"></app-loading-line>
+        <div class="card-title">
+          <span>{{ 'delivery man' | translate}}</span>
+        </div>
+        <div class="p-2" *ngIf="order && !order.deliveryMan">
+          <app-alert [message]="'order_no_deliver_man'| translate" type="info"></app-alert>
+        </div>
+        <div class="flex px-3 py-3" *ngIf="order && order.deliveryMan">
+          <img class="w-20 h-20 border border-gray-400 rounded-full shadow-xl" src="./../../../../../assets/delivery-man.png" alt="">
+          <table class="x-full flex-grow text-center">
+            <tr>
+              <td>
+                <span
+                  class="link"
+                  routerLink="/dashboard/delivery-men/display" [queryParams]="{id: order.deliveryMan.id}"
+                ><i class="fas fa-user mx-1"></i> {{ order.deliveryMan.account.name }}</span></td>
+              <td><i class="fas fa-location-dot mx-1"></i> {{ order.deliveryMan.account.address }}</td>
+              <td><i class="fas fa-phone mx-1"></i> {{ order.deliveryMan.account.phoneNumber }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

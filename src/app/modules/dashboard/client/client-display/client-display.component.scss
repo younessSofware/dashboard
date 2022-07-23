@@ -1,0 +1,24 @@
+.user-info{
+  @apply block my-3 py-2 truncate
+}
+.user-info>i{
+  @apply font-bold mx-1
+}
+.card{
+  @apply bg-white border-2 border-gray-100 rounded-xl shadow-xl
+}
+.card-title{
+  @apply py-2 px-2
+}
+
+.card-title>span{
+  @apply text-2xl font-bold
+}
+
+.button{
+  @apply py-2 px-4 border border-gray-200 rounded-lg mx-1 text-white
+}
+
+.button:disabled{
+  @apply bg-gray-400 hover:bg-gray-400 cursor-not-allowed
+}

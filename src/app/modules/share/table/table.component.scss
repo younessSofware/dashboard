@@ -1,0 +1,55 @@
+.avatar{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.disabled{
+  cursor: none;
+  @apply text-gray-300 border-gray-300 hover:bg-transparent;
+}
+
+select, input{
+  @apply border border-gray-500 rounded-lg p-2
+}
+
+.outline-button{
+  @apply border border-gray-500 py-2 px-4 rounded-lg hover:bg-secondary hover:text-white bg-white
+}
+
+.outline-button:disabled{
+  @apply cursor-not-allowed opacity-60 hover:bg-white hover:text-black
+}
+
+.pagination-button{
+  @apply p-2 border rounded-lg bg-white border-primary text-primary hover:border-primary hover:bg-secondary hover:text-white
+}
+
+.pagination-button:disabled{
+  @apply opacity-30 hover:bg-transparent hover:text-primary cursor-not-allowed
+}
+
+.row-btn{
+  @apply border border-primary py-1 px-2 rounded-md mx-1 text-xs text-primary hover:text-white
+}
+
+.pagination-number{
+  @apply bg-white cursor-pointer border-primary text-primary hover:bg-primary hover:text-white rounded-lg
+  relative inline-flex items-center py-2 px-4 border text-sm font-medium mx-1
+}
+
+.pagination-number.active{
+  @apply bg-primary text-white border-0
+}
+
+.tag{
+  @apply px-3 py-1 rounded-xl
+}
+
+.search-input{
+  @apply px-2
+}
+
+th{
+  @apply top-0 sticky
+}

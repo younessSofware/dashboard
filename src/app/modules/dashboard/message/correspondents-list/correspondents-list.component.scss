@@ -1,0 +1,19 @@
+.message-tab{
+  @apply py-2 px-8 active:bg-indigo-100 cursor-pointer transition-all duration-500 whitespace-nowrap
+}
+
+.message-tab.active{
+  @apply border-b-4 border-primary bg-indigo-100
+}
+
+.search-input{
+  @apply bg-gray-100 w-full p-2 rounded-xl border border-gray-200 transition-all duration-500
+}
+
+.user-list-item{
+  @apply p-3 px-4 flex items-center hover:bg-indigo-100 cursor-pointer transition-all duration-300
+}
+
+.user-list-item.selected{
+  @apply bg-primary text-white
+}
