@@ -44,9 +44,12 @@ export class AdFormComponent implements OnInit {
         this.headers.forEach(h => h.name == 'product' && h.selectOptions ? h.selectOptions.options = this.products : null)
         if(this.products.length) this.getOffers(this.products[0].id);
         else if(!this.headers.length) this.initializeHeader();
+<<<<<<< HEAD
 
         console.log("products", resp.data.products);
         
+=======
+>>>>>>> c8869962b28a6d95926973dfb9d3ec86654e4aec
       },
       error: err => {
         console.log(err);
@@ -125,8 +128,11 @@ export class AdFormComponent implements OnInit {
   }
 
   valueChanged(data: any){
+<<<<<<< HEAD
     
     console.log("changed", data);
+=======
+>>>>>>> c8869962b28a6d95926973dfb9d3ec86654e4aec
     if(data.name == 'store') this.getProducts(data.value)
     if(data.name == 'product') this.getOffers(data.value)
   }

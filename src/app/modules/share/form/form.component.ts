@@ -52,12 +52,21 @@ export class FormComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges){
     if(changes['headers']){
       this.createForm();
+<<<<<<< HEAD
       if(!this.type && this.headers && this.headers.length){
         this.getFormType();
       }
       setTimeout(() => {
         this.initMaps();
       }, 1000);
+=======
+      setTimeout(() => {
+        this.initMaps();
+      }, 1000)
+    }
+    if(!this.type && this.headers && this.headers.length){
+      this.getFormType();
+>>>>>>> c8869962b28a6d95926973dfb9d3ec86654e4aec
     }
   }
 
@@ -121,6 +130,7 @@ export class FormComponent implements OnInit, OnChanges {
   setFormValues(){
     const form = {
       ...this.headers.map(h => {
+<<<<<<< HEAD
         const name = this.getFullHeaderName(h) 
         let value = h.parents ? [...h.parents].reduce((acc, curr) => acc[curr], this.data)[h.name] : this.data[h.name]
         if(h.selectOptions && h.type == 'select') value = value[h.selectOptions?.valueProperty];
@@ -134,6 +144,12 @@ export class FormComponent implements OnInit, OnChanges {
         }
         return {
           name,
+=======
+        let value = h.parents ? [...h.parents].reduce((acc, curr) => acc[curr], this.data)[h.name] : this.data[h.name]
+        if(h.selectOptions && h.type == 'select') value = value[h.selectOptions?.valueProperty]
+        return {
+          name: this.getFullHeaderName(h),
+>>>>>>> c8869962b28a6d95926973dfb9d3ec86654e4aec
           value
         }
       }).reduce((acc, curr) => ({...acc, [curr.name]: curr.value}), {})
@@ -165,8 +181,13 @@ export class FormComponent implements OnInit, OnChanges {
   getImage(header: FormHeader){
     if(this.imagesUrl[this.getFullHeaderName(header)]) return this.imagesUrl[header.name];
 
+<<<<<<< HEAD
     const value = header.value;
     if(value) return  DOMAIN_URL + "/" + value;
+=======
+    const formValue =this.formField(header)?.value
+    if(formValue) return  DOMAIN_URL + "/" + formValue;
+>>>>>>> c8869962b28a6d95926973dfb9d3ec86654e4aec
 
     return './../../../assets/default-img.png'
   }
@@ -211,7 +232,11 @@ export class FormComponent implements OnInit, OnChanges {
 
       switch (header.type) {
         case 'image':{
+<<<<<<< HEAD
           if(header.value && this.imagesUrl[this.getFullHeaderName(header)]){
+=======
+          if(header.value){
+>>>>>>> c8869962b28a6d95926973dfb9d3ec86654e4aec
             formData.append(name, header.value, 'image')
           }
           break;
@@ -230,6 +255,7 @@ export class FormComponent implements OnInit, OnChanges {
           formData.append(name, JSON.stringify(list));
           break;
         }
+<<<<<<< HEAD
         case 'multi-select': {
           header.value.forEach((v: any, ind: number) => {
             formData.append(`${name}[${ind}]`, v)
@@ -240,6 +266,12 @@ export class FormComponent implements OnInit, OnChanges {
           const mapValue = this.maps[this.getFullHeaderName(header)];
           Object.keys(mapValue['address']).forEach(key => {
             if(mapValue['address'][key]) formData.append(`${name}[${key}]`, mapValue['address'][key]);
+=======
+        case 'map': {
+          const mapValue = this.maps[this.getFullHeaderName(header)];
+          Object.keys(mapValue['address']).forEach(key => {
+            formData.append(`${name}[${key}]`, mapValue['address'][key]);
+>>>>>>> c8869962b28a6d95926973dfb9d3ec86654e4aec
           });
           const parentName = name.replace(`[${ header.name }]`, '');
           formData.append(`${parentName}[stringAddress]`, mapValue['stringAddress']);
@@ -250,6 +282,7 @@ export class FormComponent implements OnInit, OnChanges {
 
         default:{
           const name = !header.parents ? header.name : [...header.parents].reverse().reduce((acc, curr) => `${curr}[${acc}]`  , header.name);
+<<<<<<< HEAD
           
           console.log("-------------");
           console.log("name", name);
@@ -257,6 +290,8 @@ export class FormComponent implements OnInit, OnChanges {
           console.log("-------------");
           
           
+=======
+>>>>>>> c8869962b28a6d95926973dfb9d3ec86654e4aec
           formData.append(name, value ? value : '')
           break;
         }
@@ -343,10 +378,14 @@ export class FormComponent implements OnInit, OnChanges {
 
   initMaps(){
     this.headers.forEach(header => {
+<<<<<<< HEAD
       if(header.type == 'map') {
         const id = this.getFullHeaderName(header);
         if(!this.maps || !this.maps[id]) this.initMap(id);
       }
+=======
+      if(header.type == 'map') this.initMap(this.getFullHeaderName(header));
+>>>>>>> c8869962b28a6d95926973dfb9d3ec86654e4aec
     })
   }
 
@@ -367,12 +406,50 @@ export class FormComponent implements OnInit, OnChanges {
       const latitude = e.latlng.lat;
       const longitude = e.latlng.lng;
 
+<<<<<<< HEAD
       this.onMapClick(id, latitude, longitude)
+=======
+      this.maps[id]['loading'] = true;
+
+      this.addressService.getAddress(latitude, longitude, 'ar').pipe(
+        switchMap((arAddress: any) => this.addressService.getAddress(latitude, longitude, 'en').pipe(
+          rxjsMap((enAddress: any) => ({
+            arAddress: arAddress.address,
+            enAddress: enAddress
+          }))
+        ))
+      ).subscribe({
+        next: ({ arAddress, enAddress }: any) => {
+          this.maps[id]['loading'] = false;
+          if(arAddress) this.maps[id]['stringAddress'] = `${ arAddress.country ? ' ' + arAddress.country : '' }${ arAddress.state ? ' ,' + arAddress.state : '' }${ arAddress.state_district ? ' ,' + arAddress.state_district : '' }${ arAddress.region ? ' ,' + arAddress.region : ''}${ arAddress.province ? ' ,' + arAddress.province : ''}${ arAddress.city ? ' ,' + arAddress.city : '' }${ arAddress.village ? ' ,' + arAddress.village : '' }${ arAddress.town ? ' ,' + arAddress.town : '' }`;
+          if(enAddress){
+            const address = enAddress.address;
+            this.maps[id]['address'] = {
+              country: address.country,
+              countryCode: address.country_code,
+              state: address.state ? address.state : address.region,
+              city: address.city ? address.city : (address.village ? address.village : address.town),
+              street: address.suburb,
+              postCode: address.postcode
+            }
+            this.maps[id]['longitude'] = enAddress.lat;
+            this.maps[id]['latitude'] = enAddress.lon;
+          }
+        },
+        error: (err: any) => {
+          console.log(err);
+          this.maps[id]['loading'] = false;
+        }
+      });
+
+      this.addMarker(id, e.latlng, this.maps[id]['stringAddress'])
+>>>>>>> c8869962b28a6d95926973dfb9d3ec86654e4aec
     })
 
     this.maps = {[id]: { map, stringAddress: '' }, ...this.maps}
 
     tiles.addTo(this.maps[id].map);
+<<<<<<< HEAD
 
     if(this.data && this.data['account']['latitude'] && this.data['account']['longitude']){
       this.onMapClick(id, this.data['account']['latitude'], this.data['account']['longitude'])
@@ -419,6 +496,10 @@ export class FormComponent implements OnInit, OnChanges {
   }
 
 
+=======
+  }
+
+>>>>>>> c8869962b28a6d95926973dfb9d3ec86654e4aec
   async addMarker(id: string, coords: any, address: string){
 
     if(this.maps[id]['marker']) this.maps[id].map.removeLayer(this.maps[id]['marker']);
@@ -434,6 +515,7 @@ export class FormComponent implements OnInit, OnChanges {
   isFormValid(){
     return this.form.valid && this.headers.filter(h => h.type == 'map').reduce((acc, curr) => acc && this.maps[this.getFullHeaderName(curr)]['address'], true)
   }
+<<<<<<< HEAD
 
   addToMultiSelect(event: any, header: Header){
     if(!header.value || !header.value.length) header.value = [];
@@ -442,4 +524,6 @@ export class FormComponent implements OnInit, OnChanges {
     if(!checked && header.value.includes(id)) header.value.splice(header.value.indexOf(id), 1)
     if(checked && !header.value.includes(id)) header.value.push(id)
   }
+=======
+>>>>>>> c8869962b28a6d95926973dfb9d3ec86654e4aec
 }
