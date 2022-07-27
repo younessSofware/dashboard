@@ -126,7 +126,6 @@
               </select>
             </section>
             <section *ngSwitchCase="'multi-select'">
-<<<<<<< HEAD
               <div class="grid grid-cols-4" *ngIf="header.selectOptions">
                 <div class="flex items-center my-3" *ngFor="let elem of header.selectOptions.options">
                   <input 
@@ -143,18 +142,6 @@
                     {{elem[header.selectOptions.nameProperty]}}
                   </label>
                 </div>
-=======
-              <div class="form-check">
-                <input
-                  class="appearance-none border-gray-600 border-2 h-4 w-4 rounded-sm"
-                  type="checkbox"
-                  value=""
-                  id="flexCheckCheckedDisabled"
-                >
-                <label class="form-check-label inline-block text-gray-800 opacity-50" for="flexCheckCheckedDisabled">
-                  Disabled checked checkbox
-                </label>
->>>>>>> c8869962b28a6d95926973dfb9d3ec86654e4aec
               </div>
             </section>
             <section *ngSwitchCase="'textarea'">

@@ -41,14 +41,7 @@ export class ProductFormComponent implements OnInit {
     this.storeService.stores()
     .subscribe({
       next: (resp: any) => {
-        console.log("stores: ", resp);
-<<<<<<< HEAD
         this.stores = resp.data['stores'];
-        console.log("---", this.stores);
-        
-=======
-        this.stores = resp.data;
->>>>>>> c8869962b28a6d95926973dfb9d3ec86654e4aec
         if(this.categories) this.initializeHeaders();
       },
       error: err => {
