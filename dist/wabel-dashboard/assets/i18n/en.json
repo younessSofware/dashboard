@@ -1,0 +1,6 @@
+{
+  "password_required": "The password field is required",
+  "phone_number_required": "The phone number field is required",
+  "login": "login",
+  "app_name_dashboard": "wabel dashboard"
+}
