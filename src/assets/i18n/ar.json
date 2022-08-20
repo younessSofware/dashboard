@@ -153,5 +153,7 @@
   "profile": "الملف الشخصي",
   "particular_events": "الاحداث الخاصة",
   "particular_event": "حدث خاص",
-  "sign_in_Google": "التسجيل عبر جوجل"
+  "sign_in_Google": "التسجيل عبر جوجل",
+  "admins": "المدراء",
+  "admin": "مدير"
 }

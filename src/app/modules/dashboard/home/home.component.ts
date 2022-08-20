@@ -12,6 +12,12 @@ export class HomeComponent implements OnInit {
   statisticsLoading = true;
   items = [
     {
+    title: 'admins',
+    icon: 'fas fa-users-cog',
+    count: 0,
+    name: 'admins'
+  },
+    {
       title: 'clients',
       icon: 'fas fa-users',
       count: 0,
