@@ -1,4 +1,3 @@
-import { NotificationsComponent } from './notifications/notifications.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { ShareModule } from './../share/share.module';
 import { MenuComponent } from './menu/menu.component';
@@ -7,17 +6,19 @@ import { CommonModule } from '@angular/common';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
-import { ClientComponent } from './client/client.component';
 import { HomeComponent } from './home/home.component';
+import { EventComponent } from './event/eventcomponent';
+import { ArticleComponent } from './article/article.component';
 
 
 @NgModule({
   declarations: [
     DashboardComponent,
     MenuComponent,
-    ClientComponent,
+    EventComponent,
     HomeComponent,
-    NotificationsComponent
+    ArticleComponent,
+
   ],
   imports: [
     CommonModule,

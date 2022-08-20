@@ -1,6 +1,5 @@
 import { ServerMediaPipe } from './../../pipes/server-media.pipe';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgApexchartsModule } from 'ng-apexcharts';
 import { MsTimePipe } from './../../pipes/ms-time.pipe';
 import { ResumeTextPipe } from './../../pipes/resume-text.pipe';
 import { RouterModule } from '@angular/router';
@@ -11,11 +10,7 @@ import { AlertComponent } from './alert/alert.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RadialBarComponent } from './radial-bar/radial-bar.component';
-import { LineChartComponent } from './line-chart/line-chart.component';
 import { LoadingLineComponent } from './loading-line/loading-line.component';
-import { OrdersListComponent } from './orders-list/orders-list.component';
-
 @NgModule({
   declarations: [
     AlertComponent,
@@ -24,10 +19,7 @@ import { OrdersListComponent } from './orders-list/orders-list.component';
     FormComponent,
     TableComponent,
     MsTimePipe,
-    RadialBarComponent,
-    LineChartComponent,
     LoadingLineComponent,
-    OrdersListComponent,
     ServerMediaPipe
   ],
   imports: [
@@ -35,8 +27,8 @@ import { OrdersListComponent } from './orders-list/orders-list.component';
     ReactiveFormsModule,
     FormsModule,
     RouterModule,
-    NgApexchartsModule,
-    TranslateModule
+    TranslateModule,
+
   ],
   exports: [
     AlertComponent,
@@ -44,10 +36,7 @@ import { OrdersListComponent } from './orders-list/orders-list.component';
     FormComponent,
     TableComponent,
     MsTimePipe,
-    RadialBarComponent,
-    LineChartComponent,
     LoadingLineComponent,
-    OrdersListComponent,
     ServerMediaPipe
   ]
 })

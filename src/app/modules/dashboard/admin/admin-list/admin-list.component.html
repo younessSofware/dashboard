@@ -1,0 +1,16 @@
+<app-table
+  [headers]="headers"
+  [rowButtons]="buttons"
+  [tableButtons]="tableButtons"
+  pluralName="admins"
+  singleName="admin"
+  primaryKey="id"
+  deleteURL="admins/:id"
+  retrieveURL="admin"
+  displayLink="/dashboard/admins/display"
+  editLink="/dashboard/admins/form/edit"
+  createLink="/dashboard/admins/form/create"
+  [showSortFilter]="false"
+  [showDeleteButton]="false"
+  icon="fas fa-users-cog"
+></app-table>

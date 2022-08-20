@@ -1,0 +1,40 @@
+<div class="px-4 py-2 bg-gray-100 h-full overflow-auto">
+
+  <app-display
+    [title]="(article ? article.title : '')"
+    profileTitle="article"
+    [profileError]="articleError"
+    [showDefaultProfileInfo]="false"
+    class="w-full"
+    icon="fas fa-newspaper"
+  >
+    <div class="profile-info" *ngIf="article">
+      <div class="flex justify-center">
+        <img [src]="article.image | serverMedia" class="w-full ring-1 ring-gray-200" alt="">
+      </div>
+      <div class="pl-4 md:mt-4">
+        <table class="w-full text-sm text-center text-gray-500 dark:text-gray-400">
+          <tr class=" border">
+            <td class="py-4 px-6 bg-gray-50">{{ 'title' | translate }}</td>
+            <td class="py-4 px-6">{{ article.title }}</td>
+          </tr>
+          <tr class="border">
+            <td class="py-4 px-6 bg-gray-50">{{ 'text' | translate }}</td>
+            <td class="py-4 px-6">{{ article.texte }}</td>
+          </tr>
+          <tr class="border">
+            <td class="py-4 px-6 bg-gray-50">{{ 'created_at' | translate }}</td>
+            <td class="py-4 px-6">{{ article.created_at | date: "medium"  }}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <!-- <div class="header-buttons" *ngIf="article">
+      <button (click)="enable()" [disabled]="store.account.state == 'ENABLED'" class=" button bg-green-500 hover:bg-green-400 ">{{ 'enable' | translate }}</button>
+      <button (click)="block()" [disabled]="store.account.state == 'BLOCKED'" class="button bg-red-500 hover:bg-red-400">{{ 'block' | translate }}</button>
+      <button (click)="suspend()" [disabled]="store.account.state == 'SUSPENDED'" class="button bg-yellow-500 hover:bg-yellow-400">{{ 'suspend' | translate }}</button>
+    </div> -->
+  </app-display>
+
+
+</div>

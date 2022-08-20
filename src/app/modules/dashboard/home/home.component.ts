@@ -1,9 +1,5 @@
-import { DeliveryMenService } from './../../../services/delivery-men.service';
-import { ClientService } from './../../../services/client.service';
-import { StoreService } from './../../../services/store.service';
 import { DashboardService } from './../../../services/dashboard.service';
 import { Component, OnInit } from '@angular/core';
-import * as Leaflet from 'leaflet';
 
 @Component({
   selector: 'app-home',
@@ -18,45 +14,39 @@ export class HomeComponent implements OnInit {
     {
       title: 'clients',
       icon: 'fas fa-users',
-      count: 0
+      count: 0,
+      name: 'clients'
     },
     {
-      title: 'stores',
-      icon: 'fas fa-users',
-      count: 0
+      title: "events",
+      icon: "fas fa-calendar-alt",
+      count: 0,
+      name: 'events'
     },
     {
-      title: 'delivery men',
-      name: 'deliveryMen',
-      icon: 'fas fa-users',
-      count: 0
+      title: "articles",
+      icon: "fas fa-newspaper",
+      count: 0,
+      name: 'articles'
     },
     {
-      title: 'products',
-      icon: 'fas fa-users',
-      count: 0
+      title: "categories",
+      icon: "fas fa-tags",
+      count: 0,
+      name: 'categories'
     },
     {
-      title: 'orders',
-      icon: 'fas fa-users',
-      count: 0
-    }
+      title: "notifications",
+      icon: "fas fa-bell",
+      count: 0,
+      name: 'notifications'
+    },
   ]
-  maps: any = {
-    stores: null,
-    clients: null,
-    deliveryMen: null
-  };
 
-  constructor(private dashboardService: DashboardService, private storeService: StoreService, private clientService: ClientService,
-    private deliveryMenService: DeliveryMenService) { }
+  constructor(private dashboardService: DashboardService) { }
 
   ngOnInit(): void {
-    Object.keys(this.maps).forEach(key => this.initMap(key))
     this.getStatistics();
-    this.getStoresLocations();
-    this.getClientsLocations();
-    this.getDeliveryMenLocations();
   }
 
   getStatistics(){
@@ -77,64 +67,9 @@ export class HomeComponent implements OnInit {
     })
   }
 
-  getStoresLocations(){
-    this.storeService.storesLocations().subscribe({
-      next: (resp: any) => {
-        console.log(resp);
-        console.log("store locations");
 
-        resp.data.forEach((store: any) => this.addMarker(store.storeName, store.longitude, store.latitude, 'stores') );
-      },
-      error: err => {
-        console.log(err);
-      }
-    })
-  }
 
-  getClientsLocations(){
-    this.clientService.clientsLocations().subscribe({
-      next: (resp: any) => {
-        console.log(resp);
-        resp.data.forEach((client: any) => this.addMarker(client.name, client.longitude, client.latitude, 'clients') );
-      },
-      error: err => {
-        console.log(err);
-      }
-    })
-  }
 
-  getDeliveryMenLocations(){
-    this.deliveryMenService.deliveryMenLocations().subscribe({
-      next: (resp: any) => {
-        resp.data.forEach((deliveryMan: any) => this.addMarker(deliveryMan.name, deliveryMan.longitude, deliveryMan.latitude, 'deliveryMen') );
-      },
-      error: err => {
-        console.log(err);
-      }
-    })
-  }
 
-  private initMap(id: string): void {
-    this.maps[id] = Leaflet.map(id, {
-      center: [ 23.7294493, 46.2676419 ],
-      zoom: 2,
-      maxBoundsViscosity: 1
-    });
-    const tiles = Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 18,
-      minZoom: 2,
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    });
-
-    tiles.addTo(this.maps[id]);
-  }
-
-  addMarker(text: string, longitude: number, latitude: number, id: string){
-    const marker = Leaflet.marker({lat: latitude, lng: longitude});
-
-    marker.bindPopup(text).openPopup()
-
-    this.maps[id].addLayer(marker)
-  }
 
 }

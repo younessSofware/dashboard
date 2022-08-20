@@ -1,0 +1,49 @@
+<div class="px-4 py-2 bg-gray-100 h-full overflow-auto">
+
+  <app-display
+    [title]="(event ? event.name : '')"
+    profileTitle="event"
+    [profileError]="eventError"
+    [showDefaultProfileInfo]="false"
+    class="w-full"
+    icon="fa-calendar-alt fas"
+  >
+    <div class="profile-info" *ngIf="event">
+      <div class="pl-4 md:mt-4 overflow-x-auto relative shadow-md sm:rounded-lg">
+        <table class="w-full text-sm text-center text-gray-500 dark:text-gray-400">
+
+          <tr class=" border">
+            <td class="py-4 px-6 bg-gray-50">{{ 'name' | translate }}</td>
+            <td class="py-4 px-6">{{ event.name }}</td>
+          </tr>
+          <tr class=" border">
+            <td class="py-4 px-6 bg-gray-50">{{ 'type' | translate }}</td>
+            <td class="py-4 px-6">{{ event.type }}</td>
+          </tr>
+          <tr class="border">
+            <td class="py-4 px-6 bg-gray-50">{{ 'date_from' | translate }}</td>
+            <td class="py-4 px-6">{{ event.date_from }}</td>
+          </tr>
+          <tr class="border">
+            <td class="py-4 px-6 bg-gray-50">{{ 'date_to' | translate }}</td>
+            <td class="py-4 px-6">{{ event.date_to }}</td>
+          </tr>
+          <tr class="border">
+            <td class="py-4 px-6 bg-gray-50">{{ 'details' | translate }}</td>
+            <td class="py-4 px-6">{{ event.details }}</td>
+          </tr>
+          <tr class="border">
+            <td class="py-4 px-6 bg-gray-50">{{ 'location' | translate }}</td>
+            <td class="py-4 px-6">{{ event.location }}</td>
+          </tr>
+          <tr class="border">
+            <td class="py-4 px-6 bg-gray-50">{{ 'created_at' | translate }}</td>
+            <td class="py-4 px-6">{{ event.created_at | date: "medium"  }}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </app-display>
+
+
+</div>

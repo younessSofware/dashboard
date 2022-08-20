@@ -128,15 +128,15 @@
             <section *ngSwitchCase="'multi-select'">
               <div class="grid grid-cols-4" *ngIf="header.selectOptions">
                 <div class="flex items-center my-3" *ngFor="let elem of header.selectOptions.options">
-                  <input 
-                    [id]="elem[header.selectOptions.valueProperty]" 
-                    type="checkbox" 
+                  <input
+                    [id]="elem[header.selectOptions.valueProperty]"
+                    type="checkbox"
                     (change)="addToMultiSelect($event, header)"
-                    [checked]="header.value && header.value.includes(elem[header.selectOptions.valueProperty])" 
+                    [checked]="header.value && header.value.includes(elem[header.selectOptions.valueProperty])"
                     class="w-5 h-5 rounded-xl text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                   >
-                  <label 
-                    [for]="elem[header.selectOptions.valueProperty]" 
+                  <label
+                    [for]="elem[header.selectOptions.valueProperty]"
                     class="mx-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                   >
                     {{elem[header.selectOptions.nameProperty]}}
@@ -156,6 +156,19 @@
                 [class.invalid]="(errors && errors[header.name]) || (formField(header)?.dirty && !formField(header)?.valid)"
                 class="custom-input"
               ></textarea>
+            </section>
+            <section *ngSwitchCase="'color'">
+              <input
+                *ngIf="!header.hidden"
+                [id]="header.name"
+                [name]="header.name"
+                type="color"
+                [formControlName]="getFullHeaderName(header)"
+                (change)="errors[header.name] ? errors[header.name] = undefined : ''"
+                [placeholder]="header.title | translate"
+                [class.invalid]="(errors && errors[header.name]) || (formField(header)?.dirty && !formField(header)?.valid)"
+                class="custom-input h-10"
+              />
             </section>
             <div *ngSwitchCase="'input-list'">
               <div class="my-3" *ngFor="let elem of header.value; let ind = index;trackBy:trackByIndex;">
@@ -186,22 +199,6 @@
                 </div>
               </div>
             </div>
-            <section *ngSwitchCase="'map'" class="my-2" >
-              <div class="flex justify-center" *ngIf="!maps || !maps[getFullHeaderName(header)] || maps[getFullHeaderName(header)]['loading']">
-                <div class="bg-primary h-1 w-1/2 animate-ping"></div>
-              </div>
-              <div class="w-full h-72" [id]="getFullHeaderName(header)"></div>
-              <input
-                *ngIf="maps && maps[getFullHeaderName(header)]"
-                [id]="getFullHeaderName(header) + 'input'"
-                [name]="getFullHeaderName(header)"
-                [value]="maps[getFullHeaderName(header)]['stringAddress']"
-                type="text"
-                [placeholder]="header.title | translate "
-                disabled
-                class="custom-input"
-              >
-            </section>
             <section *ngSwitchDefault>
               <input
                 *ngIf="!header.hidden"
@@ -221,9 +218,6 @@
           </span>
           <div [class.text-center]="header.type == 'image'" *ngIf="(header.type == 'image' || formField(header)?.dirty) && !formField(header)?.valid" class="pl-1 w-full">
             <span class="text-red-500 text-sm italic" *ngFor="let err of formFieldErrors(header)">{{ err | translate: {entity: singleName | translate} }}</span>
-          </div>
-          <div *ngIf="header.type == 'map' && (maps && maps[getFullHeaderName(header)] && !maps[getFullHeaderName(header)]['stringAddress'])" class="pl-1 w-full">
-            <span class="text-red-500 text-sm italic">{{ 'address_required' | translate }}</span>
           </div>
         </div>
       </div>

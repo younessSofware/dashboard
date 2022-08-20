@@ -1,7 +1,7 @@
 export interface Header{
     name: string,
     title: string,
-    type?: 'input' | 'image' | 'select' | 'textarea' | 'number' | 'string' |  'date' | 'checkbox' | 'text' | 'email' | 'password' | 'input-list' | 'select-tags' | 'hidden' | 'tag' | 'map' | 'multi-select' | 'cover',
+    type?: 'input' | 'image' | 'select' | 'textarea' | 'number' | 'string' |  'date' | 'checkbox' | 'text' | 'email' | 'password' | 'input-list' | 'select-tags' | 'hidden' | 'tag' | 'map' | 'multi-select' | 'cover' | 'color' | 'phone',
     width?: string,
     default?: string,
     hidden?: boolean,

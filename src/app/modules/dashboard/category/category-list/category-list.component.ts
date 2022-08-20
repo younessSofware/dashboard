@@ -10,13 +10,6 @@ export class CategoryListComponent implements OnInit {
 
   headers: Header[] = [
     {
-      name: "photo",
-      title: "",
-      type: "image",
-      sort: false,
-      align: 'center'
-    },
-    {
       name: "id",
       title: "id",
     },
@@ -26,10 +19,13 @@ export class CategoryListComponent implements OnInit {
       search: true
     },
     {
-      name: "createdAt",
+      name: "type",
+      title: "category_type",
+    },
+    {
+      name: "created_at",
       title: "created_at",
       type: 'date',
-      default: "none"
     }
   ];
 

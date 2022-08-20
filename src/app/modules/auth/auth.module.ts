@@ -1,7 +1,4 @@
-import { ToastrModule } from 'ngx-toastr';
 import { AuthComponent } from './auth.component';
-import { RouterModule } from '@angular/router';
-import { ShareModule } from './../share/share.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { LoginComponent } from './login/login.component';
 import { NgModule } from '@angular/core';
@@ -9,6 +6,7 @@ import { CommonModule } from '@angular/common';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthRoutingModule } from './auth-routing.module';
+import { ShareModule } from '../share/share.module';
 
 
 @NgModule({
@@ -21,7 +19,7 @@ import { AuthRoutingModule } from './auth-routing.module';
     AuthRoutingModule,
     ReactiveFormsModule,
     TranslateModule,
-    ShareModule
+    ShareModule,
   ],
 })
 export class AuthModule { }

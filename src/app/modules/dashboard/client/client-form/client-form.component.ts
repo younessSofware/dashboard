@@ -1,6 +1,7 @@
 import { Validators } from '@angular/forms';
 import { FormHeader } from './../../../../common/models/form-header';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-client-form',
@@ -17,14 +18,6 @@ export class ClientFormComponent implements OnInit {
       value: ''
     },
     {
-      name: "id",
-      title: "id",
-      parents: ['account'],
-      hidden: true,
-      value: ''
-    },
-    {
-      parents: ['account'],
       name: "name",
       title: "full_name",
       type: 'text',
@@ -39,7 +32,6 @@ export class ClientFormComponent implements OnInit {
     {
       name: "email",
       title: "email",
-      parents: ['account'],
       type: 'email',
       value: '',
       validators: [
@@ -57,7 +49,6 @@ export class ClientFormComponent implements OnInit {
       name: "password",
       title: "password",
       type: 'password',
-      parents: ['account'],
       value: '',
       validators: [
         {
@@ -71,16 +62,52 @@ export class ClientFormComponent implements OnInit {
       ]
     },
     {
-      title: "address",
-      name: "address",
-      parents: ['account'],
-      type: 'map'
+      name: "password_confirmation",
+      title: "password_confirmation",
+      type: 'password',
+      value: '',
+      validators: [
+        {
+          validatorFn: Validators.required,
+          message: 'password_confirmation_required'
+        },
+        {
+          validatorFn: Validators.minLength(8),
+          message: 'password_confirmation_min_ch'
+        }
+      ]
+    },
+    {
+      title: "city",
+      name: "city",
+      type: 'text'
+    },
+    {
+        title: "sexe",
+        name: "sexe",
+        type: 'text'
+    },
+    {
+      title: "phone_number",
+      name: "phone",
+      type: 'phone'
     }
   ];
 
-  constructor() { }
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.route.paramMap.subscribe((resp: any) => {
+      if(resp.params.type == 'edit'){
+        let indexPassword1 = -1;
+        this.headers.map((elm, index) => {
+          if(elm.name == 'password') indexPassword1 = index;
+        });
+        this.headers.splice(indexPassword1, 1);
+        this.headers.splice(indexPassword1, 1);
+      }
+
+    })
   }
 
 }

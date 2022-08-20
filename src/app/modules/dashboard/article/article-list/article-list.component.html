@@ -1,0 +1,16 @@
+<app-table
+  [headers]="headers"
+  [rowButtons]="buttons"
+  [tableButtons]="tableButtons"
+  pluralName="articles"
+  singleName="article"
+  primaryKey="id"
+  deleteURL="articles/:id"
+  retrieveURL="articles"
+  displayLink="/dashboard/articles/display"
+  editLink="/dashboard/articles/form/edit"
+  createLink="/dashboard/articles/form/create"
+  [showSortFilter]="false"
+  [showDeleteButton]="false"
+  icon="fas fa-newspaper"
+></app-table>

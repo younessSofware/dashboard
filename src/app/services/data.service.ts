@@ -1,5 +1,5 @@
 import { API_URL } from './../common/constants';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -11,7 +11,6 @@ type RequestMethod = 'get' | 'post' | 'delete' | 'put';
 export class DataService {
 
   constructor(protected http: HttpClient) { }
-
   sendGetRequest(url: string, params: any, api = true): Observable<object>{
     return this.http.get(API_URL + url, {
       params
@@ -23,7 +22,7 @@ export class DataService {
   }
 
   sendPutRequest(url: string, data: any): Observable<object>{
-    return this.http.put(API_URL + url, data);
+    return this.http.put(API_URL + url, data );
   }
 
   sendDeleteRequest(url: string): Observable<object>{

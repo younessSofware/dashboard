@@ -1,4 +1,3 @@
-import { NgxHowlerService } from 'ngx-howler';
 import { ToastrModule } from 'ngx-toastr';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -9,9 +8,10 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpRequestInterceptor } from './interceptors/http-request.interceptor';
-import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { environment } from 'src/environments/environment.prod';
+import { AngularFireModule } from '@angular/fire/compat';
 
-const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} }
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -25,6 +25,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     HttpClientModule,
     BrowserModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
+    AngularFireModule.initializeApp(environment.firebase),
+
     ToastrModule.forRoot({
       positionClass :'toast-bottom-right',
       newestOnTop: true,
@@ -41,17 +44,13 @@ export function HttpLoaderFactory(http: HttpClient) {
           deps: [HttpClient]
       }
     }),
-    SocketIoModule.forRoot(config)
   ],
   providers: [HttpClient, {
     provide: HTTP_INTERCEPTORS,
     useClass: HttpRequestInterceptor,
     multi: true
-  }, NgxHowlerService],
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(howler: NgxHowlerService){
-    howler.loadScript('https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.min.js');
-  }
 }

@@ -28,36 +28,4 @@
       </div>
     </div>
   </div>
-
-  <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 px-4 py-6">
-    <div class="map-container relative md:col-span-2 lg:col-span-1">
-      <div class="absolute top-0 left-0 h-full w-full flex flex-col">
-        <app-loading-line [loading]="false"></app-loading-line>
-        <span class="text-2xl px-3 mt-2 text-primary font-bold block mb-4 capitalize"><i class="fas fa-store"></i> {{ 'stores' | translate }}</span>
-        <div class="flex-grow" id="stores">
-
-        </div>
-      </div>
-    </div>
-
-    <div class="map-container relative">
-      <div class="absolute top-0 left-0 h-full w-full flex flex-col">
-        <app-loading-line [loading]="false"></app-loading-line>
-        <span class="text-2xl px-3 mt-2 text-primary font-bold block mb-4 capitalize"><i class="fas fa-user"></i> {{ 'clients' | translate }}</span>
-        <div class="flex-grow" id="clients">
-
-        </div>
-      </div>
-    </div>
-
-    <div class="map-container relative">
-      <div class="absolute top-0 left-0 h-full w-full flex flex-col">
-        <app-loading-line [loading]="false"></app-loading-line>
-        <span class="text-2xl px-3 mt-2 text-primary font-bold block mb-4 capitalize"><i class="fas fa-truck"></i> {{ 'delivery men' | translate }}</span>
-        <div class="flex-grow" id="deliveryMen">
-
-        </div>
-      </div>
-    </div>
-  </div>
 </div>

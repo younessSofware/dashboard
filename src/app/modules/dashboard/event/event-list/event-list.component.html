@@ -1,0 +1,16 @@
+<app-table
+  [headers]="headers"
+  [rowButtons]="buttons"
+  [tableButtons]="tableButtons"
+  pluralName="events"
+  singleName="event"
+  primaryKey="id"
+  deleteURL="events/:id"
+  retrieveURL="events"
+  displayLink="/dashboard/events/display"
+  editLink="/dashboard/events/form/edit"
+  createLink="/dashboard/events/form/create"
+  [showSortFilter]="false"
+  [showDeleteButton]="false"
+  icon="fa-calendar-alt fas"
+></app-table>

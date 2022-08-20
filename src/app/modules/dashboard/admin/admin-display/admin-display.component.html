@@ -1,0 +1,25 @@
+<div class="p-4 bg-gray-100 h-full overflow-auto">
+
+  <app-display
+    [title]="('client_details' | translate) + ' / ' + (user ? user.name : '')"
+    [profile]="(user ? user : null)"
+    [profileError]="profileError"
+  >
+    <div class="header-buttons" *ngIf="user && user.role == 0">
+      <button type="button"  (click)="enable()" class="outline-none text-white bg-green-700 hover:bg-green-800 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 "
+      *ngIf="user.active==0"
+      >{{ 'ENABLED' | translate }}</button>
+      <button  *ngIf="user.active==1"  (click)="enable()" type="button" class="outline-none text-white bg-red-700 hover:bg-red-800  font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 ">
+        {{ 'CREATED' | translate }}
+      </button>
+    </div>
+    <div class="header-buttons" *ngIf="user && user.role == 1">
+      <button
+      [routerLink]="'/dashboard/clients/form/edit'"
+        class="row-btn color-transition hover:bg-primary hover:text-white">
+        <i [class]="'fas fa-edit'"></i>
+      </button>
+    </div>
+  </app-display>
+<br>
+</div>

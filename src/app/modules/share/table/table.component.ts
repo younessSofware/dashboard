@@ -25,6 +25,7 @@ export class TableComponent implements OnInit, OnChanges {
   @Input() displayLink: string;
   @Input() editLink: string;
   @Input() createLink: string;
+  @Input() createLinkQueryId: number;
   @Input() showSortFilter = true;
   @Input() showDeleteButton = true;
   @Input() showEditButton = true;
@@ -36,6 +37,7 @@ export class TableComponent implements OnInit, OnChanges {
   @Input() tableButtons: Button[] = [];
   @Input() icon = "";
   @Input() primaryKey: string;
+  @Input() bottomBorderTitle = false;
 
   checkedRows: any[] = [];
 
@@ -51,7 +53,6 @@ export class TableComponent implements OnInit, OnChanges {
   searchQuery: any = {};
   sortBy: string;
   sortDir = 1;
-
   get searchHeaders(){
     return this.headers.filter(h => h.search)
   }
@@ -209,17 +210,26 @@ export class TableComponent implements OnInit, OnChanges {
   }
 
   filterQuery(){
-    const encodedSearchQuery = encodeURIComponent(JSON.stringify(this.searchQuery))
 
     const query: any = {
       skip:(this.currentPage - 1) * this.limit,
       take: this.limit,
-      searchQuery: encodedSearchQuery
     }
+
+    if(Object.keys(this.searchQuery).length){
+      for(const key of Object.keys(this.searchQuery)){
+        if(!this.searchQuery[key]) continue;
+        query['searchQuery'] = this.searchQuery[key]
+      }
+    }
+
+
     if(this.showSortFilter){
       query["sortBy"] = this.sortBy
       query["sortDir"] = this.sortBy
     }
+
+
     return query;
   }
 
@@ -230,24 +240,28 @@ export class TableComponent implements OnInit, OnChanges {
 
   getData(){
     this.error = undefined;
+
     this.dataService.sendGetRequest(this.retrieveURL, this.filterQuery())?.subscribe({
       next: (resp: any) => {
-        this.data = resp.data[this.pluralName];
-        this.headers?.forEach(header => {
-          if(['image', 'cover'].includes(header.type + '')){
-            this.data.forEach(data => {
-              data[header.name] = DOMAIN_URL + "/" + data[header.name];
-            })
-          }
-        });
-        console.log("count : ", resp.data.count);
-        console.log("count : ", this.limit);
+        if(resp.data){
 
-        const nbPages = Math.ceil(resp.data.count / this.limit)
-        this.pages = [...new Array(nbPages).keys()];
+          this.data = resp.data.data;
+
+          this.headers?.forEach(header => {
+            if(['image', 'cover'].includes(header.type + '')){
+              this.data.forEach(data => {
+                data[header.name] = DOMAIN_URL + "/" + data[header.name];
+              })
+            }
+          });
+
+
+          const nbPages = Math.ceil(resp.data.last_page / this.limit)
+          this.pages = [...new Array(nbPages).keys()];
+        }
+
       },
       error: err => {
-        console.log("err", err);
         this.error = err;
       }
     })
@@ -317,40 +331,42 @@ export class TableComponent implements OnInit, OnChanges {
   }
 
   parseStrDataAttr(attr: string, data: any){
-    return attr.split('.').reduce((acc, curr) => acc[curr], data);
+
+    return data.id
   }
 
   navigateBtn(button: Button, data: any){
-    let link: any = button.routerLink?.link;
-    link = this.parsePath(link, data);
 
+
+    let link: any = button.routerLink?.link;
+
+    link = this.parsePath(link, data);
     const query = button.routerLink?.query;
 
     if(query) Object.keys(query).forEach(k => {if(query[k].charAt(0) == ':') query[k] = this.parseStrDataAttr(query[k].slice(1), data)})
-
     this.router.navigate([link], {
       queryParams: query
     })
   }
 
   doGlobalRequest(button: Button){
+
     if(!button.request) return;
     const url = button.request.url
     const ids = this.checkedRows.map(el =>
       this.parseStrDataAttr(button.dataField ? button.dataField : '', this.data.find(d => d[this.primaryKey] == el))
     )
-    console.log(ids);
-    this.dataService.sendRequest(button.request.method, url, {
+    this.dataService.sendRequest(button.request.method, url + '/' + ids, {
       ids
     })
     ?.subscribe({
       next: (resp: any) => {
         if(button.request && button.request.redirectURL)
           this.router.navigateByUrl(button.request.redirectURL)
+        console.log(resp);
 
         this.checkedRows = [];
         this.getData();
-        console.log(resp.message);
 
         this.showSuccessMessage(resp.message);
       },
@@ -384,7 +400,6 @@ export class TableComponent implements OnInit, OnChanges {
       const inverse = button.condition.includes('!')
       const elem = button.condition.replace('!', '')
       const res = elem.split('.').reduce((acc, curr) => acc[curr], data)
-      console.log("----", res);
 
       return inverse ? !res : res
     }else {
@@ -398,7 +413,6 @@ export class TableComponent implements OnInit, OnChanges {
     }else{
       this.checkedRows.splice(this.checkedRows.indexOf(data[this.primaryKey]), 1)
     }
-    console.log(this.checkedRows);
   }
 
   checkAllRows(event: any){
@@ -407,7 +421,6 @@ export class TableComponent implements OnInit, OnChanges {
     }else{
       this.data.forEach(d => this.checkedRows.splice(this.checkedRows.indexOf(d[this.primaryKey]), 1))
     }
-    console.log(this.checkedRows);
   }
 
 }

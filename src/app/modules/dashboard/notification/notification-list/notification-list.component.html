@@ -1,0 +1,16 @@
+<app-table
+  [headers]="headers"
+  [rowButtons]="buttons"
+  [tableButtons]="tableButtons"
+  pluralName="notifications"
+  singleName="notification"
+  primaryKey="id"
+  deleteURL="notifications/:id"
+  retrieveURL="notifications"
+  displayLink="/dashboard/notifications/display"
+  editLink="/dashboard/notifications/form/edit"
+  createLink="/dashboard/notifications/form/create"
+  [showSortFilter]="false"
+  [showDeleteButton]="false"
+  icon="fa-bell fas"
+></app-table>

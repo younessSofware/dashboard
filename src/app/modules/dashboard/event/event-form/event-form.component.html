@@ -1,0 +1,11 @@
+<app-form
+    [headers]="headers"
+    pluralName="events"
+    singleName="event"
+    icon="fas fa-user"
+    [redirectLink]="this.userId ? '/dashboard/clients/display': '/dashboard/events/list'"
+    [redirectLinkQueryId]="this.user.role == 0 ? this.userId : 0"
+    retrieveURL="events/:id"
+    [storeURL]="this.userId ? 'events/users/' + this.userId : 'events'"
+    updateURL="events"
+></app-form>

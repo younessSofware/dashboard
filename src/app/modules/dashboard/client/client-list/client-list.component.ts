@@ -17,39 +17,34 @@ export class ClientListComponent implements OnInit {
       title: "id"
     },
     {
-      parents: ['account'],
       name: "name",
       title: "full_name",
-      search: true
     },
     {
-      parents: ['account'],
       name: "email",
       title: "email",
       search: true
     },
     {
-      parents: ['account'],
-      name: "stringAddress",
-      title: "address",
-      default: 'none',
-      maxLength: 40
+      name: "city",
+      title: "city",
     },
     {
-      name: "createdAt",
+      name: "phone",
+      title: "phone_number",
+    },
+    {
+      name: "created_at",
       title: "created_at",
       type: "date"
     },
     {
-      parents: ['account'],
-      name: "state",
+      name: "active",
       title: "status",
       type: 'tag',
       tagsColors: {
         [AccountState.CREATED]: 'bg-blue-200',
         [AccountState.ENABLED]: 'bg-green-200',
-        [AccountState.BLOCKED]: 'bg-red-200',
-        [AccountState.SUSPENDED]: 'bg-red-200'
       }
     }
   ];
@@ -60,10 +55,10 @@ export class ClientListComponent implements OnInit {
       title: 'block',
       icon: 'fas fa-ban',
       color: 'blue',
-      dataField: 'account.id',
+      dataField: 'users.id',
       request: {
-        url: 'accounts/block',
-        method: 'put',
+        url: 'users',
+        method: 'delete',
       },
       confirmation: {
         title: 'are_you_sure',
@@ -76,33 +71,13 @@ export class ClientListComponent implements OnInit {
       }
     },
     {
-      name: 'suspend',
-      title: 'suspend',
-      icon: 'fas fa-pause',
-      color: 'blue',
-      dataField: 'account.id',
-      request: {
-        url: 'accounts/suspend',
-        method: 'put',
-      },
-      confirmation: {
-        title: 'are_you_sure',
-        text: 'suspend_account_conf_msg',
-        confirmButtonText: 'yes',
-        confirmButtonColor: 'red',
-        showCancelButton: true,
-        cancelButtonText: 'no',
-        icon: 'warning'
-      }
-    },
-    {
       name: 'enable',
       title: 'enable',
       icon: 'fas fa-lightbulb',
       color: 'blue',
-      dataField: 'account.id',
+      dataField: 'users.id',
       request: {
-        url: 'accounts/enable',
+        url: 'users/enable',
         method: 'put',
       },
       confirmation: {
@@ -118,19 +93,19 @@ export class ClientListComponent implements OnInit {
   ];
 
   buttons: Button[] = [
-    {
-      name: 'messages',
-      icon: 'fas fa-comments',
-      color: 'blue',
-      routerLink: {
-        link: '/dashboard/messages',
-        query: {
-          id: ':account.id',
-          name: ':account.name',
-          role: AccountRole.CLIENT
-        }
-      }
-    }
+    // {
+    //   name: 'messages',
+    //   icon: 'fas fa-comments',
+    //   color: 'blue',
+    //   routerLink: {
+    //     link: '/dashboard/messages',
+    //     query: {
+    //       id: ':account.id',
+    //       name: ':account.name',
+    //       role: AccountRole.CLIENT
+    //     }
+    //   }
+    // }
   ]
 
   constructor() { }

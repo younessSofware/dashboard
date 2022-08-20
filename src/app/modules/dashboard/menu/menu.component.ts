@@ -1,8 +1,7 @@
-import { NotificationService } from './../../../services/notification.service';
-import { SocketService } from 'src/app/services/socket.service';
-import { ModulesMessengerService } from './../../../services/modules-messenger.service';
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-menu',
@@ -13,108 +12,77 @@ export class MenuComponent implements OnInit {
   @Output() showNotifications = new EventEmitter();
   @Output() hideNotifications = new EventEmitter();
   @Input() showNotification = false;
-  menuItems = [
-    {
-      name: "home",
-      icon: "fas fa-home",
-      path: "/dashboard/home"
-    },
-    {
-      name: 'ads',
-      icon: 'fas fa-rectangle-ad',
-      path: '/dashboard/ads'
-    },
-    {
-      name: "clients",
-      icon: "fas fa-users",
-      path: "/dashboard/clients/"
-    },
-    {
-      name: "delivery men",
-      icon: "fas fa-truck",
-      path: "/dashboard/delivery-men/"
-    },
-    {
-      name: "stores",
-      icon: "fas fa-store",
-      path: "/dashboard/stores/"
-    },
-    {
-      name: "categories",
-      icon: "fas fa-tags",
-      path: "/dashboard/categories/"
-    },
-    {
-      name: "products",
-      icon: "fas fa-boxes",
-      path: "/dashboard/products/"
-    },
-    {
-      name: "messages",
-      icon: "fas fa-comments",
-      path: "/dashboard/messages/",
-      notifications: 0
-    },
-  ];
+  menuItems: any[] = [];
   user: any;
 
-  constructor( private router: Router, messengerService: ModulesMessengerService, private socketService: SocketService,
-    private notificationService: NotificationService) {
-    messengerService.getMessage().subscribe({
-      next: message => {
-        if(message.type == 'new-message'){
-          // if(!router.url.includes('/dashboard/messages')){
-          //   const item = this.menuItems.find(item => item.name == "messages");
-          //   if(item && item.notifications != undefined) item.notifications += 1;
-          // }
-        }
+  constructor( private router: Router, private authService: AuthService,
+    public afAuth: AngularFireAuth) {
 
-        if(message.type == 'update-notification'){
-          const item = this.menuItems.find(item => item.name == "notifications");
-          if(item && item.notifications != undefined){
-            item.notifications += message.data;
-            if(item.notifications < 0) item.notifications = 0
-          }
-        }
-      }
-    })
   }
 
   ngOnInit(): void {
-    this.getUser();
-    this.countNotifications();
+    const user = this.getUser();
+    this.initMenuItems();
+  }
+  initMenuItems(){
+    if(this.user.role == 0){ // admin
+      this.menuItems = [
+        {
+          name: "home",
+          icon: "fas fa-home",
+          path: "/dashboard/home"
+        },        {
+          name: "admins",
+          icon: "fas fa-users-cog",
+          path: "/dashboard/admins/"
+        },
+        {
+          name: "clients",
+          icon: "fas fa-users",
+          path: "/dashboard/clients/"
+        },
+        {
+          name: "articles",
+          icon: "fas fa-newspaper",
+          path: "/dashboard/articles/"
+        },
+        {
+          name: "events",
+          icon: "fas fa-calendar-alt",
+          path: "/dashboard/events/"
+        },    {
+          name: "notifications",
+          icon: "fas fa-bell",
+          path: "/dashboard/notifications/"
+        },
+        {
+          name: "categories",
+          icon: "fas fa-tags",
+          path: "/dashboard/categories/"
+        },
+      ]
+    }else if(this.user.role == 1){
+      this.menuItems = [
+        {
+          name: "profile",
+          icon: "fas fa-id-badge",
+          path: "/dashboard/clients/display"
+        },
+      ]
+    }
   }
 
-  countNotifications(){
-    this.notificationService.count().subscribe({
-      next: (resp: any) => {
-        const item = this.menuItems.find(item => item.name == "notifications");
-        if(item) {
-          item.notifications = resp.data.count;
-        };
-      },
-      error: err => {
-        console.log(err);
-      }
-    })
-  }
 
-  logout(){
-    this.hideNotifications.emit();
-    localStorage.removeItem('token');
-    this.router.navigateByUrl('/auth/login')
-    this.socketService.disconnect()
+  async logout(){
+    await this.afAuth.signOut();
+    this.authService.logout();
   }
 
   getUser(){
     this.user = JSON.parse(localStorage.getItem('user')as string);
   }
 
-  showNots(){
-    this.showNotifications.emit();
-  }
 
-  hideNots(){
-    this.hideNotifications.emit();
-  }
+
+
 }

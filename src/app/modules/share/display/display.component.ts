@@ -1,7 +1,5 @@
-import { AccountState } from 'src/app/common/models/enums/account-state';
 import { Chart } from './../../../common/models/Chart';
 import { Component, Input, OnInit } from '@angular/core';
-import { StringMapWithRename } from '@angular/compiler/src/compiler_facade_interface';
 
 @Component({
   selector: 'app-display',
@@ -17,10 +15,11 @@ export class DisplayComponent implements OnInit {
   @Input() profile: {
     name: string,
     email: string,
-    address: any,
-    phoneNumber: string,
-    createdAt: string,
-    state: AccountState
+    city: string,
+    sexe: string,
+    phone: string,
+    created_at: string,
+    active: number
   };
   @Input() profileTitle = "account";
 

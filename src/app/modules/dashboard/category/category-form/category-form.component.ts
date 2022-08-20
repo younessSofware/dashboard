@@ -8,6 +8,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./category-form.component.scss']
 })
 export class CategoryFormComponent implements OnInit {
+  classes = [{
+    id: 1,
+    name: 'مقال'
+  },{
+    id: 2,
+    name: 'حدث'
+  }]
   headers: FormHeader[] = [
     {
       name: "id",
@@ -16,15 +23,26 @@ export class CategoryFormComponent implements OnInit {
       value: ''
     },
     {
-      name: "photo",
-      title: "",
-      type: "image",
-      value: ''
-    },
-    {
       name: "name",
       title: "category_name",
       type: 'text',
+      value: '',
+      validators: [
+        {
+          validatorFn: Validators.required,
+          message: 'name_required'
+        }
+      ]
+    },
+    {
+      name: "type",
+      title: "category_type",
+      type: 'select',
+      selectOptions: {
+        options: this.classes,
+        valueProperty: 'name',
+        nameProperty: 'name'
+      },
       value: '',
       validators: [
         {

@@ -2,6 +2,7 @@ import { HomeComponent } from './home/home.component';
 import { DashboardComponent } from './dashboard.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AdminGuard } from 'src/app/guards/admin.guard';
 
 const routes: Routes = [
   {
@@ -11,44 +12,40 @@ const routes: Routes = [
       {
         path: '',
         redirectTo: 'home',
-        pathMatch: 'full'
+        pathMatch: 'full',
+
       },
       {
         path: 'home',
-        component: HomeComponent
+        component: HomeComponent,
+        canActivate: [AdminGuard]
       },
       {
         path: 'clients',
         loadChildren: () => import("./client/client.module").then(m => m.ClientModule)
+      },      {
+        path: 'admins',
+        loadChildren: () => import("./admin/admin.module").then(m => m.AdminModule)
       },
       {
-        path: 'stores',
-        loadChildren: () => import("./store/store.module").then(m => m.StoreModule)
+        path: 'events',
+        loadChildren: () => import("./event/event.module").then(m => m.EventModule)
+      },
+      {
+        path: 'articles',
+        loadChildren: () => import("./article/article.module").then(m => m.ArticleModule),
+        canActivate: [AdminGuard]
+      },
+      {
+        path: 'notifications',
+        loadChildren: () => import("./notification/notification.module").then(m => m.NotificationModule),
+        canActivate: [AdminGuard]
       },
       {
         path: 'categories',
         loadChildren: () => import('./category/category.module').then(m => m.CategoryModule),
+        canActivate: [AdminGuard]
       },
-      {
-        path: 'products',
-        loadChildren: () => import('./product/product.module').then(m => m.ProductModule),
-      },
-      {
-        path: 'messages',
-        loadChildren: () => import('./message/message.module').then(m => m.MessageModule),
-      },
-      {
-        path: 'delivery-men',
-        loadChildren: () => import('./delivery-man/delivery-man.module').then(m => m.DeliveryManModule),
-      },
-      {
-        path: 'orders',
-        loadChildren: () => import('./order/order.module').then(m => m.OrderModule),
-      },
-      {
-        path: 'ads',
-        loadChildren: () => import('./ad/ad.module').then(m => m.AdModule),
-      }
     ]
   }
 ];

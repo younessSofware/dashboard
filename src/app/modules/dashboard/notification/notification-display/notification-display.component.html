@@ -1,0 +1,63 @@
+<div class="px-4 py-2 bg-gray-100 h-full overflow-auto">
+
+  <app-display
+    [title]="'notification'"
+    profileTitle="notification"
+    [profileError]="notificationError"
+    [showDefaultProfileInfo]="false"
+    class="w-full"
+    icon="fa-calendar-alt fas"
+  >
+    <div class="profile-info" *ngIf="notification">
+      <div class="pl-4 md:mt-4 overflow-x-auto relative shadow-md sm:rounded-lg">
+        <table class="w-full text-sm text-center text-gray-500 dark:text-gray-400">
+
+          <tr class=" border">
+            <td class="py-4 px-6 bg-gray-50">{{ 'background_color' | translate }}</td>
+            <td class="py-4 px-6">
+              <input type="color" name="" [value]="notification.background_color" disabled  id="">
+
+            </td>
+          </tr>
+          <tr class="border">
+            <td class="py-4 px-6 bg-gray-50">{{ 'limit_color' | translate }}</td>
+            <td class="py-4 px-6">
+              <input type="color" name="" [value]="notification.limit_color" disabled  id="">
+            </td>
+          </tr>
+          <tr class="border">
+            <td class="py-4 px-6 bg-gray-50">{{ 'text_color' | translate }}</td>
+            <td class="py-4 px-6">
+              <input type="color" name="" [value]="notification.text_color" disabled  id="">
+
+            </td>
+          </tr>
+          <tr class="border">
+            <td class="py-4 px-6 bg-gray-50">{{ 'text_size' | translate }}</td>
+            <td class="py-4 px-6">{{ notification.text_size }}</td>
+          </tr>
+          <tr class="border">
+            <td class="py-4 px-6 bg-gray-50">{{ 'display' | translate }}</td>
+            <td class="py-4 px-6">{{ notification.display }}</td>
+          </tr>
+          <tr class="border">
+            <td class="py-4 px-6 bg-gray-50">{{ 'link' | translate }}</td>
+            <td class="py-4 px-6">
+              <a href="notification.link" class="text-blue-700 no-underline hover:underline"> {{notification.link}}</a>
+            </td>
+          </tr>
+          <tr class="border">
+            <td class="py-4 px-6 bg-gray-50">{{ 'texte' | translate }}</td>
+            <td class="py-4 px-6">{{ notification.texte }}</td>
+          </tr>
+          <tr class="border">
+            <td class="py-4 px-6 bg-gray-50">{{ 'created_at' | translate }}</td>
+            <td class="py-4 px-6">{{ notification.created_at | date: "medium"  }}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </app-display>
+
+
+</div>
