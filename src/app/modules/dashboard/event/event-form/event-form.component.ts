@@ -100,36 +100,18 @@ export class EventFormComponent implements OnInit {
         title: "date_to",
         type: 'date',
         value: '',
-        validators: [
-          {
-            validatorFn: Validators.required,
-            message: 'date_required'
-          }
-        ]
       },
       {
         title: "details",
         name: "details",
         type: 'textarea',
         value: '',
-        validators: [
-          {
-            validatorFn: Validators.required,
-            message: 'details_required'
-          }
-        ]
       },
       {
         title: "location",
         name: "location",
         type: 'text',
         value: '',
-        validators: [
-          {
-            validatorFn: Validators.required,
-            message: 'location_required'
-          }
-        ]
       }
     ];
   }

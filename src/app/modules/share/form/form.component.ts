@@ -189,8 +189,10 @@ export class FormComponent implements OnInit, OnChanges {
   }
 
   getJsonData(){
+    this.headers = this.headers.filter((item) => item.validators != undefined);
     return this.headers.reduce((acc, curr) => {
       let field;
+
       if(curr.type != 'map') {
         field = {[curr.name]: this.formField(curr)?.value}
       }
